@@ -19,12 +19,19 @@ Tienda de comercio electrónico de **discos de vinilo**, moderna y muy cuidada. 
 - **Blog / Noticias** (listado + artículo) con **fotos reales**.
 - **Páginas estáticas**: Sobre nosotros, Contacto (formulario), FAQ y Política de envíos.
 - **Buscador global** tipo command palette (`⌘K` / `Ctrl+K`).
+- **Bilingüe ES/EN**: toggle de idioma; interfaz y contenido (bios, descripciones, artículos) traducidos.
+
+### Cuentas de cliente
+- **Registro e inicio de sesión** reales: modelo `User`, contraseñas con **bcrypt**, sesión por cookie firmada.
+- **Área de cuenta** (`/cuenta`) con datos del usuario y su **historial de pedidos** (los pedidos se vinculan a la cuenta al hacer checkout con sesión iniciada).
 
 ### Panel de administración (`/admin`)
 - Acceso protegido por **contraseña** (`ADMIN_PASSWORD`) con cookie firmada y middleware.
-- **CRUD de vinilos**: crear, editar y eliminar discos con precio, estado, stock, descripción y tracklist.
+- **CRUD completo de vinilos**: crear, editar y eliminar con precio, estado, stock, descripción (ES/EN) y tracklist.
 - **Buscador automático de portada real** (por artista + título, vía iTunes/Deezer) o pegando una URL.
-- **Gestión de artistas**: listado y alta.
+- **CRUD de artistas**: crear, editar y eliminar (bio ES/EN, foto, país, año, destacado).
+- **CRUD del blog**: crear, editar y eliminar artículos (ES/EN, autor, categoría, portada).
+- En resumen: **toda la información visible de la web se gestiona desde `/admin`**.
 
 ### Diseño y calidad
 - **Blanco y negro** monocromo, alto contraste, tipografía *Fraunces* (serif) + *Inter*.
@@ -103,8 +110,10 @@ La app ya usa **PostgreSQL** (Prisma `provider = "postgresql"`), lista para *ser
 
 ## 🗺️ Próximos pasos (roadmap)
 
+- [x] Autenticación de clientes y área "Mis pedidos".
+- [x] CRUD completo desde el admin (vinilos, artistas, blog).
+- [x] Bilingüe ES/EN.
 - [ ] Pasarela de pago real (Stripe Checkout).
-- [ ] Autenticación de clientes y área "Mis pedidos".
 - [ ] Reseñas y valoraciones de discos.
 - [ ] Subida de imágenes en el admin (Vercel Blob) en vez de URL.
 - [ ] Wishlist y recomendaciones.
