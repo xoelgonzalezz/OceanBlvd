@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="a4" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#16130f"/>
+      <stop offset="1" stop-color="#3c5651"/>
+    </linearGradient>
+    <radialGradient id="a4v" cx="0.5" cy="0.42" r="0.6">
+      <stop offset="0" stop-color="#e9ddc8" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#e9ddc8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#a4)"/>
+  <circle cx="300" cy="250" r="150" fill="url(#a4v)"/>
+  <circle cx="300" cy="250" r="150" fill="none" stroke="#e9ddc8" stroke-opacity="0.18" stroke-width="1.5"/>
+  <text x="300" y="470" text-anchor="middle" fill="#e9ddc8" fill-opacity="0.5" font-family="Georgia, serif" font-size="20" letter-spacing="4">ARTISTA</text>
+</svg>

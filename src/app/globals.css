@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ---- Tema CLARO editorial (crema / marfil) ---- */
+    --background: 40 38% 94%;
+    --foreground: 24 14% 11%;
+
+    --card: 38 44% 96%;
+    --card-foreground: 24 14% 11%;
+
+    --popover: 40 44% 97%;
+    --popover-foreground: 24 14% 11%;
+
+    /* Acento terracota (atardecer Cali) */
+    --primary: 14 62% 49%;
+    --primary-foreground: 40 44% 97%;
+
+    --secondary: 36 24% 88%;
+    --secondary-foreground: 24 14% 16%;
+
+    --muted: 36 22% 89%;
+    --muted-foreground: 28 8% 38%;
+
+    --accent: 36 30% 86%;
+    --accent-foreground: 24 14% 16%;
+
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 40 44% 97%;
+
+    --border: 32 18% 82%;
+    --input: 32 18% 80%;
+    --ring: 14 62% 49%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* ---- Tema OSCURO premium (negro cálido) ---- */
+    --background: 24 14% 6%;
+    --foreground: 40 30% 92%;
+
+    --card: 24 12% 9%;
+    --card-foreground: 40 30% 92%;
+
+    --popover: 24 12% 8%;
+    --popover-foreground: 40 30% 92%;
+
+    --primary: 14 70% 55%;
+    --primary-foreground: 24 14% 8%;
+
+    --secondary: 24 8% 16%;
+    --secondary-foreground: 40 30% 92%;
+
+    --muted: 24 8% 15%;
+    --muted-foreground: 36 10% 62%;
+
+    --accent: 24 8% 18%;
+    --accent-foreground: 40 30% 92%;
+
+    --destructive: 0 62% 46%;
+    --destructive-foreground: 40 30% 92%;
+
+    --border: 30 8% 18%;
+    --input: 30 8% 20%;
+    --ring: 14 70% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "kern", "liga", "calt";
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Números tabulares para precios y datos */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Selección con el color de acento */
+  ::selection {
+    background: hsl(var(--primary) / 0.22);
+    color: hsl(var(--foreground));
+  }
+
+  /* Anillo de foco accesible y consistente */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* Scrollbar discreta */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.35);
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.55);
+    background-clip: padding-box;
+  }
+}
+
+@layer components {
+  /* Contenedor editorial con ancho máximo cómodo de lectura */
+  .prose-editorial {
+    @apply text-[1.05rem] leading-relaxed text-foreground/85;
+  }
+  .prose-editorial p {
+    @apply mb-5;
+  }
+  .prose-editorial h2 {
+    @apply mb-3 mt-10 font-serif text-2xl font-semibold text-foreground;
+  }
+  .prose-editorial h3 {
+    @apply mb-2 mt-8 font-serif text-xl font-semibold text-foreground;
+  }
+  .prose-editorial a {
+    @apply text-primary underline underline-offset-4;
+  }
+
+  /* Línea decorativa de sección */
+  .section-eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-primary;
+  }
+}
+
+@layer utilities {
+  /* Pausa de animación al hacer hover (para marquees) */
+  .pause-on-hover:hover {
+    animation-play-state: paused;
+  }
+
+  /* Equilibrado de líneas en titulares */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Degradado de máscara para fades de borde */
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+}
+
+/* Respeto a usuarios que prefieren menos movimiento (a11y) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

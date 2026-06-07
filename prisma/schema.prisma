@@ -1,0 +1,168 @@
+// Ocean Blvd Vinyl — esquema de base de datos
+// SQLite en desarrollo. Para migrar a PostgreSQL: cambia `provider` a "postgresql"
+// y `DATABASE_URL` (los modelos son compatibles, no usamos tipos exclusivos de SQLite).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Género musical (Rock, Jazz, Hip-Hop...)
+model Genre {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  // Pequeño icono/emoji para la rejilla de géneros del home.
+  emoji       String?
+  records     Record[]
+
+  @@index([slug])
+}
+
+/// Artista o banda.
+model Artist {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  bio         String
+  image       String?
+  country     String?
+  foundedYear Int?
+  featured    Boolean  @default(false)
+  records     Record[]
+  createdAt   DateTime @default(now())
+
+  @@index([slug])
+}
+
+/// Un disco de vinilo (producto principal de la tienda).
+model Record {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  label       String // sello discográfico
+  year        Int
+  decade      Int // 1970, 1980... (precalculado para filtrar)
+  priceCents  Int // precio en céntimos para evitar errores de coma flotante
+  condition   String   @default("USED") // "NEW" (nuevo) | "USED" (segunda mano)
+  mediaGrade  String? // "M" | "NM" | "VG+" | "VG" ... (estado del disco)
+  description String
+  stock       Int      @default(1)
+  salesCount  Int      @default(0) // para "Más vendidos" / popularidad
+  featured    Boolean  @default(false) // destacados del home/hero
+  createdAt   DateTime @default(now()) // para "Últimas novedades"
+
+  artistId String
+  artist   Artist @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  genreId  String
+  genre    Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  images     RecordImage[]
+  tracks     Track[]
+  orderItems OrderItem[]
+
+  @@index([slug])
+  @@index([artistId])
+  @@index([genreId])
+  @@index([decade])
+  @@index([createdAt])
+  @@index([salesCount])
+}
+
+/// Imágenes de un disco (portada=0, contraportada=1, ...).
+model RecordImage {
+  id       String @id @default(cuid())
+  url      String
+  alt      String
+  position Int    @default(0)
+
+  recordId String
+  record   Record @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  @@index([recordId])
+}
+
+/// Pista del tracklist de un disco.
+model Track {
+  id       String  @id @default(cuid())
+  position Int
+  title    String
+  duration String? // "3:45"
+
+  recordId String
+  record   Record @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  @@index([recordId])
+}
+
+/// Artículo del blog / noticias.
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String
+  content     String // cuerpo del artículo (texto enriquecido / párrafos)
+  coverImage  String?
+  author      String
+  tag         String? // "Lanzamientos" | "Cultura" | "Ediciones especiales"...
+  publishedAt DateTime @default(now())
+
+  @@index([slug])
+  @@index([publishedAt])
+}
+
+/// Pedido (la pasarela de pago es simulada por ahora).
+model Order {
+  id            String      @id @default(cuid())
+  email         String
+  fullName      String
+  address       String
+  city          String
+  postalCode    String
+  country       String      @default("España")
+  phone         String?
+  notes         String?
+  subtotalCents Int
+  shippingCents Int
+  totalCents    Int
+  status        String      @default("PENDING") // PENDING | PAID | SHIPPED | CANCELLED
+  createdAt     DateTime    @default(now())
+  items         OrderItem[]
+}
+
+/// Línea de un pedido.
+model OrderItem {
+  id            String @id @default(cuid())
+  quantity      Int    @default(1)
+  unitPriceCents Int // precio en el momento de la compra
+
+  orderId  String
+  order    Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  recordId String
+  record   Record @relation(fields: [recordId], references: [id])
+
+  @@index([orderId])
+  @@index([recordId])
+}
+
+/// Suscriptor de la newsletter (footer).
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+/// Mensaje del formulario de contacto.
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1d2a27"/>
+      <stop offset="1" stop-color="#3c5651"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#g3)"/>
+  <circle cx="430" cy="300" r="70" fill="none" stroke="#e9ddc8" stroke-opacity="0.10" stroke-width="1.5"/><circle cx="430" cy="300" r="88" fill="none" stroke="#e9ddc8" stroke-opacity="0.10" stroke-width="1.5"/><circle cx="430" cy="300" r="106" fill="none" stroke="#e9ddc8" stroke-opacity="0.10" stroke-width="1.5"/><circle cx="430" cy="300" r="124" fill="none" stroke="#e9ddc8" stroke-opacity="0.10" stroke-width="1.5"/><circle cx="430" cy="300" r="142" fill="none" stroke="#e9ddc8" stroke-opacity="0.10" stroke-width="1.5"/><circle cx="430" cy="300" r="160" fill="none" stroke="#e9ddc8" stroke-opacity="0.10" stroke-width="1.5"/><circle cx="430" cy="300" r="178" fill="none" stroke="#e9ddc8" stroke-opacity="0.10" stroke-width="1.5"/><circle cx="430" cy="300" r="196" fill="none" stroke="#e9ddc8" stroke-opacity="0.10" stroke-width="1.5"/><circle cx="430" cy="300" r="214" fill="none" stroke="#e9ddc8" stroke-opacity="0.10" stroke-width="1.5"/>
+  <circle cx="430" cy="300" r="248" fill="none" stroke="#e9ddc8" stroke-opacity="0.16" stroke-width="2"/>
+  <circle cx="430" cy="300" r="58" fill="#e9ddc8" fill-opacity="0.14"/>
+  <circle cx="430" cy="300" r="10" fill="#e9ddc8" fill-opacity="0.5"/>
+  <text x="48" y="540" fill="#e9ddc8" fill-opacity="0.55" font-family="Georgia, serif" font-size="22" letter-spacing="3">OCEAN BLVD</text>
+  <text x="48" y="566" fill="#e9ddc8" fill-opacity="0.4" font-family="Arial, sans-serif" font-size="13" letter-spacing="6">VINYL · RECORDS</text>
+</svg>

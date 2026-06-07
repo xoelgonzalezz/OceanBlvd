@@ -1,0 +1,3461 @@
+{
+  "artists": [
+    {
+      "name": "Pink Floyd",
+      "slug": "pink-floyd",
+      "genreSlug": "rock",
+      "data": {
+        "bio": "Pink Floyd es una de las bandas más influyentes de la historia del rock, pioneros del rock progresivo y psicodélico desde finales de los años sesenta. Con conceptos sonoros envolventes, letras introspectivas sobre la alienación, la locura y el tiempo, y espectaculares directos, definieron una era. Su legado en formato vinilo sigue siendo objeto de culto y veneración entre coleccionistas de todo el mundo.",
+        "country": "Reino Unido",
+        "foundedYear": 1965,
+        "albums": [
+          {
+            "title": "The Dark Side of the Moon",
+            "year": 1973,
+            "label": "Harvest / Pink Floyd Records",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2899,
+            "description": "La obra cumbre de Pink Floyd y uno de los discos más vendidos de la historia. Esta reedición remasterizada en vinyl de 180 gramos reproduce con fidelidad el icónico prisma de Storm Thorgerson y el envolvente paisaje sonoro original. Imprescindible en cualquier colección de rock.",
+            "salesCount": 487,
+            "featured": true,
+            "stock": 10,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Speak to Me",
+                "duration": "1:30"
+              },
+              {
+                "position": 2,
+                "title": "Breathe (In the Air)",
+                "duration": "2:43"
+              },
+              {
+                "position": 3,
+                "title": "On the Run",
+                "duration": "3:30"
+              },
+              {
+                "position": 4,
+                "title": "Time",
+                "duration": "6:53"
+              },
+              {
+                "position": 5,
+                "title": "The Great Gig in the Sky",
+                "duration": "4:43"
+              },
+              {
+                "position": 6,
+                "title": "Money",
+                "duration": "6:23"
+              },
+              {
+                "position": 7,
+                "title": "Us and Them",
+                "duration": "7:49"
+              },
+              {
+                "position": 8,
+                "title": "Any Colour You Like",
+                "duration": "3:26"
+              },
+              {
+                "position": 9,
+                "title": "Brain Damage",
+                "duration": "3:50"
+              },
+              {
+                "position": 10,
+                "title": "Eclipse",
+                "duration": "2:03"
+              }
+            ]
+          },
+          {
+            "title": "Wish You Were Here",
+            "year": 1975,
+            "label": "Harvest",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 4200,
+            "description": "Prensaje original de los años setenta, un homenaje a Syd Barrett y una crítica a la industria musical. La extensa suite 'Shine On You Crazy Diamond' es una de las cumbres del rock progresivo. Ejemplar usado en muy buen estado, con la calidez del vinilo de época.",
+            "salesCount": 342,
+            "featured": false,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Shine On You Crazy Diamond (Parts I-V)",
+                "duration": "13:32"
+              },
+              {
+                "position": 2,
+                "title": "Welcome to the Machine",
+                "duration": "7:31"
+              },
+              {
+                "position": 3,
+                "title": "Have a Cigar",
+                "duration": "5:08"
+              },
+              {
+                "position": 4,
+                "title": "Wish You Were Here",
+                "duration": "5:34"
+              },
+              {
+                "position": 5,
+                "title": "Shine On You Crazy Diamond (Parts VI-IX)",
+                "duration": "12:23"
+              }
+            ]
+          },
+          {
+            "title": "The Wall",
+            "year": 1979,
+            "label": "Harvest / Pink Floyd Records",
+            "condition": "NEW",
+            "mediaGrade": "NM",
+            "priceCents": 3499,
+            "description": "La monumental ópera rock doble que narra el aislamiento de Pink a través de un muro metafórico. Esta reedición incluye himnos como 'Another Brick in the Wall' y 'Comfortably Numb'. Edición de doble vinilo cuidadosamente remasterizada, esencial para entender el rock conceptual.",
+            "salesCount": 398,
+            "featured": false,
+            "stock": 7,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "In the Flesh?",
+                "duration": "3:16"
+              },
+              {
+                "position": 2,
+                "title": "The Thin Ice",
+                "duration": "2:27"
+              },
+              {
+                "position": 3,
+                "title": "Another Brick in the Wall, Part 1",
+                "duration": "3:21"
+              },
+              {
+                "position": 4,
+                "title": "The Happiest Days of Our Lives",
+                "duration": "1:46"
+              },
+              {
+                "position": 5,
+                "title": "Another Brick in the Wall, Part 2",
+                "duration": "3:59"
+              },
+              {
+                "position": 6,
+                "title": "Mother",
+                "duration": "5:32"
+              },
+              {
+                "position": 7,
+                "title": "Goodbye Blue Sky",
+                "duration": "2:45"
+              },
+              {
+                "position": 8,
+                "title": "Empty Spaces",
+                "duration": "2:10"
+              },
+              {
+                "position": 9,
+                "title": "Young Lust",
+                "duration": "3:25"
+              },
+              {
+                "position": 10,
+                "title": "One of My Turns",
+                "duration": "3:41"
+              },
+              {
+                "position": 11,
+                "title": "Don't Leave Me Now",
+                "duration": "4:08"
+              },
+              {
+                "position": 12,
+                "title": "Another Brick in the Wall, Part 3",
+                "duration": "1:18"
+              },
+              {
+                "position": 13,
+                "title": "Goodbye Cruel World",
+                "duration": "1:16"
+              },
+              {
+                "position": 14,
+                "title": "Hey You",
+                "duration": "4:40"
+              },
+              {
+                "position": 15,
+                "title": "Is There Anybody Out There?",
+                "duration": "2:44"
+              },
+              {
+                "position": 16,
+                "title": "Nobody Home",
+                "duration": "3:26"
+              },
+              {
+                "position": 17,
+                "title": "Vera",
+                "duration": "1:35"
+              },
+              {
+                "position": 18,
+                "title": "Bring the Boys Back Home",
+                "duration": "1:21"
+              },
+              {
+                "position": 19,
+                "title": "Comfortably Numb",
+                "duration": "6:23"
+              },
+              {
+                "position": 20,
+                "title": "The Show Must Go On",
+                "duration": "1:36"
+              },
+              {
+                "position": 21,
+                "title": "In the Flesh",
+                "duration": "4:15"
+              },
+              {
+                "position": 22,
+                "title": "Run Like Hell",
+                "duration": "4:20"
+              },
+              {
+                "position": 23,
+                "title": "Waiting for the Worms",
+                "duration": "4:04"
+              },
+              {
+                "position": 24,
+                "title": "Stop",
+                "duration": "0:30"
+              },
+              {
+                "position": 25,
+                "title": "The Trial",
+                "duration": "5:13"
+              },
+              {
+                "position": 26,
+                "title": "Outside the Wall",
+                "duration": "1:41"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Fleetwood Mac",
+      "slug": "fleetwood-mac",
+      "genreSlug": "rock",
+      "data": {
+        "bio": "Fleetwood Mac es una de las bandas más legendarias del rock, nacida en Londres en 1967 como un grupo de blues británico liderado por el guitarrista Peter Green. Tras la llegada de Lindsey Buckingham y Stevie Nicks a mediados de los setenta, la banda se transformó en un fenómeno mundial del soft rock, fusionando melodías luminosas con tensiones personales que alimentaron su música. Su sonido inconfundible y sus dramas internos los convirtieron en mito y en uno de los actos más vendidos de la historia.",
+        "country": "Reino Unido",
+        "foundedYear": 1967,
+        "albums": [
+          {
+            "title": "Rumours",
+            "year": 1977,
+            "label": "Warner Bros. Records",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2999,
+            "description": "La obra cumbre absoluta de Fleetwood Mac y uno de los discos más vendidos de todos los tiempos, grabado entre rupturas sentimentales que dieron a cada canción una crudeza emocional irrepetible. Esta reedición remasterizada en vinilo de 180 gramos es imprescindible en cualquier colección de rock.",
+            "salesCount": 480,
+            "featured": true,
+            "stock": 10,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Second Hand News",
+                "duration": "2:43"
+              },
+              {
+                "position": 2,
+                "title": "Dreams",
+                "duration": "4:14"
+              },
+              {
+                "position": 3,
+                "title": "Never Going Back Again",
+                "duration": "2:02"
+              },
+              {
+                "position": 4,
+                "title": "Don't Stop",
+                "duration": "3:11"
+              },
+              {
+                "position": 5,
+                "title": "Go Your Own Way",
+                "duration": "3:38"
+              },
+              {
+                "position": 6,
+                "title": "Songbird",
+                "duration": "3:20"
+              },
+              {
+                "position": 7,
+                "title": "The Chain",
+                "duration": "4:28"
+              },
+              {
+                "position": 8,
+                "title": "You Make Loving Fun",
+                "duration": "3:31"
+              },
+              {
+                "position": 9,
+                "title": "I Don't Want to Know",
+                "duration": "3:11"
+              },
+              {
+                "position": 10,
+                "title": "Oh Daddy",
+                "duration": "3:54"
+              },
+              {
+                "position": 11,
+                "title": "Gold Dust Woman",
+                "duration": "4:51"
+              }
+            ]
+          },
+          {
+            "title": "Fleetwood Mac",
+            "year": 1975,
+            "label": "Reprise Records",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 3400,
+            "description": "El álbum que marcó el renacimiento de la banda con la incorporación de Buckingham y Nicks, sentando las bases del sonido que los haría inmortales. Esta copia original de los setenta conserva su calidez analógica y un encanto que las reediciones rara vez igualan.",
+            "salesCount": 240,
+            "featured": false,
+            "stock": 3,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Monday Morning",
+                "duration": "2:48"
+              },
+              {
+                "position": 2,
+                "title": "Warm Ways",
+                "duration": "3:51"
+              },
+              {
+                "position": 3,
+                "title": "Blue Letter",
+                "duration": "2:31"
+              },
+              {
+                "position": 4,
+                "title": "Rhiannon",
+                "duration": "4:11"
+              },
+              {
+                "position": 5,
+                "title": "Over My Head",
+                "duration": "3:36"
+              },
+              {
+                "position": 6,
+                "title": "Crystal",
+                "duration": "5:12"
+              },
+              {
+                "position": 7,
+                "title": "Say You Love Me",
+                "duration": "4:11"
+              },
+              {
+                "position": 8,
+                "title": "Landslide",
+                "duration": "3:19"
+              },
+              {
+                "position": 9,
+                "title": "World Turning",
+                "duration": "4:25"
+              },
+              {
+                "position": 10,
+                "title": "Sugar Daddy",
+                "duration": "4:09"
+              },
+              {
+                "position": 11,
+                "title": "I'm So Afraid",
+                "duration": "4:21"
+              }
+            ]
+          },
+          {
+            "title": "Tusk",
+            "year": 1979,
+            "label": "Warner Bros. Records",
+            "condition": "USED",
+            "mediaGrade": "VG",
+            "priceCents": 2600,
+            "description": "El ambicioso y experimental sucesor de Rumours, un doble álbum que desafió las expectativas comerciales con la visión más arriesgada de Lindsey Buckingham. Una pieza de culto cada vez más codiciada por coleccionistas que buscan la cara más aventurera de la banda.",
+            "salesCount": 160,
+            "featured": false,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Over & Over",
+                "duration": "4:35"
+              },
+              {
+                "position": 2,
+                "title": "The Ledge",
+                "duration": "2:01"
+              },
+              {
+                "position": 3,
+                "title": "Think About Me",
+                "duration": "2:44"
+              },
+              {
+                "position": 4,
+                "title": "Save Me a Place",
+                "duration": "2:40"
+              },
+              {
+                "position": 5,
+                "title": "Sara",
+                "duration": "6:26"
+              },
+              {
+                "position": 6,
+                "title": "What Makes You Think You're the One",
+                "duration": "3:28"
+              },
+              {
+                "position": 7,
+                "title": "Storms",
+                "duration": "5:28"
+              },
+              {
+                "position": 8,
+                "title": "That's All for Everyone",
+                "duration": "3:04"
+              },
+              {
+                "position": 9,
+                "title": "Not That Funny",
+                "duration": "3:19"
+              },
+              {
+                "position": 10,
+                "title": "Sisters of the Moon",
+                "duration": "4:36"
+              },
+              {
+                "position": 11,
+                "title": "Angel",
+                "duration": "4:53"
+              },
+              {
+                "position": 12,
+                "title": "That's Enough for Me",
+                "duration": "1:48"
+              },
+              {
+                "position": 13,
+                "title": "Brown Eyes",
+                "duration": "4:27"
+              },
+              {
+                "position": 14,
+                "title": "Never Make Me Cry",
+                "duration": "2:14"
+              },
+              {
+                "position": 15,
+                "title": "I Know I'm Not Wrong",
+                "duration": "2:59"
+              },
+              {
+                "position": 16,
+                "title": "Honey Hi",
+                "duration": "2:43"
+              },
+              {
+                "position": 17,
+                "title": "Beautiful Child",
+                "duration": "5:19"
+              },
+              {
+                "position": 18,
+                "title": "Walk a Thin Line",
+                "duration": "3:44"
+              },
+              {
+                "position": 19,
+                "title": "Tusk",
+                "duration": "3:36"
+              },
+              {
+                "position": 20,
+                "title": "Never Forget",
+                "duration": "3:40"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Miles Davis",
+      "slug": "miles-davis",
+      "genreSlug": "jazz",
+      "data": {
+        "bio": "Miles Davis fue el trompetista y compositor que reinventó el jazz una y otra vez, desde el cool jazz de finales de los 40 hasta el modal de los 50 y la fusión eléctrica de los 70. Su sonido inconfundible, hecho de silencios, sordina Harmon y una elegancia melancólica, marcó a generaciones enteras. Nacido en Alton, Illinois, y criado en East St. Louis, lideró algunas de las formaciones más legendarias de la historia de la música. Sigue siendo una de las figuras más influyentes y coleccionadas del jazz en vinilo.",
+        "country": "Estados Unidos",
+        "foundedYear": 1944,
+        "albums": [
+          {
+            "title": "Kind of Blue",
+            "year": 1959,
+            "label": "Columbia",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2890,
+            "description": "El disco de jazz más vendido y aclamado de la historia, cumbre del jazz modal grabado con Coltrane, Cannonball Adderley y Bill Evans. Esta reedición nueva en vinyl de 180 gramos respeta la atmósfera íntima y atemporal del original de 1959, una pieza imprescindible en cualquier colección.",
+            "salesCount": 480,
+            "featured": true,
+            "stock": 10,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "So What",
+                "duration": "09:22"
+              },
+              {
+                "position": 2,
+                "title": "Freddie Freeloader",
+                "duration": "09:46"
+              },
+              {
+                "position": 3,
+                "title": "Blue in Green",
+                "duration": "05:37"
+              },
+              {
+                "position": 4,
+                "title": "All Blues",
+                "duration": "11:33"
+              },
+              {
+                "position": 5,
+                "title": "Flamenco Sketches",
+                "duration": "09:26"
+              }
+            ]
+          },
+          {
+            "title": "Bitches Brew",
+            "year": 1970,
+            "label": "Columbia",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 4200,
+            "description": "El manifiesto de la fusión jazz-rock, una obra eléctrica y revolucionaria que rompió todas las reglas con su producción en estudio y sus extensas improvisaciones. Este doble LP original de 1970 en buen estado conserva la potencia visceral que convirtió al disco en una leyenda del coleccionismo.",
+            "salesCount": 240,
+            "featured": false,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Pharaoh's Dance",
+                "duration": "20:05"
+              },
+              {
+                "position": 2,
+                "title": "Bitches Brew",
+                "duration": "26:58"
+              },
+              {
+                "position": 3,
+                "title": "Spanish Key",
+                "duration": "17:32"
+              },
+              {
+                "position": 4,
+                "title": "John McLaughlin",
+                "duration": "04:22"
+              },
+              {
+                "position": 5,
+                "title": "Miles Runs the Voodoo Down",
+                "duration": "14:01"
+              },
+              {
+                "position": 6,
+                "title": "Sanctuary",
+                "duration": "10:56"
+              }
+            ]
+          },
+          {
+            "title": "Sketches of Spain",
+            "year": 1960,
+            "label": "Columbia",
+            "condition": "USED",
+            "mediaGrade": "VG",
+            "priceCents": 2600,
+            "description": "Colaboración sublime con el arreglista Gil Evans que fusiona el jazz con la música clásica española, incluyendo una conmovedora lectura del Concierto de Aranjuez. Una copia original usada que mantiene toda la calidez orquestal de esta joya de 1960.",
+            "salesCount": 175,
+            "featured": false,
+            "stock": 4,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Concierto de Aranjuez (Adagio)",
+                "duration": "16:19"
+              },
+              {
+                "position": 2,
+                "title": "Will o' the Wisp",
+                "duration": "03:47"
+              },
+              {
+                "position": 3,
+                "title": "The Pan Piper",
+                "duration": "03:52"
+              },
+              {
+                "position": 4,
+                "title": "Saeta",
+                "duration": "05:06"
+              },
+              {
+                "position": 5,
+                "title": "Solea",
+                "duration": "12:15"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "John Coltrane",
+      "slug": "john-coltrane",
+      "genreSlug": "jazz",
+      "data": {
+        "bio": "John Coltrane fue un saxofonista y compositor estadounidense, una de las figuras más revolucionarias e influyentes de la historia del jazz. Desde el hard bop hasta el free jazz y la exploración espiritual modal, su sonido en el saxo tenor y soprano transformó para siempre el lenguaje del instrumento. Su búsqueda incesante de trascendencia, culminada en obras como \"A Love Supreme\", lo convirtió en un icono espiritual además de musical.",
+        "country": "Estados Unidos",
+        "foundedYear": 1955,
+        "albums": [
+          {
+            "title": "A Love Supreme",
+            "year": 1965,
+            "label": "Impulse!",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2990,
+            "description": "La obra maestra espiritual de Coltrane, una suite en cuatro partes grabada con su cuarteto clásico que es a la vez plegaria y declaración artística. Esta reedición en vinilo de alta calidad respeta el sonido cálido original de Impulse! y es una pieza imprescindible en cualquier colección de jazz.",
+            "salesCount": 470,
+            "featured": true,
+            "stock": 10,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Part 1: Acknowledgement",
+                "duration": "07:43"
+              },
+              {
+                "position": 2,
+                "title": "Part 2: Resolution",
+                "duration": "07:20"
+              },
+              {
+                "position": 3,
+                "title": "Part 3: Pursuance",
+                "duration": "10:43"
+              },
+              {
+                "position": 4,
+                "title": "Part 4: Psalm",
+                "duration": "07:05"
+              }
+            ]
+          },
+          {
+            "title": "Giant Steps",
+            "year": 1960,
+            "label": "Atlantic",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 4200,
+            "description": "El disco que redefinió la armonía moderna del jazz con sus vertiginosos cambios de acordes, hoy conocidos como los 'Coltrane changes'. Este original de Atlantic de segunda mano conserva el carácter de una época irrepetible y es muy buscado por coleccionistas.",
+            "salesCount": 360,
+            "featured": false,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Giant Steps",
+                "duration": "04:43"
+              },
+              {
+                "position": 2,
+                "title": "Cousin Mary",
+                "duration": "05:45"
+              },
+              {
+                "position": 3,
+                "title": "Countdown",
+                "duration": "02:21"
+              },
+              {
+                "position": 4,
+                "title": "Spiral",
+                "duration": "05:56"
+              },
+              {
+                "position": 5,
+                "title": "Syeeda's Song Flute",
+                "duration": "07:00"
+              },
+              {
+                "position": 6,
+                "title": "Naima",
+                "duration": "04:21"
+              },
+              {
+                "position": 7,
+                "title": "Mr. P.C.",
+                "duration": "06:57"
+              }
+            ]
+          },
+          {
+            "title": "Blue Train",
+            "year": 1958,
+            "label": "Blue Note",
+            "condition": "USED",
+            "mediaGrade": "VG",
+            "priceCents": 3800,
+            "description": "El único álbum de Coltrane como líder para Blue Note, una cumbre del hard bop con un sexteto de lujo y una sección de metales contundente. Este original usado es un tesoro para quienes buscan el inconfundible prensado y sonido del sello.",
+            "salesCount": 310,
+            "featured": false,
+            "stock": 3,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Blue Train",
+                "duration": "10:43"
+              },
+              {
+                "position": 2,
+                "title": "Moment's Notice",
+                "duration": "09:10"
+              },
+              {
+                "position": 3,
+                "title": "Locomotion",
+                "duration": "07:14"
+              },
+              {
+                "position": 4,
+                "title": "I'm Old Fashioned",
+                "duration": "07:58"
+              },
+              {
+                "position": 5,
+                "title": "Lazy Bird",
+                "duration": "07:00"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Kendrick Lamar",
+      "slug": "kendrick-lamar",
+      "genreSlug": "hip-hop",
+      "data": {
+        "bio": "Kendrick Lamar es el rapero y poeta de Compton que redefinió el hip-hop del siglo XXI, fundiendo el jazz, el funk y la narrativa social en discos de ambición cinematográfica. Desde sus retratos de la vida en California hasta sus meditaciones sobre la raza, la fe y la identidad, su obra le valió el Premio Pulitzer de Música en 2018, el primero concedido a un disco fuera del jazz o la clásica. Su voz es la conciencia inquieta de una generación.",
+        "country": "Estados Unidos",
+        "foundedYear": 2003,
+        "albums": [
+          {
+            "title": "good kid, m.A.A.d city",
+            "year": 2012,
+            "label": "Top Dawg Entertainment / Aftermath / Interscope",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2999,
+            "description": "El debut en major de Kendrick, subtitulado 'A Short Film by Kendrick Lamar', es una novela coral sobre crecer en Compton. Esta reedición en doble vinilo recoge la edición estándar con el clasico moderno que lanzó su carrera al estrellato.",
+            "salesCount": 470,
+            "featured": true,
+            "stock": 9,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Sherane a.k.a Master Splinter's Daughter",
+                "duration": "4:35"
+              },
+              {
+                "position": 2,
+                "title": "Bitch, Don't Kill My Vibe",
+                "duration": "5:10"
+              },
+              {
+                "position": 3,
+                "title": "Backseat Freestyle",
+                "duration": "3:32"
+              },
+              {
+                "position": 4,
+                "title": "The Art of Peer Pressure",
+                "duration": "5:24"
+              },
+              {
+                "position": 5,
+                "title": "Money Trees",
+                "duration": "6:26"
+              },
+              {
+                "position": 6,
+                "title": "Poetic Justice",
+                "duration": "5:00"
+              },
+              {
+                "position": 7,
+                "title": "good kid",
+                "duration": "3:34"
+              },
+              {
+                "position": 8,
+                "title": "m.A.A.d city",
+                "duration": "5:50"
+              },
+              {
+                "position": 9,
+                "title": "Swimming Pools (Drank)",
+                "duration": "5:13"
+              },
+              {
+                "position": 10,
+                "title": "Sing About Me, I'm Dying of Thirst",
+                "duration": "12:03"
+              },
+              {
+                "position": 11,
+                "title": "Real",
+                "duration": "7:23"
+              },
+              {
+                "position": 12,
+                "title": "Compton",
+                "duration": "4:08"
+              }
+            ]
+          },
+          {
+            "title": "To Pimp a Butterfly",
+            "year": 2015,
+            "label": "Top Dawg Entertainment / Aftermath / Interscope",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 3400,
+            "description": "Obra cumbre del rap contemporáneo, mezcla jazz, funk, spoken word y soul en un alegato sobre la identidad negra en Estados Unidos. Esta copia original de segunda mano conserva el aura de un disco que se convirtió en himno generacional con 'Alright'.",
+            "salesCount": 360,
+            "featured": false,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Wesley's Theory",
+                "duration": "4:47"
+              },
+              {
+                "position": 2,
+                "title": "For Free? (Interlude)",
+                "duration": "2:11"
+              },
+              {
+                "position": 3,
+                "title": "King Kunta",
+                "duration": "3:54"
+              },
+              {
+                "position": 4,
+                "title": "Institutionalized",
+                "duration": "4:31"
+              },
+              {
+                "position": 5,
+                "title": "These Walls",
+                "duration": "5:00"
+              },
+              {
+                "position": 6,
+                "title": "u",
+                "duration": "4:28"
+              },
+              {
+                "position": 7,
+                "title": "Alright",
+                "duration": "3:39"
+              },
+              {
+                "position": 8,
+                "title": "For Sale? (Interlude)",
+                "duration": "4:51"
+              },
+              {
+                "position": 9,
+                "title": "Momma",
+                "duration": "4:43"
+              },
+              {
+                "position": 10,
+                "title": "Hood Politics",
+                "duration": "4:52"
+              },
+              {
+                "position": 11,
+                "title": "How Much a Dollar Cost",
+                "duration": "4:21"
+              },
+              {
+                "position": 12,
+                "title": "Complexion (A Zulu Love)",
+                "duration": "4:23"
+              },
+              {
+                "position": 13,
+                "title": "The Blacker the Berry",
+                "duration": "5:28"
+              },
+              {
+                "position": 14,
+                "title": "You Ain't Gotta Lie (Momma Said)",
+                "duration": "4:00"
+              },
+              {
+                "position": 15,
+                "title": "i",
+                "duration": "5:36"
+              },
+              {
+                "position": 16,
+                "title": "Mortal Man",
+                "duration": "12:07"
+              }
+            ]
+          },
+          {
+            "title": "DAMN.",
+            "year": 2017,
+            "label": "Top Dawg Entertainment / Aftermath / Interscope",
+            "condition": "NEW",
+            "mediaGrade": "NM",
+            "priceCents": 2700,
+            "description": "El disco que le valió el Premio Pulitzer de Música, un retrato crudo de la dualidad entre la debilidad y el destino. Reedición en doble vinilo que incluye el éxito 'HUMBLE.' y la colaboración con U2 en 'XXX.'.",
+            "salesCount": 410,
+            "featured": false,
+            "stock": 11,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "BLOOD.",
+                "duration": "1:58"
+              },
+              {
+                "position": 2,
+                "title": "DNA.",
+                "duration": "3:06"
+              },
+              {
+                "position": 3,
+                "title": "YAH.",
+                "duration": "2:40"
+              },
+              {
+                "position": 4,
+                "title": "ELEMENT.",
+                "duration": "3:28"
+              },
+              {
+                "position": 5,
+                "title": "FEEL.",
+                "duration": "3:34"
+              },
+              {
+                "position": 6,
+                "title": "LOYALTY.",
+                "duration": "3:47"
+              },
+              {
+                "position": 7,
+                "title": "PRIDE.",
+                "duration": "4:36"
+              },
+              {
+                "position": 8,
+                "title": "HUMBLE.",
+                "duration": "2:57"
+              },
+              {
+                "position": 9,
+                "title": "LUST.",
+                "duration": "5:07"
+              },
+              {
+                "position": 10,
+                "title": "LOVE.",
+                "duration": "3:33"
+              },
+              {
+                "position": 11,
+                "title": "XXX.",
+                "duration": "4:14"
+              },
+              {
+                "position": 12,
+                "title": "FEAR.",
+                "duration": "7:41"
+              },
+              {
+                "position": 13,
+                "title": "GOD.",
+                "duration": "4:08"
+              },
+              {
+                "position": 14,
+                "title": "DUCKWORTH.",
+                "duration": "4:08"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "A Tribe Called Quest",
+      "slug": "a-tribe-called-quest",
+      "genreSlug": "hip-hop",
+      "data": {
+        "bio": "A Tribe Called Quest fue el corazón jazzístico y conciencia poética del colectivo Native Tongues en el Nueva York de finales de los ochenta. Con las rimas elásticas de Q-Tip y Phife Dawg sobre los samples sedosos de jazz y soul, redefinieron lo que el hip-hop podía sonar: cálido, intelectual y profundamente humano. Su legado sigue siendo una de las piedras angulares del rap alternativo.",
+        "country": "Estados Unidos",
+        "foundedYear": 1985,
+        "albums": [
+          {
+            "title": "The Low End Theory",
+            "year": 1991,
+            "label": "Jive Records",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 4200,
+            "description": "Considerado por muchos la cumbre del jazz-rap, este álbum fusionó el bajo de Ron Carter con beats minimalistas y las rimas afiladas de Phife y Q-Tip. Una copia original en vinilo de los noventa es un objeto de culto absoluto para cualquier coleccionista de hip-hop.",
+            "salesCount": 480,
+            "featured": true,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Excursions",
+                "duration": "3:53"
+              },
+              {
+                "position": 2,
+                "title": "Buggin' Out",
+                "duration": "3:38"
+              },
+              {
+                "position": 3,
+                "title": "Rap Promoter",
+                "duration": "2:13"
+              },
+              {
+                "position": 4,
+                "title": "Butter",
+                "duration": "3:39"
+              },
+              {
+                "position": 5,
+                "title": "Verses from the Abstract",
+                "duration": "3:59"
+              },
+              {
+                "position": 6,
+                "title": "Show Business",
+                "duration": "4:01"
+              },
+              {
+                "position": 7,
+                "title": "Vibes and Stuff",
+                "duration": "4:18"
+              },
+              {
+                "position": 8,
+                "title": "The Infamous Date Rape",
+                "duration": "2:54"
+              },
+              {
+                "position": 9,
+                "title": "Check the Rhime",
+                "duration": "3:36"
+              },
+              {
+                "position": 10,
+                "title": "Everything Is Fair",
+                "duration": "2:58"
+              },
+              {
+                "position": 11,
+                "title": "Jazz (We've Got)",
+                "duration": "4:09"
+              },
+              {
+                "position": 12,
+                "title": "Skypager",
+                "duration": "2:13"
+              },
+              {
+                "position": 13,
+                "title": "What?",
+                "duration": "2:29"
+              },
+              {
+                "position": 14,
+                "title": "Scenario",
+                "duration": "4:10"
+              }
+            ]
+          },
+          {
+            "title": "Midnight Marauders",
+            "year": 1993,
+            "label": "Jive Records / Legacy Recordings",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2900,
+            "description": "Reedición nueva y prensada con calidad de su obra maestra de 1993, guiada por la icónica voz de la 'Midnight Marauders Tour Guide'. Contiene clásicos eternos como 'Award Tour' y 'Electric Relaxation', imprescindibles en cualquier estantería de hip-hop.",
+            "salesCount": 360,
+            "featured": false,
+            "stock": 9,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Midnight Marauders Tour Guide",
+                "duration": "0:52"
+              },
+              {
+                "position": 2,
+                "title": "Steve Biko (Stir It Up)",
+                "duration": "3:09"
+              },
+              {
+                "position": 3,
+                "title": "Award Tour",
+                "duration": "3:44"
+              },
+              {
+                "position": 4,
+                "title": "8 Million Stories",
+                "duration": "3:26"
+              },
+              {
+                "position": 5,
+                "title": "Sucka Nigga",
+                "duration": "3:59"
+              },
+              {
+                "position": 6,
+                "title": "Midnight",
+                "duration": "4:25"
+              },
+              {
+                "position": 7,
+                "title": "We Can Get Down",
+                "duration": "4:11"
+              },
+              {
+                "position": 8,
+                "title": "Electric Relaxation",
+                "duration": "4:06"
+              },
+              {
+                "position": 9,
+                "title": "Clap Your Hands",
+                "duration": "3:14"
+              },
+              {
+                "position": 10,
+                "title": "Oh My God",
+                "duration": "3:26"
+              },
+              {
+                "position": 11,
+                "title": "Keep It Rollin'",
+                "duration": "4:32"
+              },
+              {
+                "position": 12,
+                "title": "The Chase, Part II",
+                "duration": "3:38"
+              },
+              {
+                "position": 13,
+                "title": "Lyrics to Go",
+                "duration": "4:08"
+              },
+              {
+                "position": 14,
+                "title": "God Lives Through",
+                "duration": "4:24"
+              }
+            ]
+          },
+          {
+            "title": "People's Instinctive Travels and the Paths of Rhythm",
+            "year": 1990,
+            "label": "Jive Records",
+            "condition": "USED",
+            "mediaGrade": "VG",
+            "priceCents": 3800,
+            "description": "El debut juguetón y eclético que presentó al mundo la sensibilidad Native Tongues, con éxitos como 'Can I Kick It?' y 'Bonita Applebum'. Una copia original de 1990 captura el frescor y la inocencia de un grupo a punto de cambiar el género para siempre.",
+            "salesCount": 240,
+            "featured": false,
+            "stock": 3,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Push It Along",
+                "duration": "7:42"
+              },
+              {
+                "position": 2,
+                "title": "Luck of Lucien",
+                "duration": "4:33"
+              },
+              {
+                "position": 3,
+                "title": "After Hours",
+                "duration": "4:33"
+              },
+              {
+                "position": 4,
+                "title": "Footprints",
+                "duration": "4:04"
+              },
+              {
+                "position": 5,
+                "title": "I Left My Wallet in El Segundo",
+                "duration": "4:04"
+              },
+              {
+                "position": 6,
+                "title": "Pubic Enemy",
+                "duration": "3:51"
+              },
+              {
+                "position": 7,
+                "title": "Bonita Applebum",
+                "duration": "3:46"
+              },
+              {
+                "position": 8,
+                "title": "Can I Kick It?",
+                "duration": "4:11"
+              },
+              {
+                "position": 9,
+                "title": "Youthful Expression",
+                "duration": "4:08"
+              },
+              {
+                "position": 10,
+                "title": "Rhythm (Devoted to the Art of Moving Butts)",
+                "duration": "5:06"
+              },
+              {
+                "position": 11,
+                "title": "Mr. Muhammad",
+                "duration": "3:42"
+              },
+              {
+                "position": 12,
+                "title": "Ham 'N' Eggs",
+                "duration": "5:30"
+              },
+              {
+                "position": 13,
+                "title": "Go Ahead in the Rain",
+                "duration": "3:38"
+              },
+              {
+                "position": 14,
+                "title": "Description of a Fool",
+                "duration": "5:36"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Daft Punk",
+      "slug": "daft-punk",
+      "genreSlug": "electronica",
+      "data": {
+        "bio": "Daft Punk fue el dúo francés que redefinió la música electrónica desde los suburbios de París, ocultos siempre tras sus icónicos cascos de robot. Formado por Thomas Bangalter y Guy-Manuel de Homem-Christo, fusionaron house, disco, funk y rock con una elegancia futurista inigualable. A lo largo de cuatro álbumes de estudio elevaron el género a fenómeno global antes de disolverse en 2021, dejando un legado tan misterioso como imborrable.",
+        "country": "Francia",
+        "foundedYear": 1993,
+        "albums": [
+          {
+            "title": "Discovery",
+            "year": 2001,
+            "label": "Virgin",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2990,
+            "description": "Reedición en doble vinilo de la obra maestra que definió el sonido robótico y nostálgico de Daft Punk. Contiene himnos eternos como 'One More Time' y 'Harder, Better, Faster, Stronger', piezas imprescindibles de cualquier colección electrónica.",
+            "salesCount": 480,
+            "featured": true,
+            "stock": 9,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "One More Time",
+                "duration": "5:20"
+              },
+              {
+                "position": 2,
+                "title": "Aerodynamic",
+                "duration": "3:27"
+              },
+              {
+                "position": 3,
+                "title": "Digital Love",
+                "duration": "4:58"
+              },
+              {
+                "position": 4,
+                "title": "Harder, Better, Faster, Stronger",
+                "duration": "3:45"
+              },
+              {
+                "position": 5,
+                "title": "Crescendolls",
+                "duration": "3:31"
+              },
+              {
+                "position": 6,
+                "title": "Nightvision",
+                "duration": "1:44"
+              },
+              {
+                "position": 7,
+                "title": "Superheroes",
+                "duration": "3:57"
+              },
+              {
+                "position": 8,
+                "title": "High Life",
+                "duration": "3:21"
+              },
+              {
+                "position": 9,
+                "title": "Something About Us",
+                "duration": "3:51"
+              },
+              {
+                "position": 10,
+                "title": "Voyager",
+                "duration": "3:47"
+              },
+              {
+                "position": 11,
+                "title": "Veridis Quo",
+                "duration": "5:44"
+              },
+              {
+                "position": 12,
+                "title": "Short Circuit",
+                "duration": "3:26"
+              },
+              {
+                "position": 13,
+                "title": "Face to Face",
+                "duration": "3:58"
+              },
+              {
+                "position": 14,
+                "title": "Too Long",
+                "duration": "10:00"
+              }
+            ]
+          },
+          {
+            "title": "Random Access Memories",
+            "year": 2013,
+            "label": "Columbia",
+            "condition": "NEW",
+            "mediaGrade": "NM",
+            "priceCents": 3290,
+            "description": "El último álbum de estudio del dúo, ganador del Grammy al Álbum del Año, grabado con músicos de sesión legendarios. Su doble vinilo de 180 gramos brilla con la producción analógica de éxitos como 'Get Lucky' e 'Instant Crush'.",
+            "salesCount": 420,
+            "featured": false,
+            "stock": 7,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Give Life Back to Music",
+                "duration": "4:35"
+              },
+              {
+                "position": 2,
+                "title": "The Game of Love",
+                "duration": "5:22"
+              },
+              {
+                "position": 3,
+                "title": "Giorgio by Moroder",
+                "duration": "9:04"
+              },
+              {
+                "position": 4,
+                "title": "Within",
+                "duration": "3:48"
+              },
+              {
+                "position": 5,
+                "title": "Instant Crush",
+                "duration": "5:37"
+              },
+              {
+                "position": 6,
+                "title": "Lose Yourself to Dance",
+                "duration": "5:53"
+              },
+              {
+                "position": 7,
+                "title": "Touch",
+                "duration": "8:18"
+              },
+              {
+                "position": 8,
+                "title": "Get Lucky",
+                "duration": "6:07"
+              },
+              {
+                "position": 9,
+                "title": "Beyond",
+                "duration": "4:50"
+              },
+              {
+                "position": 10,
+                "title": "Motherboard",
+                "duration": "5:41"
+              },
+              {
+                "position": 11,
+                "title": "Fragments of Time",
+                "duration": "4:39"
+              },
+              {
+                "position": 12,
+                "title": "Doin' It Right",
+                "duration": "4:11"
+              },
+              {
+                "position": 13,
+                "title": "Contact",
+                "duration": "6:21"
+              }
+            ]
+          },
+          {
+            "title": "Homework",
+            "year": 1997,
+            "label": "Virgin",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 4200,
+            "description": "Prensado original de su debut, el disco que catapultó el French House al mapa mundial. Una copia usada en muy buen estado de un clásico atemporal con 'Around the World' y 'Da Funk', cada vez más codiciado por coleccionistas.",
+            "salesCount": 310,
+            "featured": false,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Daftendirekt",
+                "duration": "2:44"
+              },
+              {
+                "position": 2,
+                "title": "WDPK 83.7 FM",
+                "duration": "0:28"
+              },
+              {
+                "position": 3,
+                "title": "Revolution 909",
+                "duration": "5:35"
+              },
+              {
+                "position": 4,
+                "title": "Da Funk",
+                "duration": "5:28"
+              },
+              {
+                "position": 5,
+                "title": "Phoenix",
+                "duration": "4:55"
+              },
+              {
+                "position": 6,
+                "title": "Fresh",
+                "duration": "4:03"
+              },
+              {
+                "position": 7,
+                "title": "Around the World",
+                "duration": "7:09"
+              },
+              {
+                "position": 8,
+                "title": "Rollin' & Scratchin'",
+                "duration": "7:26"
+              },
+              {
+                "position": 9,
+                "title": "Teachers",
+                "duration": "2:53"
+              },
+              {
+                "position": 10,
+                "title": "High Fidelity",
+                "duration": "6:00"
+              },
+              {
+                "position": 11,
+                "title": "Rock'n Roll",
+                "duration": "7:33"
+              },
+              {
+                "position": 12,
+                "title": "Oh Yeah",
+                "duration": "2:01"
+              },
+              {
+                "position": 13,
+                "title": "Burnin'",
+                "duration": "6:54"
+              },
+              {
+                "position": 14,
+                "title": "Indo Silver Club",
+                "duration": "4:33"
+              },
+              {
+                "position": 15,
+                "title": "Alive",
+                "duration": "5:15"
+              },
+              {
+                "position": 16,
+                "title": "Funk Ad",
+                "duration": "0:51"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Aphex Twin",
+      "slug": "aphex-twin",
+      "genreSlug": "electronica",
+      "data": {
+        "bio": "Aphex Twin es el alias principal de Richard D. James, músico británico nacido en Irlanda y criado en Cornualles, considerado uno de los arquitectos más influyentes de la música electrónica contemporánea. Desde sus ambientes etéreos hasta sus ritmos rotos y abrasivos de drill 'n' bass, su obra redefinió el IDM y el techno experimental. Su figura, envuelta en misterio y humor perturbador, sigue siendo un imán de culto para coleccionistas de vinilo en todo el mundo.",
+        "country": "Reino Unido",
+        "foundedYear": 1985,
+        "albums": [
+          {
+            "title": "Selected Ambient Works 85-92",
+            "year": 1992,
+            "label": "Apollo / R&S Records",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2990,
+            "description": "Obra fundacional del ambient techno, recopila grabaciones caseras de un James adolescente y aun hoy se considera una de las cumbres del género. Esta reedición en doble vinilo es imprescindible en cualquier colección de electronica y ofrece un sonido cálido y atemporal.",
+            "salesCount": 480,
+            "featured": true,
+            "stock": 8,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Xtal",
+                "duration": "4:51"
+              },
+              {
+                "position": 2,
+                "title": "Tha",
+                "duration": "9:01"
+              },
+              {
+                "position": 3,
+                "title": "Pulsewidth",
+                "duration": "3:47"
+              },
+              {
+                "position": 4,
+                "title": "Ageispolis",
+                "duration": "5:21"
+              },
+              {
+                "position": 5,
+                "title": "i",
+                "duration": "1:13"
+              },
+              {
+                "position": 6,
+                "title": "Green Calx",
+                "duration": "6:03"
+              },
+              {
+                "position": 7,
+                "title": "Heliosphan",
+                "duration": "4:52"
+              },
+              {
+                "position": 8,
+                "title": "We Are the Music Makers",
+                "duration": "7:42"
+              },
+              {
+                "position": 9,
+                "title": "Schottkey 7th Path",
+                "duration": "5:06"
+              },
+              {
+                "position": 10,
+                "title": "Ptolemy",
+                "duration": "7:11"
+              },
+              {
+                "position": 11,
+                "title": "Hedphelym",
+                "duration": "6:01"
+              },
+              {
+                "position": 12,
+                "title": "Delphium",
+                "duration": "5:39"
+              },
+              {
+                "position": 13,
+                "title": "Actium",
+                "duration": "7:35"
+              }
+            ]
+          },
+          {
+            "title": "Richard D. James Album",
+            "year": 1996,
+            "label": "Warp Records",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 3800,
+            "description": "Cima del drill 'n' bass que combina percusiones imposibles con cuerdas sintéticas y melodías casi infantiles, condensada en apenas 32 minutos de genio puro. Esta copia original en vinilo de los noventa es muy buscada por su mezcla analógica y su rareza creciente.",
+            "salesCount": 360,
+            "featured": false,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "4",
+                "duration": "4:33"
+              },
+              {
+                "position": 2,
+                "title": "Cornish Acid",
+                "duration": "3:11"
+              },
+              {
+                "position": 3,
+                "title": "Peek 824545201",
+                "duration": "4:14"
+              },
+              {
+                "position": 4,
+                "title": "Fingerbib",
+                "duration": "3:53"
+              },
+              {
+                "position": 5,
+                "title": "Corn Mouth",
+                "duration": "5:07"
+              },
+              {
+                "position": 6,
+                "title": "To Cure a Weakling Child",
+                "duration": "3:50"
+              },
+              {
+                "position": 7,
+                "title": "Goon Gumpas",
+                "duration": "2:58"
+              },
+              {
+                "position": 8,
+                "title": "Yellow Calx",
+                "duration": "3:00"
+              },
+              {
+                "position": 9,
+                "title": "Girl/Boy Song",
+                "duration": "4:46"
+              },
+              {
+                "position": 10,
+                "title": "Logon Rock Witch",
+                "duration": "3:58"
+              }
+            ]
+          },
+          {
+            "title": "Drukqs",
+            "year": 2001,
+            "label": "Warp Records",
+            "condition": "NEW",
+            "mediaGrade": "NM",
+            "priceCents": 3400,
+            "description": "Doble álbum monumental que alterna piezas de piano preparado de inspiración satie-ana con explosiones de breakcore generadas por software propio. La reedición en cuádruple vinilo de Warp es una pieza esencial para entender la cara más extrema y a la vez más íntima de Aphex Twin.",
+            "salesCount": 240,
+            "featured": false,
+            "stock": 6,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Jynweythek Ylow",
+                "duration": "2:32"
+              },
+              {
+                "position": 2,
+                "title": "Vordhosbn",
+                "duration": "4:46"
+              },
+              {
+                "position": 3,
+                "title": "Kladfvgbung Micshk",
+                "duration": "2:32"
+              },
+              {
+                "position": 4,
+                "title": "Omgyjya-Switch7",
+                "duration": "4:50"
+              },
+              {
+                "position": 5,
+                "title": "Strotha Tynhe",
+                "duration": "1:50"
+              },
+              {
+                "position": 6,
+                "title": "Gwely Mernans",
+                "duration": "5:31"
+              },
+              {
+                "position": 7,
+                "title": "Bbydhyonchord",
+                "duration": "3:32"
+              },
+              {
+                "position": 8,
+                "title": "Cock/Ver10",
+                "duration": "4:35"
+              },
+              {
+                "position": 9,
+                "title": "Avril 14th",
+                "duration": "2:09"
+              },
+              {
+                "position": 10,
+                "title": "Mt Saint Michel + Saint Michaels Mount",
+                "duration": "4:39"
+              },
+              {
+                "position": 11,
+                "title": "Gwarek2",
+                "duration": "5:01"
+              },
+              {
+                "position": 12,
+                "title": "Orban Eq Trx4",
+                "duration": "1:33"
+              },
+              {
+                "position": 13,
+                "title": "Aussois",
+                "duration": "1:23"
+              },
+              {
+                "position": 14,
+                "title": "Hy a Scullyas Lyll Scrifht",
+                "duration": "5:11"
+              },
+              {
+                "position": 15,
+                "title": "Kesson Daslef",
+                "duration": "1:39"
+              },
+              {
+                "position": 16,
+                "title": "54 Cymru Beats",
+                "duration": "5:13"
+              },
+              {
+                "position": 17,
+                "title": "Btoum-Roumada",
+                "duration": "1:39"
+              },
+              {
+                "position": 18,
+                "title": "Lornaderek",
+                "duration": "0:38"
+              },
+              {
+                "position": 19,
+                "title": "Ziggomatic V17",
+                "duration": "7:07"
+              },
+              {
+                "position": 20,
+                "title": "Beskhu3epnm",
+                "duration": "1:40"
+              },
+              {
+                "position": 21,
+                "title": "Nanou2",
+                "duration": "3:14"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Max Richter",
+      "slug": "max-richter",
+      "genreSlug": "clasica",
+      "data": {
+        "bio": "Max Richter es uno de los pioneros del llamado post-minimalismo y de la música neoclásica contemporánea, fundiendo la herencia de Philip Glass y Arvo Pärt con electrónica, paisajes sonoros y texturas ambientales. Nacido en Alemania y criado en el Reino Unido, su obra ha redefinido el lugar de la música clásica en el siglo XXI, llegando a millones de oyentes a través de bandas sonoras, reinterpretaciones y proyectos conceptuales. Su música, a la vez íntima y monumental, habita ese espacio donde la melancolía se vuelve consuelo.",
+        "country": "Alemania",
+        "foundedYear": 2002,
+        "albums": [
+          {
+            "title": "The Blue Notebooks",
+            "year": 2004,
+            "label": "Deutsche Grammophon",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2990,
+            "description": "Considerada la obra maestra de Richter y una de las grabaciones más influyentes de la música neoclásica moderna. Esta reedición en Deutsche Grammophon recupera con sonido impecable un disco grabado como protesta contra la guerra de Irak, con la voz de Tilda Swinton recitando a Kafka y Milosz.",
+            "salesCount": 480,
+            "featured": true,
+            "stock": 8,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "The Blue Notebooks",
+                "duration": "01:51"
+              },
+              {
+                "position": 2,
+                "title": "On The Nature Of Daylight",
+                "duration": "06:14"
+              },
+              {
+                "position": 3,
+                "title": "Horizon Variations",
+                "duration": "01:46"
+              },
+              {
+                "position": 4,
+                "title": "Shadow Journal",
+                "duration": "08:01"
+              },
+              {
+                "position": 5,
+                "title": "Iconography",
+                "duration": "03:42"
+              },
+              {
+                "position": 6,
+                "title": "Vladimir's Blues",
+                "duration": "01:48"
+              },
+              {
+                "position": 7,
+                "title": "Arboretum",
+                "duration": "03:17"
+              },
+              {
+                "position": 8,
+                "title": "Old Song",
+                "duration": "01:46"
+              },
+              {
+                "position": 9,
+                "title": "Organum",
+                "duration": "03:00"
+              },
+              {
+                "position": 10,
+                "title": "The Trees",
+                "duration": "06:21"
+              },
+              {
+                "position": 11,
+                "title": "Written On The Sky",
+                "duration": "01:29"
+              }
+            ]
+          },
+          {
+            "title": "Sleep",
+            "year": 2015,
+            "label": "Deutsche Grammophon",
+            "condition": "NEW",
+            "mediaGrade": "NM",
+            "priceCents": 3490,
+            "description": "Una nana de ocho horas concebida como descanso para una mente acelerada, una de las obras más ambiciosas de la música contemporánea. Este álbum (la versión integral o su compendio 'from Sleep') se ha convertido en un objeto de culto entre coleccionistas de vinilo por su escala conceptual y su belleza hipnótica.",
+            "salesCount": 320,
+            "featured": false,
+            "stock": 5,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Dream 1 (before the wind blows it all away)",
+                "duration": "08:32"
+              },
+              {
+                "position": 2,
+                "title": "Space 11 (invisible pages over)",
+                "duration": "04:17"
+              },
+              {
+                "position": 3,
+                "title": "Dream 3 (in the midst of my life)",
+                "duration": "08:35"
+              },
+              {
+                "position": 4,
+                "title": "Space 21 (petrichor)",
+                "duration": "04:36"
+              },
+              {
+                "position": 5,
+                "title": "Path 5 (delta)",
+                "duration": "08:34"
+              },
+              {
+                "position": 6,
+                "title": "Space 19 (whisper of the lamp)",
+                "duration": "03:51"
+              },
+              {
+                "position": 7,
+                "title": "Dream 13 (minus even)",
+                "duration": "08:30"
+              },
+              {
+                "position": 8,
+                "title": "Space 2 (away)",
+                "duration": "04:22"
+              }
+            ]
+          },
+          {
+            "title": "Recomposed By Max Richter: Vivaldi - The Four Seasons",
+            "year": 2012,
+            "label": "Deutsche Grammophon",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 3200,
+            "description": "La radical y aclamada reescritura de Las cuatro estaciones de Vivaldi, donde Richter conserva apenas una cuarta parte del original y lo reimagina con pulso minimalista. Las primeras prensas en vinilo de Deutsche Grammophon son muy buscadas; este ejemplar usado conserva un excelente estado de reproducción.",
+            "salesCount": 260,
+            "featured": false,
+            "stock": 3,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Spring 1",
+                "duration": "03:01"
+              },
+              {
+                "position": 2,
+                "title": "Spring 2",
+                "duration": "02:34"
+              },
+              {
+                "position": 3,
+                "title": "Spring 3",
+                "duration": "03:55"
+              },
+              {
+                "position": 4,
+                "title": "Summer 1",
+                "duration": "02:00"
+              },
+              {
+                "position": 5,
+                "title": "Summer 2",
+                "duration": "01:54"
+              },
+              {
+                "position": 6,
+                "title": "Summer 3",
+                "duration": "03:01"
+              },
+              {
+                "position": 7,
+                "title": "Autumn 1",
+                "duration": "03:38"
+              },
+              {
+                "position": 8,
+                "title": "Autumn 2",
+                "duration": "02:32"
+              },
+              {
+                "position": 9,
+                "title": "Autumn 3",
+                "duration": "03:41"
+              },
+              {
+                "position": 10,
+                "title": "Winter 1",
+                "duration": "03:24"
+              },
+              {
+                "position": 11,
+                "title": "Winter 2",
+                "duration": "03:42"
+              },
+              {
+                "position": 12,
+                "title": "Winter 3",
+                "duration": "02:34"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Marvin Gaye",
+      "slug": "marvin-gaye",
+      "genreSlug": "soul-funk",
+      "data": {
+        "bio": "Marvin Gaye fue una de las voces más sublimes y atormentadas del soul de Detroit, capaz de pasar del éxtasis sensual a la conciencia social en una misma frase. Desde su trono en Motown redefinió lo que un disco de soul podía decir, fundiendo gospel, jazz y funk con una intimidad desgarradora. Su legado, truncado trágicamente en 1984, sigue siendo el patrón oro del soul atemporal.",
+        "country": "Estados Unidos",
+        "foundedYear": 1961,
+        "albums": [
+          {
+            "title": "What's Going On",
+            "year": 1971,
+            "label": "Tamla / Motown",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2999,
+            "description": "Considerado el mejor disco de soul jamás grabado, es una suite conceptual sobre la guerra, la pobreza y el medio ambiente narrada desde los ojos de un veterano de Vietnam. Esta reedición en vinyl de 180 gramos respeta el cálido groove orquestal original y es pieza obligada en cualquier colección de soul-funk.",
+            "salesCount": 487,
+            "featured": true,
+            "stock": 9,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "What's Going On",
+                "duration": "3:53"
+              },
+              {
+                "position": 2,
+                "title": "What's Happening Brother",
+                "duration": "2:43"
+              },
+              {
+                "position": 3,
+                "title": "Flyin' High (In the Friendly Sky)",
+                "duration": "3:49"
+              },
+              {
+                "position": 4,
+                "title": "Save the Children",
+                "duration": "4:03"
+              },
+              {
+                "position": 5,
+                "title": "God Is Love",
+                "duration": "1:41"
+              },
+              {
+                "position": 6,
+                "title": "Mercy Mercy Me (The Ecology)",
+                "duration": "3:16"
+              },
+              {
+                "position": 7,
+                "title": "Right On",
+                "duration": "7:31"
+              },
+              {
+                "position": 8,
+                "title": "Wholy Holy",
+                "duration": "3:08"
+              },
+              {
+                "position": 9,
+                "title": "Inner City Blues (Make Me Wanna Holler)",
+                "duration": "5:26"
+              }
+            ]
+          },
+          {
+            "title": "Let's Get It On",
+            "year": 1973,
+            "label": "Tamla",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 4200,
+            "description": "El disco que convirtió a Gaye en el rey indiscutible del soul sensual, una declaración de deseo envuelta en groove y cuerdas aterciopeladas. Este prensado original de los setenta conserva la calidez analógica que los coleccionistas persiguen, en muy buen estado para su edad.",
+            "salesCount": 342,
+            "featured": false,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Let's Get It On",
+                "duration": "4:51"
+              },
+              {
+                "position": 2,
+                "title": "Please Stay (Once You Go Away)",
+                "duration": "3:30"
+              },
+              {
+                "position": 3,
+                "title": "If I Should Die Tonight",
+                "duration": "3:54"
+              },
+              {
+                "position": 4,
+                "title": "Keep Gettin' It On",
+                "duration": "3:11"
+              },
+              {
+                "position": 5,
+                "title": "Come Get to This",
+                "duration": "2:39"
+              },
+              {
+                "position": 6,
+                "title": "Distant Lover",
+                "duration": "4:15"
+              },
+              {
+                "position": 7,
+                "title": "You Sure Love to Ball",
+                "duration": "4:43"
+              },
+              {
+                "position": 8,
+                "title": "Just to Keep You Satisfied",
+                "duration": "4:26"
+              }
+            ]
+          },
+          {
+            "title": "Midnight Love",
+            "year": 1982,
+            "label": "Columbia",
+            "condition": "USED",
+            "mediaGrade": "VG",
+            "priceCents": 2300,
+            "description": "El triunfal regreso de Gaye tras dejar Motown, hogar del inmortal Sexual Healing y de su nuevo sonido sintetizado y funky. Copia original usada en estado correcto, ideal para quien busca el último gran capítulo de su carrera a precio accesible.",
+            "salesCount": 198,
+            "featured": false,
+            "stock": 5,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Midnight Lady",
+                "duration": "4:55"
+              },
+              {
+                "position": 2,
+                "title": "Sexual Healing",
+                "duration": "4:03"
+              },
+              {
+                "position": 3,
+                "title": "Rockin' After Midnight",
+                "duration": "6:04"
+              },
+              {
+                "position": 4,
+                "title": "'Til Tomorrow",
+                "duration": "4:30"
+              },
+              {
+                "position": 5,
+                "title": "Turn On Some Music",
+                "duration": "4:54"
+              },
+              {
+                "position": 6,
+                "title": "Third World Girl",
+                "duration": "4:14"
+              },
+              {
+                "position": 7,
+                "title": "Joy",
+                "duration": "5:14"
+              },
+              {
+                "position": 8,
+                "title": "My Love Is Waiting",
+                "duration": "5:14"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Stevie Wonder",
+      "slug": "stevie-wonder",
+      "genreSlug": "soul-funk",
+      "data": {
+        "bio": "Stevland Hardaway Morris, conocido como Stevie Wonder, es uno de los genios absolutos del soul y el funk del siglo XX. Ciego desde la infancia, firmó con Motown siendo un niño prodigio y transformó la música popular con su dominio del clavinet, el Moog y la melodía. Su racha creativa de los años setenta, conocida como su \"periodo clásico\", redefinió para siempre lo que un solo artista podía lograr en el estudio.",
+        "country": "Estados Unidos",
+        "foundedYear": 1961,
+        "albums": [
+          {
+            "title": "Songs in the Key of Life",
+            "year": 1976,
+            "label": "Tamla / Motown",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 3490,
+            "description": "Obra cumbre y testamento creativo de Stevie Wonder, una doble obra maestra que abarca soul, funk, jazz y gospel. Esta reedición remasterizada en vinyl de 180 gramos respeta el sonido cálido del original y es imprescindible en cualquier colección.",
+            "salesCount": 480,
+            "featured": true,
+            "stock": 9,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Love's in Need of Love Today",
+                "duration": "7:06"
+              },
+              {
+                "position": 2,
+                "title": "Have a Talk with God",
+                "duration": "2:42"
+              },
+              {
+                "position": 3,
+                "title": "Village Ghetto Land",
+                "duration": "3:25"
+              },
+              {
+                "position": 4,
+                "title": "Contusion",
+                "duration": "3:46"
+              },
+              {
+                "position": 5,
+                "title": "Sir Duke",
+                "duration": "3:52"
+              },
+              {
+                "position": 6,
+                "title": "I Wish",
+                "duration": "4:12"
+              },
+              {
+                "position": 7,
+                "title": "Knocks Me Off My Feet",
+                "duration": "3:36"
+              },
+              {
+                "position": 8,
+                "title": "Pastime Paradise",
+                "duration": "3:28"
+              },
+              {
+                "position": 9,
+                "title": "Summer Soft",
+                "duration": "4:14"
+              },
+              {
+                "position": 10,
+                "title": "Ordinary Pain",
+                "duration": "6:22"
+              },
+              {
+                "position": 11,
+                "title": "Isn't She Lovely",
+                "duration": "6:34"
+              },
+              {
+                "position": 12,
+                "title": "Joy Inside My Tears",
+                "duration": "6:30"
+              },
+              {
+                "position": 13,
+                "title": "Black Man",
+                "duration": "8:29"
+              },
+              {
+                "position": 14,
+                "title": "Ngiculela – Es Una Historia – I Am Singing",
+                "duration": "3:48"
+              },
+              {
+                "position": 15,
+                "title": "If It's Magic",
+                "duration": "3:12"
+              },
+              {
+                "position": 16,
+                "title": "As",
+                "duration": "7:08"
+              },
+              {
+                "position": 17,
+                "title": "Another Star",
+                "duration": "8:28"
+              }
+            ]
+          },
+          {
+            "title": "Innervisions",
+            "year": 1973,
+            "label": "Tamla",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 4200,
+            "description": "Prensaje original estadounidense de 1973 en estado VG+, uno de los discos más buscados del periodo clásico de Stevie Wonder. Con himnos como 'Higher Ground' y 'Living for the City', es un retrato visionario de la América de su tiempo grabado casi en solitario.",
+            "salesCount": 360,
+            "featured": false,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Too High",
+                "duration": "4:36"
+              },
+              {
+                "position": 2,
+                "title": "Visions",
+                "duration": "5:23"
+              },
+              {
+                "position": 3,
+                "title": "Living for the City",
+                "duration": "7:22"
+              },
+              {
+                "position": 4,
+                "title": "Golden Lady",
+                "duration": "4:40"
+              },
+              {
+                "position": 5,
+                "title": "Higher Ground",
+                "duration": "3:42"
+              },
+              {
+                "position": 6,
+                "title": "Jesus Children of America",
+                "duration": "4:10"
+              },
+              {
+                "position": 7,
+                "title": "All in Love Is Fair",
+                "duration": "3:42"
+              },
+              {
+                "position": 8,
+                "title": "Don't You Worry 'bout a Thing",
+                "duration": "4:44"
+              },
+              {
+                "position": 9,
+                "title": "He's Misstra Know-It-All",
+                "duration": "5:36"
+              }
+            ]
+          },
+          {
+            "title": "Talking Book",
+            "year": 1972,
+            "label": "Tamla",
+            "condition": "USED",
+            "mediaGrade": "VG",
+            "priceCents": 2600,
+            "description": "El álbum que arrancó la legendaria racha de los setenta, con los clásicos eternos 'Superstition' y 'You Are the Sunshine of My Life'. Copia usada de buen sonido en grado VG, ideal para quien busca un original a precio accesible.",
+            "salesCount": 300,
+            "featured": false,
+            "stock": 3,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "You Are the Sunshine of My Life",
+                "duration": "2:58"
+              },
+              {
+                "position": 2,
+                "title": "Maybe Your Baby",
+                "duration": "6:51"
+              },
+              {
+                "position": 3,
+                "title": "You and I (We Can Conquer the World)",
+                "duration": "4:38"
+              },
+              {
+                "position": 4,
+                "title": "Tuesday Heartbreak",
+                "duration": "3:04"
+              },
+              {
+                "position": 5,
+                "title": "You've Got It Bad Girl",
+                "duration": "4:58"
+              },
+              {
+                "position": 6,
+                "title": "Superstition",
+                "duration": "4:26"
+              },
+              {
+                "position": 7,
+                "title": "Big Brother",
+                "duration": "3:34"
+              },
+              {
+                "position": 8,
+                "title": "Blame It on the Sun",
+                "duration": "3:25"
+              },
+              {
+                "position": 9,
+                "title": "Lookin' for Another Pure Love",
+                "duration": "4:43"
+              },
+              {
+                "position": 10,
+                "title": "I Believe (When I Fall in Love It Will Be Forever)",
+                "duration": "4:48"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Tame Impala",
+      "slug": "tame-impala",
+      "genreSlug": "pop",
+      "data": {
+        "bio": "Tame Impala es el proyecto psicodélico del multiinstrumentista australiano Kevin Parker, quien compone, interpreta y produce prácticamente cada nota en solitario desde su estudio. Su sonido funde el rock psicodélico de los sesenta con sintetizadores hipnóticos, groove disco y una producción envolvente que lo ha convertido en una de las propuestas más influyentes del pop contemporáneo. Una experiencia sonora caleidoscópica, ideal para escuchar en vinilo a todo volumen.",
+        "country": "Australia",
+        "foundedYear": 2007,
+        "albums": [
+          {
+            "title": "Currents",
+            "year": 2015,
+            "label": "Modular Recordings / Interscope",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2990,
+            "description": "El disco que catapultó a Tame Impala al estrellato global, abrazando el sintetizador, el groove y la introspección emocional. Esta reedición doble en vinilo es imprescindible para cualquier coleccionista de pop psicodélico moderno.",
+            "salesCount": 480,
+            "featured": true,
+            "stock": 10,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Let It Happen",
+                "duration": "07:47"
+              },
+              {
+                "position": 2,
+                "title": "Nangs",
+                "duration": "01:48"
+              },
+              {
+                "position": 3,
+                "title": "The Moment",
+                "duration": "04:19"
+              },
+              {
+                "position": 4,
+                "title": "Yes I'm Changing",
+                "duration": "04:31"
+              },
+              {
+                "position": 5,
+                "title": "Eventually",
+                "duration": "05:19"
+              },
+              {
+                "position": 6,
+                "title": "Gossip",
+                "duration": "00:55"
+              },
+              {
+                "position": 7,
+                "title": "The Less I Know the Better",
+                "duration": "03:36"
+              },
+              {
+                "position": 8,
+                "title": "Past Life",
+                "duration": "03:48"
+              },
+              {
+                "position": 9,
+                "title": "Disciples",
+                "duration": "01:48"
+              },
+              {
+                "position": 10,
+                "title": "Cause I'm a Man",
+                "duration": "04:01"
+              },
+              {
+                "position": 11,
+                "title": "Reality in Motion",
+                "duration": "04:01"
+              },
+              {
+                "position": 12,
+                "title": "Love/Paranoia",
+                "duration": "05:39"
+              },
+              {
+                "position": 13,
+                "title": "New Person, Same Old Mistakes",
+                "duration": "06:01"
+              }
+            ]
+          },
+          {
+            "title": "Lonerism",
+            "year": 2012,
+            "label": "Modular Recordings",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 3400,
+            "description": "Aclamado por la crítica como uno de los mejores discos psicodélicos de la década, lleva el muro de sonido de Kevin Parker a su apogeo. Este original de segunda mano, en muy buen estado, es muy buscado por su prensado primigenio.",
+            "salesCount": 320,
+            "featured": false,
+            "stock": 3,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Be Above It",
+                "duration": "03:21"
+              },
+              {
+                "position": 2,
+                "title": "Endors Toi",
+                "duration": "03:09"
+              },
+              {
+                "position": 3,
+                "title": "Apocalypse Dreams",
+                "duration": "05:56"
+              },
+              {
+                "position": 4,
+                "title": "Mind Mischief",
+                "duration": "04:33"
+              },
+              {
+                "position": 5,
+                "title": "Music to Walk Home By",
+                "duration": "05:00"
+              },
+              {
+                "position": 6,
+                "title": "Why Won't They Talk to Me?",
+                "duration": "04:43"
+              },
+              {
+                "position": 7,
+                "title": "Feels Like We Only Go Backwards",
+                "duration": "03:13"
+              },
+              {
+                "position": 8,
+                "title": "Keep on Lying",
+                "duration": "05:55"
+              },
+              {
+                "position": 9,
+                "title": "Elephant",
+                "duration": "03:31"
+              },
+              {
+                "position": 10,
+                "title": "She Just Won't Believe Me",
+                "duration": "00:57"
+              },
+              {
+                "position": 11,
+                "title": "Nothing That Has Happened So Far Has Been Anything We Could Control",
+                "duration": "06:00"
+              },
+              {
+                "position": 12,
+                "title": "Sun's Coming Up",
+                "duration": "05:20"
+              }
+            ]
+          },
+          {
+            "title": "InnerSpeaker",
+            "year": 2010,
+            "label": "Modular Recordings",
+            "condition": "USED",
+            "mediaGrade": "VG",
+            "priceCents": 4200,
+            "description": "El debut que presentó al mundo el rock psicodélico de garaje de Tame Impala, grabado en una remota cabaña costera de Australia Occidental. Original cada vez más difícil de encontrar, joya de coleccionista para los fans del primer Kevin Parker.",
+            "salesCount": 210,
+            "featured": false,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "It Is Not Meant to Be",
+                "duration": "05:32"
+              },
+              {
+                "position": 2,
+                "title": "Desire Be Desire Go",
+                "duration": "04:11"
+              },
+              {
+                "position": 3,
+                "title": "Alter Ego",
+                "duration": "05:08"
+              },
+              {
+                "position": 4,
+                "title": "Lucidity",
+                "duration": "03:51"
+              },
+              {
+                "position": 5,
+                "title": "Why Won't You Make Up Your Mind?",
+                "duration": "03:21"
+              },
+              {
+                "position": 6,
+                "title": "Solitude Is Bliss",
+                "duration": "03:48"
+              },
+              {
+                "position": 7,
+                "title": "Jeremy's Storm",
+                "duration": "04:31"
+              },
+              {
+                "position": 8,
+                "title": "Expectation",
+                "duration": "06:31"
+              },
+              {
+                "position": 9,
+                "title": "The Bold Arrow of Time",
+                "duration": "04:00"
+              },
+              {
+                "position": 10,
+                "title": "Runway, Houses, City, Clouds",
+                "duration": "07:00"
+              },
+              {
+                "position": 11,
+                "title": "I Don't Really Mind",
+                "duration": "04:55"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Bob Dylan",
+      "slug": "bob-dylan",
+      "genreSlug": "folk",
+      "data": {
+        "bio": "Bob Dylan, nacido Robert Allen Zimmerman en Minnesota, transformó la canción popular del siglo XX al fundir el folk, el blues y la poesía con una mirada incisiva. Desde los cafés del Greenwich Village hasta su revolución eléctrica de mediados de los sesenta, su voz nasal y sus letras visionarias redefinieron lo que una canción podía decir. Galardonado con el Premio Nobel de Literatura en 2016, sigue siendo una de las figuras más influyentes y veneradas de la música contemporánea.",
+        "country": "Estados Unidos",
+        "foundedYear": 1961,
+        "albums": [
+          {
+            "title": "Highway 61 Revisited",
+            "year": 1965,
+            "label": "Columbia Records",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2890,
+            "description": "La obra que consagró el giro eléctrico de Dylan, abriendo con la inmortal 'Like a Rolling Stone'. Esta reedición nueva en vinilo de 180 gramos captura toda la electricidad y la furia poética de su momento más revolucionario. Imprescindible en cualquier colección de folk-rock.",
+            "salesCount": 342,
+            "featured": true,
+            "stock": 8,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Like a Rolling Stone",
+                "duration": "6:13"
+              },
+              {
+                "position": 2,
+                "title": "Tombstone Blues",
+                "duration": "5:58"
+              },
+              {
+                "position": 3,
+                "title": "It Takes a Lot to Laugh, It Takes a Train to Cry",
+                "duration": "4:09"
+              },
+              {
+                "position": 4,
+                "title": "From a Buick 6",
+                "duration": "3:19"
+              },
+              {
+                "position": 5,
+                "title": "Ballad of a Thin Man",
+                "duration": "5:58"
+              },
+              {
+                "position": 6,
+                "title": "Queen Jane Approximately",
+                "duration": "5:31"
+              },
+              {
+                "position": 7,
+                "title": "Highway 61 Revisited",
+                "duration": "3:30"
+              },
+              {
+                "position": 8,
+                "title": "Just Like Tom Thumb's Blues",
+                "duration": "5:32"
+              },
+              {
+                "position": 9,
+                "title": "Desolation Row",
+                "duration": "11:21"
+              }
+            ]
+          },
+          {
+            "title": "Blonde on Blonde",
+            "year": 1966,
+            "label": "Columbia Records",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 4200,
+            "description": "Considerado uno de los primeros álbumes dobles de la historia del rock, fusiona el lirismo surrealista con el sonido de Nashville. Este original de segunda mano en muy buen estado es una joya buscada por coleccionistas. Contiene clásicos eternos como 'Just Like a Woman' y 'Visions of Johanna'.",
+            "salesCount": 256,
+            "featured": false,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Rainy Day Women #12 & 35",
+                "duration": "4:36"
+              },
+              {
+                "position": 2,
+                "title": "Pledging My Time",
+                "duration": "3:50"
+              },
+              {
+                "position": 3,
+                "title": "Visions of Johanna",
+                "duration": "7:33"
+              },
+              {
+                "position": 4,
+                "title": "One of Us Must Know (Sooner or Later)",
+                "duration": "4:54"
+              },
+              {
+                "position": 5,
+                "title": "I Want You",
+                "duration": "3:07"
+              },
+              {
+                "position": 6,
+                "title": "Stuck Inside of Mobile with the Memphis Blues Again",
+                "duration": "7:05"
+              },
+              {
+                "position": 7,
+                "title": "Leopard-Skin Pill-Box Hat",
+                "duration": "3:58"
+              },
+              {
+                "position": 8,
+                "title": "Just Like a Woman",
+                "duration": "4:52"
+              },
+              {
+                "position": 9,
+                "title": "Most Likely You Go Your Way (And I'll Go Mine)",
+                "duration": "3:30"
+              },
+              {
+                "position": 10,
+                "title": "Temporary Like Achilles",
+                "duration": "5:02"
+              },
+              {
+                "position": 11,
+                "title": "Absolutely Sweet Marie",
+                "duration": "4:57"
+              },
+              {
+                "position": 12,
+                "title": "4th Time Around",
+                "duration": "4:35"
+              },
+              {
+                "position": 13,
+                "title": "Obviously 5 Believers",
+                "duration": "3:35"
+              },
+              {
+                "position": 14,
+                "title": "Sad Eyed Lady of the Lowlands",
+                "duration": "11:23"
+              }
+            ]
+          },
+          {
+            "title": "Blood on the Tracks",
+            "year": 1975,
+            "label": "Columbia Records",
+            "condition": "USED",
+            "mediaGrade": "VG",
+            "priceCents": 2450,
+            "description": "El gran disco de la madurez de Dylan, una desgarradora crónica de pérdida y desamor que muchos consideran su obra maestra absoluta. Esta copia original usada conserva todo el alma de 'Tangled Up in Blue' y 'Shelter from the Storm'. Una pieza esencial para entender la canción confesional.",
+            "salesCount": 298,
+            "featured": false,
+            "stock": 3,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Tangled Up in Blue",
+                "duration": "5:42"
+              },
+              {
+                "position": 2,
+                "title": "Simple Twist of Fate",
+                "duration": "4:19"
+              },
+              {
+                "position": 3,
+                "title": "You're a Big Girl Now",
+                "duration": "4:36"
+              },
+              {
+                "position": 4,
+                "title": "Idiot Wind",
+                "duration": "7:48"
+              },
+              {
+                "position": 5,
+                "title": "You're Gonna Make Me Lonesome When You Go",
+                "duration": "2:55"
+              },
+              {
+                "position": 6,
+                "title": "Meet Me in the Morning",
+                "duration": "4:22"
+              },
+              {
+                "position": 7,
+                "title": "Lily, Rosemary and the Jack of Hearts",
+                "duration": "8:51"
+              },
+              {
+                "position": 8,
+                "title": "If You See Her, Say Hello",
+                "duration": "4:49"
+              },
+              {
+                "position": 9,
+                "title": "Shelter from the Storm",
+                "duration": "5:02"
+              },
+              {
+                "position": 10,
+                "title": "Buckets of Rain",
+                "duration": "3:22"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Nick Drake",
+      "slug": "nick-drake",
+      "genreSlug": "folk",
+      "data": {
+        "bio": "Nick Drake fue un cantautor inglés cuya obra, casi ignorada en vida, se convirtió con los años en una de las piedras angulares del folk británico. Su voz susurrante, sus afinaciones de guitarra abiertas y sus arreglos orquestales melancólicos crearon un universo íntimo y otoñal que sigue conmoviendo a nuevas generaciones. Murió a los 26 años en 1974, dejando solo tres álbumes de estudio que hoy son objetos de culto absoluto entre los coleccionistas de vinilo.",
+        "country": "Reino Unido",
+        "foundedYear": 1967,
+        "albums": [
+          {
+            "title": "Pink Moon",
+            "year": 1972,
+            "label": "Island Records",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2890,
+            "description": "El testamento final de Drake: grabado en apenas dos noches, solo voz y guitarra, sin adornos. Esta reedición remasterizada en vinilo de 180 gramos captura toda la crudeza y la intimidad escalofriante del original, considerado por muchos su obra maestra definitiva.",
+            "salesCount": 420,
+            "featured": true,
+            "stock": 9,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Pink Moon",
+                "duration": "02:04"
+              },
+              {
+                "position": 2,
+                "title": "Place to Be",
+                "duration": "02:42"
+              },
+              {
+                "position": 3,
+                "title": "Road",
+                "duration": "02:01"
+              },
+              {
+                "position": 4,
+                "title": "Which Will",
+                "duration": "02:58"
+              },
+              {
+                "position": 5,
+                "title": "Horn",
+                "duration": "01:23"
+              },
+              {
+                "position": 6,
+                "title": "Things Behind the Sun",
+                "duration": "03:57"
+              },
+              {
+                "position": 7,
+                "title": "Know",
+                "duration": "02:26"
+              },
+              {
+                "position": 8,
+                "title": "Parasite",
+                "duration": "03:36"
+              },
+              {
+                "position": 9,
+                "title": "Free Ride",
+                "duration": "03:08"
+              },
+              {
+                "position": 10,
+                "title": "Harvest Breed",
+                "duration": "01:37"
+              },
+              {
+                "position": 11,
+                "title": "From the Morning",
+                "duration": "02:30"
+              }
+            ]
+          },
+          {
+            "title": "Five Leaves Left",
+            "year": 1969,
+            "label": "Island Records",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 5200,
+            "description": "El debut deslumbrante de Drake, donde sus delicadas composiciones se envuelven en los arreglos de cuerda de Robert Kirby. Un original de Island en muy buen estado es una joya muy buscada por los coleccionistas de folk británico, con esa calidez analógica que las reediciones rara vez igualan.",
+            "salesCount": 240,
+            "featured": false,
+            "stock": 2,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Time Has Told Me",
+                "duration": "04:26"
+              },
+              {
+                "position": 2,
+                "title": "River Man",
+                "duration": "04:20"
+              },
+              {
+                "position": 3,
+                "title": "Three Hours",
+                "duration": "06:16"
+              },
+              {
+                "position": 4,
+                "title": "Way to Blue",
+                "duration": "03:11"
+              },
+              {
+                "position": 5,
+                "title": "Day Is Done",
+                "duration": "02:28"
+              },
+              {
+                "position": 6,
+                "title": "Cello Song",
+                "duration": "04:48"
+              },
+              {
+                "position": 7,
+                "title": "The Thoughts of Mary Jane",
+                "duration": "03:21"
+              },
+              {
+                "position": 8,
+                "title": "Man in a Shed",
+                "duration": "03:54"
+              },
+              {
+                "position": 9,
+                "title": "Fruit Tree",
+                "duration": "04:50"
+              },
+              {
+                "position": 10,
+                "title": "Saturday Sun",
+                "duration": "04:01"
+              }
+            ]
+          },
+          {
+            "title": "Bryter Layter",
+            "year": 1971,
+            "label": "Island Records",
+            "condition": "NEW",
+            "mediaGrade": "NM",
+            "priceCents": 2750,
+            "description": "El más luminoso y orquestado de sus discos, con colaboraciones de John Cale y miembros de Fairport Convention. Esta reedición permite redescubrir un álbum que combina folk, jazz y pop de cámara con una elegancia única, hoy reivindicado como un clásico incomprendido en su época.",
+            "salesCount": 180,
+            "featured": false,
+            "stock": 7,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Introduction",
+                "duration": "01:33"
+              },
+              {
+                "position": 2,
+                "title": "Hazey Jane II",
+                "duration": "03:46"
+              },
+              {
+                "position": 3,
+                "title": "At the Chime of a City Clock",
+                "duration": "04:47"
+              },
+              {
+                "position": 4,
+                "title": "One of These Things First",
+                "duration": "04:51"
+              },
+              {
+                "position": 5,
+                "title": "Hazey Jane I",
+                "duration": "04:31"
+              },
+              {
+                "position": 6,
+                "title": "Bryter Layter",
+                "duration": "03:19"
+              },
+              {
+                "position": 7,
+                "title": "Fly",
+                "duration": "02:58"
+              },
+              {
+                "position": 8,
+                "title": "Poor Boy",
+                "duration": "06:09"
+              },
+              {
+                "position": 9,
+                "title": "Northern Sky",
+                "duration": "03:46"
+              },
+              {
+                "position": 10,
+                "title": "Sunday",
+                "duration": "03:39"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Lana Del Rey",
+      "slug": "lana-del-rey",
+      "genreSlug": "pop",
+      "data": {
+        "bio": "Lana Del Rey es una de las voces más singulares del pop contemporáneo, creadora de un universo nostálgico que mezcla glamour hollywoodiense, melancolía americana y cine de los años cincuenta. Desde su irrupción mundial con 'Video Games', ha construido una obra cinematográfica y atmosférica que la ha convertido en icono de culto. Su estética analógica y su querencia por el vinilo la hacen imprescindible en cualquier colección moderna.",
+        "country": "Estados Unidos",
+        "foundedYear": 2005,
+        "albums": [
+          {
+            "title": "Born to Die",
+            "year": 2012,
+            "label": "Interscope / Polydor",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 2799,
+            "description": "El álbum que catapultó a Lana Del Rey al estrellato mundial y definió toda una estética. Entre cuerdas cinematográficas y melancolía pop, contiene himnos como 'Video Games' y 'Summertime Sadness'. Reedición en vinilo imprescindible para entender el pop de la década.",
+            "salesCount": 460,
+            "featured": true,
+            "stock": 9,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Born to Die",
+                "duration": "4:46"
+              },
+              {
+                "position": 2,
+                "title": "Off to the Races",
+                "duration": "5:00"
+              },
+              {
+                "position": 3,
+                "title": "Blue Jeans",
+                "duration": "3:30"
+              },
+              {
+                "position": 4,
+                "title": "Video Games",
+                "duration": "4:42"
+              },
+              {
+                "position": 5,
+                "title": "Diet Mountain Dew",
+                "duration": "3:43"
+              },
+              {
+                "position": 6,
+                "title": "National Anthem",
+                "duration": "3:51"
+              },
+              {
+                "position": 7,
+                "title": "Dark Paradise",
+                "duration": "4:03"
+              },
+              {
+                "position": 8,
+                "title": "Radio",
+                "duration": "3:34"
+              },
+              {
+                "position": 9,
+                "title": "Carmen",
+                "duration": "4:08"
+              },
+              {
+                "position": 10,
+                "title": "Million Dollar Man",
+                "duration": "3:51"
+              },
+              {
+                "position": 11,
+                "title": "Summertime Sadness",
+                "duration": "4:25"
+              },
+              {
+                "position": 12,
+                "title": "This Is What Makes Us Girls",
+                "duration": "4:00"
+              }
+            ]
+          },
+          {
+            "title": "Did You Know That There's a Tunnel Under Ocean Blvd",
+            "year": 2023,
+            "label": "Polydor / Interscope",
+            "condition": "NEW",
+            "mediaGrade": "M",
+            "priceCents": 3199,
+            "description": "El aclamado álbum que da nombre y espíritu a nuestra tienda. Una obra introspectiva y luminosa, llena de pianos, coros gospel y confesiones íntimas, considerada una de las cumbres de su carrera. Edición en vinilo de referencia para coleccionistas.",
+            "salesCount": 320,
+            "featured": false,
+            "stock": 8,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "The Grants",
+                "duration": "5:16"
+              },
+              {
+                "position": 2,
+                "title": "Did You Know That There's a Tunnel Under Ocean Blvd",
+                "duration": "4:51"
+              },
+              {
+                "position": 3,
+                "title": "Sweet",
+                "duration": "3:57"
+              },
+              {
+                "position": 4,
+                "title": "A&W",
+                "duration": "7:14"
+              },
+              {
+                "position": 5,
+                "title": "Judah Smith Interlude",
+                "duration": "4:36"
+              },
+              {
+                "position": 6,
+                "title": "Candy Necklace",
+                "duration": "5:08"
+              },
+              {
+                "position": 7,
+                "title": "Jon Batiste Interlude",
+                "duration": "1:46"
+              },
+              {
+                "position": 8,
+                "title": "Kintsugi",
+                "duration": "5:14"
+              },
+              {
+                "position": 9,
+                "title": "Fingertips",
+                "duration": "6:14"
+              },
+              {
+                "position": 10,
+                "title": "Paris, Texas",
+                "duration": "3:25"
+              },
+              {
+                "position": 11,
+                "title": "Let The Light In",
+                "duration": "4:09"
+              },
+              {
+                "position": 12,
+                "title": "Margaret",
+                "duration": "4:21"
+              },
+              {
+                "position": 13,
+                "title": "Fishtail",
+                "duration": "3:50"
+              },
+              {
+                "position": 14,
+                "title": "Peppers",
+                "duration": "4:17"
+              },
+              {
+                "position": 15,
+                "title": "Taco Truck x VB",
+                "duration": "5:36"
+              }
+            ]
+          },
+          {
+            "title": "Honeymoon",
+            "year": 2015,
+            "label": "Polydor / Interscope",
+            "condition": "USED",
+            "mediaGrade": "VG+",
+            "priceCents": 3400,
+            "description": "El disco más lánguido y cinematográfico de Lana, una colección de baladas envolventes con aire de banda sonora. Esta copia de segunda mano en muy buen estado conserva toda la calidez de su producción analógica.",
+            "salesCount": 180,
+            "featured": false,
+            "stock": 3,
+            "tracks": [
+              {
+                "position": 1,
+                "title": "Honeymoon",
+                "duration": "5:32"
+              },
+              {
+                "position": 2,
+                "title": "Music to Watch Boys To",
+                "duration": "4:50"
+              },
+              {
+                "position": 3,
+                "title": "Terrence Loves You",
+                "duration": "4:51"
+              },
+              {
+                "position": 4,
+                "title": "God Knows I Tried",
+                "duration": "4:43"
+              },
+              {
+                "position": 5,
+                "title": "High by the Beach",
+                "duration": "4:18"
+              },
+              {
+                "position": 6,
+                "title": "Freak",
+                "duration": "4:48"
+              },
+              {
+                "position": 7,
+                "title": "Art Deco",
+                "duration": "4:54"
+              },
+              {
+                "position": 8,
+                "title": "Burnt Norton (Interlude)",
+                "duration": "1:24"
+              },
+              {
+                "position": 9,
+                "title": "Religion",
+                "duration": "4:33"
+              },
+              {
+                "position": 10,
+                "title": "Salvatore",
+                "duration": "4:42"
+              },
+              {
+                "position": 11,
+                "title": "The Blackest Day",
+                "duration": "6:04"
+              },
+              {
+                "position": 12,
+                "title": "24",
+                "duration": "4:50"
+              },
+              {
+                "position": 13,
+                "title": "Swan Song",
+                "duration": "5:23"
+              },
+              {
+                "position": 14,
+                "title": "Don't Let Me Be Misunderstood",
+                "duration": "3:30"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "blog": {
+    "posts": [
+      {
+        "title": "El regreso del surco: las reediciones que han revivido nuestra primavera",
+        "excerpt": "Tres clásicos vuelven a las estanterías con masterings cuidados y un sonido que parece dicho al oído.",
+        "content": "Hay reediciones que son meros trámites comerciales y otras que son auténticos actos de restauración. Las que han llegado a Ocean Blvd Vinyl estas últimas semanas pertenecen, sin duda, a la segunda categoría. Tras años de copias gastadas y prensados anémicos, varios sellos han decidido tratar sus catálogos con el respeto que merecen: cintas originales rescatadas, masterings analógicos y vinilos de 180 gramos que se asientan en el plato con la seriedad de un buen libro.\n\nLo que distingue a estas nuevas tiradas no es solo el peso del disco, sino la atención al detalle. Las galletas centrales recuperan los diseños de época, los encartes recobran letras y créditos que las primeras reediciones digitales habían sepultado, y el sonido vuelve a respirar. Donde antes había una pared compacta, ahora hay aire entre los instrumentos, esa profundidad que solo el surco sabe contar.\n\nNo se trata de nostalgia barata. Escuchar de nuevo estos títulos en condiciones es descubrir matices que llevaban décadas escondidos: una segunda voz al fondo, el roce de unas escobillas sobre la caja, el silencio justo antes del estribillo. Reeditar bien es, en el fondo, devolverle a la música su intención original.\n\nEn la tienda hemos reservado un pequeño rincón para estas joyas recuperadas, con la cápsula calibrada para que cualquiera pueda escucharlas antes de llevárselas. Pásate, pon una cara entera y comprueba por qué decimos que algunos discos no se reeditan: se rescatan.",
+        "author": "Marta Esteban",
+        "tag": "Lanzamientos",
+        "daysAgo": 6
+      },
+      {
+        "title": "Color, humo y galaxias: la fiebre de los vinilos especiales",
+        "excerpt": "Splatter, mármol, transparentes y discos que brillan en la oscuridad: la edición limitada se ha vuelto un arte en sí misma.",
+        "content": "Hubo un tiempo en que un vinilo de color era poco más que un capricho de coleccionista. Hoy, sin embargo, se ha convertido en una declaración de intenciones. Los sellos compiten por sorprender con prensados que parecen pequeñas obras plásticas: el azul translúcido que recuerda al agua de una cala, el splatter rojo y negro que estalla como tinta sobre nieve, el efecto mármol que hace que no haya dos copias exactamente iguales.\n\nEn Ocean Blvd Vinyl nos llegan cada mes tiradas numeradas que se agotan en días. Y conviene decirlo sin rodeos: parte del encanto está en su rareza, pero la pregunta sensata siempre es si suenan tan bien como lucen. La buena noticia es que la tecnología de prensado ha mejorado tanto que un disco de color cuidado puede competir de tú a tú con el clásico vinilo negro, siempre que el pigmento esté bien dosificado.\n\nNuestro consejo para quien empieza a coleccionar ediciones especiales es sencillo: prioriza las que vienen acompañadas de un mastering específico y un buen prensado, no solo de un envoltorio vistoso. Una funda interior antiestática, una portada troquelada o un encarte ilustrado dicen mucho del mimo que el sello ha puesto en el objeto entero.\n\nGuardamos las novedades más llamativas en la vitrina de la entrada, esa que tanto os gusta fotografiar. Algunas son tan bonitas que da pena ponerlas en el plato; otras, sencillamente, piden a gritos sonar. Lo ideal, ya lo sabéis, es tener dos copias: una para mirar y otra para gastar.",
+        "author": "Julio Cárdenas",
+        "tag": "Ediciones especiales",
+        "daysAgo": 19
+      },
+      {
+        "title": "El ritual del disco: pequeño tratado sobre cuidar lo que amamos",
+        "excerpt": "Limpiar, guardar y manipular un vinilo no es manía de puristas, sino la forma más honesta de prolongar su vida.",
+        "content": "Poner un disco es, ante todo, un gesto que pide calma. En una época que premia la inmediatez, el vinilo nos obliga a detenernos: sacar la funda, sostener el disco por los bordes, soplar suavemente el polvo, bajar la aguja con pulso firme. Ese pequeño ceremonial no es un estorbo, es parte del placer. Quien aprende a disfrutarlo descubre que la música escuchada con atención sabe distinta.\n\nEl cuidado empieza por lo evidente y a menudo olvidado: nunca tocar la superficie con los dedos. La grasa de la piel atrae polvo y, con el tiempo, ataca el surco. Un cepillo de fibra de carbono antes de cada escucha, una funda interior antiestática de calidad y, de vez en cuando, una limpieza húmeda con líquido específico bastan para que un disco dure generaciones. No hay misterio: hay constancia.\n\nEl almacenaje merece mención aparte. Los vinilos deben guardarse en vertical, jamás apilados, lejos del calor y de la luz directa que alabean la pasta sin remedio. Una estantería firme, un poco de aire entre los discos para no forzarlos y la temperatura estable de una casa normal son condiciones más que suficientes. La humedad excesiva y los radiadores son sus únicos enemigos serios.\n\nHay quien ve en todo esto una exageración. Nosotros lo vemos como una forma de respeto. Cuidar un disco es reconocer que ese objeto guarda un trozo de tiempo, una voz, una tarde. Y que, bien tratado, seguirá sonando cuando nosotros ya no estemos para escucharlo. En la tienda tenemos siempre cepillos, fundas y líquidos a mano, y encantados de enseñaros el truco.",
+        "author": "Elena Vidaurre",
+        "tag": "Cultura",
+        "daysAgo": 33
+      },
+      {
+        "title": "Montar tu primer equipo sin arruinarte ni equivocarte",
+        "excerpt": "Tocadiscos, cápsula, ampli y altavoces: una guía para construir un sonido que crezca contigo.",
+        "content": "La pregunta nos la hacéis casi a diario: ¿por dónde empiezo? La tentación de comprar el primer tocadiscos todo en uno con altavoces incorporados es grande, pero conviene resistirla. Esos aparatos suelen maltratar el surco con agujas pesadas y mal alineadas, y a la larga salen caros porque desgastan tus discos. Mejor empezar modesto pero bien planteado, con piezas que puedas ir mejorando una a una.\n\nEl corazón del sistema es el giradiscos. Busca uno con tracción por correa, plato de cierto peso y un brazo donde puedas ajustar la fuerza de seguimiento y el antiskating. No hace falta gastar una fortuna: hay modelos de iniciación muy honestos. La cápsula es el otro elemento clave, porque es literalmente lo que lee la música; una buena aguja en un plato discreto rinde más que al revés.\n\nDespués viene la amplificación. Necesitarás una etapa de phono, ya sea integrada en el plato, en el amplificador o en un previo aparte. No la subestimes: es la que devuelve a la señal su equilibrio correcto. Y para los altavoces, la regla es simple pero implacable: colócalos bien, separados entre sí y algo apartados de la pared, formando un triángulo contigo. La acústica de la habitación influye tanto como el equipo.\n\nNuestro consejo final es que escuches antes de comprar y que no caigas en la carrera de las cifras. Un sistema modesto, bien ajustado y colocado con cabeza supera a un montón de aparatos caros mal calibrados. Pásate por la tienda con tus dudas y, si quieres, con tu disco favorito; lo ponemos en distintos equipos y eliges con el oído, que es el único experto que de verdad importa.",
+        "author": "Rubén Ferrán",
+        "tag": "Guías",
+        "daysAgo": 48
+      },
+      {
+        "title": "Tres días de cajas, hallazgos y manos manchadas: vuelve la feria del disco",
+        "excerpt": "El mercadillo de coleccionistas regresa al barrio y trae consigo el mejor deporte que existe: rebuscar.",
+        "content": "Pocos placeres se parecen al de pasar una mañana entera con los dedos recorriendo lomos de cartón. La feria del disco que tanto esperábamos vuelve este mes a la ciudad, y con ella ese ambiente irrepetible de cajas hasta el techo, vendedores que lo saben todo y desconocidos que comparten contigo el entusiasmo por un hallazgo. No es un comercio cualquiera: es un ritual de comunidad.\n\nLo bonito de estos mercadillos es que premian la paciencia. Bajo montañas de discos comunes se esconde siempre el título que llevabas años buscando, esa primera prensa que dabas por imposible o ese descarte feliz que ni sabías que necesitabas. El precio se negocia mirando a los ojos, se escucha en una pletina compartida y, muchas veces, se acompaña de una conversación que vale tanto como el vinilo.\n\nDesde Ocean Blvd Vinyl tendremos puesto propio, con una selección de segunda mano cuidada y algunas rarezas que guardábamos precisamente para la ocasión. Pero más allá de lo que vendamos, os animamos a venir a perderos entre los cientos de cajas del recinto. Llevad bolsa resistente, calcetines cómodos y, sobre todo, tiempo: las prisas y los buenos hallazgos no se llevan bien.\n\nHabrá actuaciones pequeñas, pinchadas a lo largo del día y el habitual reencuentro de caras conocidas. Si nunca has ido a una feria de discos, esta es tu oportunidad de entender por qué los que vamos volvemos siempre con la espalda dolorida y una sonrisa de oreja a oreja. Os esperamos entre el polvo y el vinilo.",
+        "author": "Lucía Mendizábal",
+        "tag": "Eventos",
+        "daysAgo": 11
+      },
+      {
+        "title": "Nina Simone, la voz que se negó a pedir permiso",
+        "excerpt": "Pianista clásica frustrada, sacerdotisa del soul y conciencia de una época: revisamos por qué su obra sigue ardiendo.",
+        "content": "Hay artistas que cantan y artistas que testifican. Nina Simone perteneció siempre a los segundos. Formada como pianista clásica y apartada de ese camino por las puertas que el racismo le cerró, convirtió esa herida en una obra inclasificable que mezcló jazz, soul, blues, gospel y canción europea sin pedirle permiso a nadie. Escucharla hoy, en buen vinilo, sigue siendo una experiencia que estremece.\n\nSu manera de habitar una canción no se parecía a ninguna otra. Podía susurrar una balada hasta dejarla en carne viva y, acto seguido, golpear el piano con la furia de quien exige justicia. Temas como sus interpretaciones de protesta o sus relecturas de standards no eran versiones: eran reescrituras del alma. La técnica estaba al servicio de algo más grande, y por eso nunca suena fechada.\n\nRevisitar su discografía en surco es redescubrir hasta qué punto el formato la favorece. Su voz, grabada con la calidez de la época, encuentra en el vinilo un cuerpo que ningún archivo comprimido reproduce igual. Las respiraciones, el roce del taburete, la sala entera entrando en silencio cuando ella ataca la primera nota: todo eso vive en el surco con una intimidad casi indecente.\n\nEn la tienda hemos dedicado este mes nuestra estantería de retrospectiva a su figura, con reediciones cuidadas y alguna copia original que ha pasado por aquí de milagro. Si solo conoces sus dos o tres temas más célebres, te invitamos a sentarte y escuchar un disco entero de principio a fin. Nina Simone no se consume a trozos: se escucha como ella vivió, con todo el cuerpo y sin medias tintas.",
+        "author": "Diego Alcántara",
+        "tag": "Artistas",
+        "daysAgo": 72
+      }
+    ]
+  }
+}
