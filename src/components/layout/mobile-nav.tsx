@@ -21,6 +21,7 @@ const SECONDARY = [
   { label: "Contacto", href: "/contacto" },
   { label: "Preguntas frecuentes", href: "/faq" },
   { label: "Envíos y devoluciones", href: "/envios" },
+  { label: "Acceso administración", href: "/admin" },
 ];
 
 export function MobileNav() {
