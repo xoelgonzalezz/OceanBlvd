@@ -5,11 +5,13 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Search, X } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
+import { useT } from "@/components/i18n/locale-provider";
 
 export function CatalogSearch() {
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
+  const t = useT();
   const [value, setValue] = React.useState(sp.get("q") ?? "");
 
   // Sincroniza si el parámetro cambia desde fuera (p. ej. limpiar filtros).
@@ -40,14 +42,14 @@ export function CatalogSearch() {
         type="search"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="Buscar en el catálogo…"
-        aria-label="Buscar en el catálogo"
+        placeholder={t.shop.searchPlaceholder}
+        aria-label={t.shop.searchAria}
         className="pl-9 pr-9"
       />
       {value ? (
         <button
           type="button"
-          aria-label="Limpiar búsqueda"
+          aria-label={t.shop.clearSearch}
           onClick={() => {
             setValue("");
             apply("");

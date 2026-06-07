@@ -20,8 +20,10 @@ import {
   calcShipping,
   FREE_SHIPPING_THRESHOLD_CENTS,
 } from "@/lib/constants";
+import { useT } from "@/components/i18n/locale-provider";
 
 export function CartSheet() {
+  const t = useT();
   const items = useCart((s) => s.items);
   const isOpen = useCart((s) => s.isOpen);
   const setOpen = useCart((s) => s.setOpen);
@@ -41,7 +43,7 @@ export function CartSheet() {
         <SheetHeader className="border-b px-6 py-5 text-left">
           <SheetTitle className="flex items-center gap-2">
             <ShoppingBag className="h-5 w-5 text-primary" />
-            Tu carrito
+            {t.cart.your}
             {items.length > 0 ? (
               <span className="text-sm font-normal text-muted-foreground">
                 ({items.reduce((n, i) => n + i.quantity, 0)})
@@ -57,14 +59,14 @@ export function CartSheet() {
             </div>
             <div>
               <p className="font-serif text-lg font-medium">
-                Tu carrito está vacío
+                {t.cart.emptyTitle}
               </p>
               <p className="mt-1 text-sm text-muted-foreground">
-                Aún no has añadido ningún disco.
+                {t.cart.drawerEmptyDesc}
               </p>
             </div>
             <Button asChild onClick={() => setOpen(false)}>
-              <Link href="/tienda">Explorar catálogo</Link>
+              <Link href="/tienda">{t.cart.emptyAction}</Link>
             </Button>
           </div>
         ) : (
@@ -72,13 +74,11 @@ export function CartSheet() {
             {/* Aviso de envío gratis */}
             {remaining > 0 ? (
               <p className="bg-secondary/60 px-6 py-2.5 text-center text-xs text-secondary-foreground">
-                Te faltan{" "}
-                <span className="font-semibold">{formatPrice(remaining)}</span>{" "}
-                para el envío gratis.
+                {t.cart.freeProgress(formatPrice(remaining))}
               </p>
             ) : (
               <p className="bg-primary/10 px-6 py-2.5 text-center text-xs font-medium text-primary">
-                Tienes envío gratis incluido
+                {t.cart.freeReached}
               </p>
             )}
 
@@ -116,7 +116,7 @@ export function CartSheet() {
                         <div className="flex items-center rounded-md border">
                           <button
                             type="button"
-                            aria-label="Reducir cantidad"
+                            aria-label={t.detail.decreaseQty}
                             onClick={() =>
                               updateQuantity(item.id, item.quantity - 1)
                             }
@@ -129,7 +129,7 @@ export function CartSheet() {
                           </span>
                           <button
                             type="button"
-                            aria-label="Aumentar cantidad"
+                            aria-label={t.detail.increaseQty}
                             disabled={item.quantity >= item.stock}
                             onClick={() =>
                               updateQuantity(item.id, item.quantity + 1)
@@ -148,7 +148,7 @@ export function CartSheet() {
 
                     <button
                       type="button"
-                      aria-label={`Quitar ${item.title}`}
+                      aria-label={`${t.cart.remove} ${item.title}`}
                       onClick={() => removeItem(item.id)}
                       className="-m-2 self-start p-2 text-muted-foreground transition-colors hover:text-destructive"
                     >
@@ -162,20 +162,20 @@ export function CartSheet() {
             <SheetFooter className="flex-col gap-0 border-t px-6 py-5 sm:flex-col sm:space-x-0">
               <dl className="space-y-1.5 text-sm">
                 <div className="flex justify-between">
-                  <dt className="text-muted-foreground">Subtotal</dt>
+                  <dt className="text-muted-foreground">{t.cart.subtotal}</dt>
                   <dd className="font-medium tabular-nums">
                     {formatPrice(subtotal)}
                   </dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt className="text-muted-foreground">Envío</dt>
+                  <dt className="text-muted-foreground">{t.cart.shipping}</dt>
                   <dd className="font-medium tabular-nums">
-                    {shipping === 0 ? "Gratis" : formatPrice(shipping)}
+                    {shipping === 0 ? t.cart.free : formatPrice(shipping)}
                   </dd>
                 </div>
                 <Separator className="my-2" />
                 <div className="flex justify-between text-base">
-                  <dt className="font-serif font-semibold">Total</dt>
+                  <dt className="font-serif font-semibold">{t.cart.total}</dt>
                   <dd className="font-serif font-semibold tabular-nums">
                     {formatPrice(subtotal + shipping)}
                   </dd>
@@ -184,7 +184,7 @@ export function CartSheet() {
 
               <div className="mt-4 flex flex-col gap-2">
                 <Button asChild size="lg" onClick={() => setOpen(false)}>
-                  <Link href="/checkout">Tramitar pedido</Link>
+                  <Link href="/checkout">{t.cart.checkout}</Link>
                 </Button>
                 <Button
                   asChild
@@ -192,7 +192,7 @@ export function CartSheet() {
                   onClick={() => setOpen(false)}
                   className="text-muted-foreground"
                 >
-                  <Link href="/carrito">Ver carrito completo</Link>
+                  <Link href="/carrito">{t.cart.viewCart}</Link>
                 </Button>
               </div>
             </SheetFooter>

@@ -4,21 +4,23 @@ import type { Artist } from "@prisma/client";
 
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
+import { getDict } from "@/i18n/server";
 
 type ArtistWithCount = Artist & { _count: { records: number } };
 
 export function FeaturedArtists({ artists }: { artists: ArtistWithCount[] }) {
+  const t = getDict();
   if (!artists.length) return null;
 
   return (
     <section className="border-y border-border/60 bg-secondary/30 py-16 md:py-20">
       <div className="container">
         <SectionHeading
-          eyebrow="Voces"
-          title="Artistas destacados"
-          description="Los nombres que dan forma a nuestra estantería."
+          eyebrow={t.home.artistsEyebrow}
+          title={t.home.artistsTitle}
+          description={t.home.artistsDesc}
           href="/artistas"
-          linkLabel="Ver todos los artistas"
+          linkLabel={t.home.artistsLink}
         />
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {artists.map((artist, i) => (
@@ -40,7 +42,7 @@ export function FeaturedArtists({ artists }: { artists: ArtistWithCount[] }) {
                   {artist.name}
                 </h3>
                 <p className="text-xs text-muted-foreground">
-                  {artist._count.records} discos
+                  {artist._count.records} {t.product.records}
                 </p>
               </Link>
             </Reveal>

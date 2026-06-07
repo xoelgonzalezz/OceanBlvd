@@ -4,17 +4,19 @@ import { ShoppingBag } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useCart, useCartCount, useCartHydrated } from "@/store/cart";
+import { useT } from "@/components/i18n/locale-provider";
 
 export function CartButton() {
   const setOpen = useCart((s) => s.setOpen);
   const count = useCartCount();
   const hydrated = useCartHydrated();
+  const t = useT();
 
   return (
     <Button
       variant="ghost"
       size="icon"
-      aria-label={`Abrir carrito${hydrated && count > 0 ? ` (${count})` : ""}`}
+      aria-label={`${t.header.openCart}${hydrated && count > 0 ? ` (${count})` : ""}`}
       onClick={() => setOpen(true)}
       className="relative text-foreground/80 hover:text-foreground"
     >

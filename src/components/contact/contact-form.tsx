@@ -8,10 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useT } from "@/components/i18n/locale-provider";
 
 const initial = { name: "", email: "", subject: "", message: "" };
 
 export function ContactForm() {
+  const t = useT();
   const [form, setForm] = React.useState(initial);
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [loading, setLoading] = React.useState(false);
@@ -43,8 +45,8 @@ export function ContactForm() {
         }
         throw new Error(data.error ?? "No se pudo enviar el mensaje.");
       }
-      toast.success("¡Mensaje enviado!", {
-        description: "Te responderemos lo antes posible.",
+      toast.success(t.contact.success, {
+        description: t.contact.successDesc,
       });
       setForm(initial);
     } catch (err) {
@@ -60,7 +62,7 @@ export function ContactForm() {
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <Label htmlFor="name">Nombre</Label>
+          <Label htmlFor="name">{t.contact.name}</Label>
           <Input
             id="name"
             value={form.name}
@@ -75,7 +77,7 @@ export function ContactForm() {
           ) : null}
         </div>
         <div>
-          <Label htmlFor="email">Correo electrónico</Label>
+          <Label htmlFor="email">{t.contact.email}</Label>
           <Input
             id="email"
             type="email"
@@ -93,7 +95,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <Label htmlFor="subject">Asunto</Label>
+        <Label htmlFor="subject">{t.contact.subject}</Label>
         <Input
           id="subject"
           value={form.subject}
@@ -108,7 +110,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <Label htmlFor="message">Mensaje</Label>
+        <Label htmlFor="message">{t.contact.message}</Label>
         <Textarea
           id="message"
           value={form.message}
@@ -126,11 +128,11 @@ export function ContactForm() {
       <Button type="submit" size="lg" disabled={loading}>
         {loading ? (
           <>
-            <Loader2 className="animate-spin" /> Enviando…
+            <Loader2 className="animate-spin" /> {t.contact.sending}
           </>
         ) : (
           <>
-            <Send /> Enviar mensaje
+            <Send /> {t.contact.send}
           </>
         )}
       </Button>

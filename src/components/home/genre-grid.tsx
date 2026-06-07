@@ -4,18 +4,20 @@ import { ArrowUpRight } from "lucide-react";
 
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
+import { getDict } from "@/i18n/server";
 
 type GenreWithCount = Genre & { _count: { records: number } };
 
 export function GenreGrid({ genres }: { genres: GenreWithCount[] }) {
+  const t = getDict();
   return (
     <section className="container py-16 md:py-20">
       <SectionHeading
-        eyebrow="Explora"
-        title="Navega por género"
-        description="Del rock al jazz, del hip-hop a la electrónica. Encuentra tu sonido."
+        eyebrow={t.home.genresEyebrow}
+        title={t.home.genresTitle}
+        description={t.home.genresDesc}
         href="/tienda"
-        linkLabel="Ver todo el catálogo"
+        linkLabel={t.home.genresLink}
       />
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
         {genres.map((genre, i) => (
@@ -35,7 +37,7 @@ export function GenreGrid({ genres }: { genres: GenreWithCount[] }) {
                   {genre.name}
                 </h3>
                 <p className="text-xs text-muted-foreground transition-colors group-hover:text-background/60">
-                  {genre._count.records} discos
+                  {genre._count.records} {t.product.records}
                 </p>
               </div>
             </Link>

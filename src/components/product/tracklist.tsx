@@ -1,14 +1,17 @@
 import { Disc3 } from "lucide-react";
 import type { Track } from "@prisma/client";
 
+import { getDict } from "@/i18n/server";
+
 export function Tracklist({ tracks }: { tracks: Track[] }) {
+  const t = getDict();
   if (!tracks.length) return null;
 
   return (
     <div>
       <h2 className="mb-4 flex items-center gap-2 font-serif text-xl font-semibold">
         <Disc3 className="h-5 w-5 text-primary" />
-        Tracklist
+        {t.detail.tracklist}
       </h2>
       <ol className="divide-y divide-border/60">
         {tracks.map((t) => (

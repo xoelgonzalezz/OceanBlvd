@@ -10,11 +10,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SORT_OPTIONS } from "@/lib/constants";
+import { useT } from "@/components/i18n/locale-provider";
+
+const SORT_KEY = {
+  newest: "newest",
+  popular: "popular",
+  "price-asc": "priceAsc",
+  "price-desc": "priceDesc",
+  az: "az",
+} as const;
 
 export function SortSelect() {
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
+  const t = useT();
   const current = sp.get("sort") ?? "newest";
 
   function onChange(value: string) {
@@ -28,13 +38,16 @@ export function SortSelect() {
 
   return (
     <Select value={current} onValueChange={onChange}>
-      <SelectTrigger className="w-full min-w-[150px] sm:w-[185px]" aria-label="Ordenar por">
+      <SelectTrigger
+        className="w-full min-w-[150px] sm:w-[185px]"
+        aria-label={t.shop.sortBy}
+      >
         <SelectValue />
       </SelectTrigger>
       <SelectContent align="end">
         {SORT_OPTIONS.map((o) => (
           <SelectItem key={o.value} value={o.value}>
-            {o.label}
+            {t.shop.sort[SORT_KEY[o.value]]}
           </SelectItem>
         ))}
       </SelectContent>

@@ -14,6 +14,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { formatPrice } from "@/lib/utils";
+import { useT } from "@/components/i18n/locale-provider";
 
 interface SearchResult {
   id: string;
@@ -26,6 +27,7 @@ interface SearchResult {
 
 export function SearchCommand() {
   const router = useRouter();
+  const t = useT();
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
   const [results, setResults] = React.useState<SearchResult[]>([]);
@@ -76,11 +78,11 @@ export function SearchCommand() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label="Buscar discos y artistas"
+        aria-label={t.header.searchAria}
         className="inline-flex items-center gap-2 rounded-full text-foreground/80 transition-colors hover:text-foreground lg:h-9 lg:w-64 lg:justify-start lg:border lg:border-input lg:bg-background/60 lg:px-3.5 lg:text-muted-foreground lg:hover:bg-background"
       >
         <Search className="h-5 w-5 lg:h-4 lg:w-4" />
-        <span className="hidden text-sm lg:inline">Buscar discos, artistas…</span>
+        <span className="hidden text-sm lg:inline">{t.header.search}</span>
         <kbd className="ml-auto hidden items-center gap-0.5 rounded border bg-muted px-1.5 font-sans text-[10px] font-medium text-muted-foreground lg:inline-flex">
           ⌘K
         </kbd>
@@ -90,21 +92,21 @@ export function SearchCommand() {
         <CommandInput
           value={query}
           onValueChange={setQuery}
-          placeholder="Busca un disco o un artista…"
+          placeholder={t.search.placeholder}
         />
         <CommandList>
           {loading ? (
             <div className="py-8 text-center text-sm text-muted-foreground">
-              Buscando…
+              {t.search.searching}
             </div>
           ) : null}
 
           {!loading && query.trim() && results.length === 0 ? (
-            <CommandEmpty>No hay resultados para “{query}”.</CommandEmpty>
+            <CommandEmpty>{t.search.noResults(query)}</CommandEmpty>
           ) : null}
 
           {results.length > 0 ? (
-            <CommandGroup heading="Discos">
+            <CommandGroup heading={t.search.records}>
               {results.map((r) => (
                 <CommandItem
                   key={r.id}
@@ -136,24 +138,24 @@ export function SearchCommand() {
           ) : null}
 
           {query.trim() ? (
-            <CommandGroup heading="Acciones">
+            <CommandGroup heading={t.search.actions}>
               <CommandItem
                 value="ver-todos"
                 onSelect={() => go(`/tienda?q=${encodeURIComponent(query)}`)}
               >
                 <Search />
-                Ver todos los resultados de “{query}”
+                {t.search.seeAll(query)}
               </CommandItem>
             </CommandGroup>
           ) : (
-            <CommandGroup heading="Accesos rápidos">
+            <CommandGroup heading={t.search.quickLinks}>
               <CommandItem value="tienda" onSelect={() => go("/tienda")}>
                 <Disc3 />
-                Explorar el catálogo
+                {t.search.browseCatalog}
               </CommandItem>
               <CommandItem value="artistas" onSelect={() => go("/artistas")}>
                 <Users />
-                Ver artistas
+                {t.search.viewArtists}
               </CommandItem>
             </CommandGroup>
           )}

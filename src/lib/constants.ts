@@ -23,6 +23,14 @@ export const GRADE_DESCRIPTIONS: Record<string, string> = {
   "G+": "Uso evidente, suena pero con ruido. Pieza de coleccionista.",
 };
 
+export const GRADE_DESCRIPTIONS_EN: Record<string, string> = {
+  M: "Perfect, sealed or unused.",
+  NM: "Near perfect, with barely any signs of use.",
+  "VG+": "Light surface marks that don't affect playback.",
+  VG: "Visible marks and slight background noise in quiet passages.",
+  "G+": "Clear wear, plays with noise. A collector's piece.",
+};
+
 /** Opciones de ordenación del catálogo. */
 export const SORT_OPTIONS = [
   { value: "newest", label: "Novedades" },

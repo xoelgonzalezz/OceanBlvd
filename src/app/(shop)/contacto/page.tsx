@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Mail, MapPin, Clock } from "lucide-react";
 
 import { ContactForm } from "@/components/contact/contact-form";
+import { getDict } from "@/i18n/server";
 
 export const metadata: Metadata = {
   title: "Contacto",
@@ -10,17 +11,15 @@ export const metadata: Metadata = {
 };
 
 export default function ContactoPage() {
+  const t = getDict();
   return (
     <div className="container py-10 md:py-12">
       <header className="max-w-2xl">
-        <span className="section-eyebrow">Hablemos</span>
+        <span className="section-eyebrow">{t.contact.eyebrow}</span>
         <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
-          Contacto
+          {t.contact.title}
         </h1>
-        <p className="mt-3 text-muted-foreground">
-          ¿Buscas un disco concreto, tienes una duda sobre un pedido o quieres
-          vendernos tu colección? Escríbenos.
-        </p>
+        <p className="mt-3 text-muted-foreground">{t.contact.desc}</p>
       </header>
 
       <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_320px]">
@@ -29,7 +28,7 @@ export default function ContactoPage() {
         </div>
 
         <aside className="order-1 space-y-6 lg:order-2">
-          <InfoItem icon={Mail} title="Email">
+          <InfoItem icon={Mail} title={t.contact.infoEmail}>
             <a
               href="mailto:hola@oceanblvdvinyl.com"
               className="hover:text-primary"
@@ -37,15 +36,18 @@ export default function ContactoPage() {
               hola@oceanblvdvinyl.com
             </a>
           </InfoItem>
-          <InfoItem icon={MapPin} title="Tienda física">
+          <InfoItem icon={MapPin} title={t.contact.infoStore}>
             Calle del Vinilo, 33
             <br />
             28004 Madrid, España
           </InfoItem>
-          <InfoItem icon={Clock} title="Horario">
-            Lun–Sáb: 10:00–20:30
-            <br />
-            Dom: cerrado
+          <InfoItem icon={Clock} title={t.contact.infoHours}>
+            {t.contact.hours.split("\n").map((line, i) => (
+              <span key={i}>
+                {line}
+                <br />
+              </span>
+            ))}
           </InfoItem>
         </aside>
       </div>

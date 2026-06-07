@@ -5,13 +5,11 @@ import type { Metadata } from "next";
 import { ChevronLeft, MapPin, Calendar, Disc3 } from "lucide-react";
 
 import { RecordGrid } from "@/components/shared/record-grid";
-import { getAllArtistSlugs, getArtistBySlug } from "@/lib/queries";
+import { getArtistBySlug } from "@/lib/queries";
 import { truncate } from "@/lib/utils";
+import { getDict, getLocale, pick } from "@/i18n/server";
 
-export async function generateStaticParams() {
-  const slugs = await getAllArtistSlugs();
-  return slugs.map((s) => ({ slug: s.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -39,6 +37,8 @@ export default async function ArtistPage({
 }) {
   const artist = await getArtistBySlug(params.slug);
   if (!artist) notFound();
+  const t = getDict();
+  const locale = getLocale();
 
   return (
     <div className="container py-8 md:py-12">
@@ -47,7 +47,7 @@ export default async function ArtistPage({
         className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
         <ChevronLeft className="h-4 w-4" />
-        Todos los artistas
+        {t.artistsPage.allArtists}
       </Link>
 
       {/* Cabecera */}
@@ -64,7 +64,7 @@ export default async function ArtistPage({
         </div>
 
         <div>
-          <span className="section-eyebrow">Artista</span>
+          <span className="section-eyebrow">{t.artistsPage.label}</span>
           <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
             {artist.name}
           </h1>
@@ -78,22 +78,24 @@ export default async function ArtistPage({
             {artist.foundedYear ? (
               <span className="inline-flex items-center gap-1.5">
                 <Calendar className="h-4 w-4" />
-                Desde {artist.foundedYear}
+                {t.artistsPage.since} {artist.foundedYear}
               </span>
             ) : null}
             <span className="inline-flex items-center gap-1.5">
               <Disc3 className="h-4 w-4" />
-              {artist.records.length} discos
+              {artist.records.length} {t.product.records}
             </span>
           </div>
-          <p className="prose-editorial mt-5 max-w-2xl">{artist.bio}</p>
+          <p className="prose-editorial mt-5 max-w-2xl">
+            {pick(locale, artist.bio, artist.bioEn)}
+          </p>
         </div>
       </header>
 
       {/* Discos del artista */}
       <section className="mt-16">
         <h2 className="mb-8 font-serif text-2xl font-semibold tracking-tight">
-          Discos de {artist.name}
+          {t.artistsPage.discsBy(artist.name)}
         </h2>
         {artist.records.length ? (
           <RecordGrid
@@ -101,9 +103,7 @@ export default async function ArtistPage({
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
         ) : (
-          <p className="text-muted-foreground">
-            No hay discos disponibles ahora mismo.
-          </p>
+          <p className="text-muted-foreground">{t.artistsPage.noDiscs}</p>
         )}
       </section>
     </div>

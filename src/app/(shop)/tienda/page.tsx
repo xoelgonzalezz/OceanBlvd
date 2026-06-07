@@ -9,6 +9,7 @@ import { CatalogSearch } from "@/components/shop/catalog-search";
 import { Pagination } from "@/components/shop/pagination";
 import { getFilterFacets, getRecords } from "@/lib/queries";
 import type { SortValue } from "@/lib/constants";
+import { getDict } from "@/i18n/server";
 
 export const metadata: Metadata = {
   title: "Tienda",
@@ -57,18 +58,16 @@ export default async function TiendaPage({
   ]);
 
   const { records, total, totalPages } = result;
+  const t = getDict();
 
   return (
     <div className="container py-10 md:py-12">
       <header className="max-w-2xl">
-        <span className="section-eyebrow">Catálogo</span>
+        <span className="section-eyebrow">{t.shop.eyebrow}</span>
         <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
-          La tienda
+          {t.shop.title}
         </h1>
-        <p className="mt-3 text-muted-foreground">
-          Explora toda nuestra colección, de la novedad recién llegada a la
-          joya descatalogada. Filtra, ordena y encuentra tu próximo vinilo.
-        </p>
+        <p className="mt-3 text-muted-foreground">{t.shop.desc}</p>
       </header>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[260px_1fr]">
@@ -86,7 +85,7 @@ export default async function TiendaPage({
             </div>
             <div className="flex items-center justify-between gap-4">
               <span className="whitespace-nowrap text-sm text-muted-foreground">
-                {total} {total === 1 ? "disco" : "discos"}
+                {total} {total === 1 ? t.product.record : t.product.records}
               </span>
               <SortSelect />
             </div>
@@ -103,9 +102,9 @@ export default async function TiendaPage({
           ) : (
             <div className="mt-8">
               <EmptyState
-                title="No encontramos discos"
-                description="Prueba a quitar algún filtro o a buscar otra cosa."
-                actionLabel="Limpiar filtros"
+                title={t.shop.emptyTitle}
+                description={t.shop.emptyDesc}
+                actionLabel={t.shop.emptyAction}
                 actionHref="/tienda"
               />
             </div>

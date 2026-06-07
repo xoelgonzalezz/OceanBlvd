@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { EmptyState } from "@/components/shared/empty-state";
 import { getOrderById } from "@/lib/queries";
 import { formatPrice } from "@/lib/utils";
+import { getDict } from "@/i18n/server";
 
 export const metadata: Metadata = {
   title: "Pedido confirmado",
@@ -23,15 +24,16 @@ export default async function CheckoutSuccessPage({
 }) {
   const id = searchParams.order;
   const order = id ? await getOrderById(id) : null;
+  const t = getDict();
 
   if (!order) {
     return (
       <div className="container py-16">
         <EmptyState
           icon={Package}
-          title="No encontramos ese pedido"
-          description="Es posible que el enlace haya caducado."
-          actionLabel="Volver a la tienda"
+          title={t.checkout.notFound}
+          description={t.checkout.notFoundDesc}
+          actionLabel={t.checkout.backToShop}
           actionHref="/tienda"
         />
       </div>
@@ -47,18 +49,17 @@ export default async function CheckoutSuccessPage({
           <CheckCircle2 className="h-8 w-8 text-primary" />
         </div>
         <h1 className="mt-6 font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
-          ¡Gracias por tu pedido!
+          {t.checkout.successTitle}
         </h1>
         <p className="mt-3 text-muted-foreground">
-          Hemos recibido tu pedido{" "}
-          <span className="font-medium text-foreground">#{reference}</span>. Te
-          hemos enviado la confirmación a{" "}
-          <span className="font-medium text-foreground">{order.email}</span>.
+          {t.checkout.successDesc(reference, order.email)}
         </p>
       </div>
 
       <div className="mt-10 rounded-lg border bg-card p-6">
-        <h2 className="font-serif text-lg font-semibold">Resumen</h2>
+        <h2 className="font-serif text-lg font-semibold">
+          {t.checkout.summary}
+        </h2>
         <ul className="mt-4 space-y-4">
           {order.items.map((item) => (
             <li key={item.id} className="flex gap-4">
@@ -90,20 +91,20 @@ export default async function CheckoutSuccessPage({
 
         <dl className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <dt className="text-muted-foreground">Subtotal</dt>
+            <dt className="text-muted-foreground">{t.cart.subtotal}</dt>
             <dd className="tabular-nums">{formatPrice(order.subtotalCents)}</dd>
           </div>
           <div className="flex justify-between">
-            <dt className="text-muted-foreground">Envío</dt>
+            <dt className="text-muted-foreground">{t.cart.shipping}</dt>
             <dd className="tabular-nums">
               {order.shippingCents === 0
-                ? "Gratis"
+                ? t.cart.free
                 : formatPrice(order.shippingCents)}
             </dd>
           </div>
           <Separator className="my-2" />
           <div className="flex justify-between text-base">
-            <dt className="font-serif font-semibold">Total</dt>
+            <dt className="font-serif font-semibold">{t.cart.total}</dt>
             <dd className="font-serif font-semibold tabular-nums">
               {formatPrice(order.totalCents)}
             </dd>
@@ -111,7 +112,7 @@ export default async function CheckoutSuccessPage({
         </dl>
 
         <div className="mt-5 rounded-md bg-secondary/40 p-4 text-sm">
-          <p className="font-medium">Enviar a</p>
+          <p className="font-medium">{t.checkout.shipTo}</p>
           <p className="mt-1 text-muted-foreground">
             {order.fullName}
             <br />
@@ -124,7 +125,7 @@ export default async function CheckoutSuccessPage({
 
       <div className="mt-8 text-center">
         <Button asChild size="lg">
-          <Link href="/tienda">Seguir comprando</Link>
+          <Link href="/tienda">{t.checkout.keepShopping}</Link>
         </Button>
       </div>
     </div>

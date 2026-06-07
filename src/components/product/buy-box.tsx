@@ -4,10 +4,12 @@ import * as React from "react";
 import { Minus, Plus } from "lucide-react";
 
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { useT } from "@/components/i18n/locale-provider";
 import type { CartItem } from "@/types";
 
 export function BuyBox({ item }: { item: Omit<CartItem, "quantity"> }) {
   const [qty, setQty] = React.useState(1);
+  const t = useT();
   const soldOut = item.stock <= 0;
 
   return (
@@ -17,7 +19,7 @@ export function BuyBox({ item }: { item: Omit<CartItem, "quantity"> }) {
           <button
             type="button"
             onClick={() => setQty((q) => Math.max(1, q - 1))}
-            aria-label="Reducir cantidad"
+            aria-label={t.detail.decreaseQty}
             className="flex h-12 w-12 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
           >
             <Minus className="h-4 w-4" />
@@ -29,7 +31,7 @@ export function BuyBox({ item }: { item: Omit<CartItem, "quantity"> }) {
             type="button"
             onClick={() => setQty((q) => Math.min(item.stock, q + 1))}
             disabled={qty >= item.stock}
-            aria-label="Aumentar cantidad"
+            aria-label={t.detail.increaseQty}
             className="flex h-12 w-12 items-center justify-center text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30"
           >
             <Plus className="h-4 w-4" />

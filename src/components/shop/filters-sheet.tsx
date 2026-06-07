@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { FilterSidebar } from "@/components/shop/filter-sidebar";
+import { useT } from "@/components/i18n/locale-provider";
 import type { FilterFacets } from "@/types";
 
 const COUNT_KEYS = ["genre", "artist", "decade", "condition"];
@@ -20,6 +21,7 @@ const COUNT_KEYS = ["genre", "artist", "decade", "condition"];
 export function FiltersSheet({ facets }: { facets: FilterFacets }) {
   const [open, setOpen] = React.useState(false);
   const sp = useSearchParams();
+  const t = useT();
 
   let count = COUNT_KEYS.reduce((n, k) => {
     const v = sp.get(k);
@@ -32,7 +34,8 @@ export function FiltersSheet({ facets }: { facets: FilterFacets }) {
       <SheetTrigger asChild>
         <Button variant="outline" className="lg:hidden">
           <SlidersHorizontal className="h-4 w-4" />
-          Filtros{count > 0 ? ` (${count})` : ""}
+          {t.shop.filters}
+          {count > 0 ? ` (${count})` : ""}
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="flex w-[88vw] max-w-sm flex-col p-0">
@@ -46,7 +49,7 @@ export function FiltersSheet({ facets }: { facets: FilterFacets }) {
 
         <div className="border-t p-4">
           <Button className="w-full" onClick={() => setOpen(false)}>
-            Ver resultados
+            {t.shop.results}
           </Button>
         </div>
       </SheetContent>

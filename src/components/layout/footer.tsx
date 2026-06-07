@@ -2,30 +2,54 @@ import Link from "next/link";
 import { Disc3 } from "lucide-react";
 
 import { NewsletterForm } from "@/components/shared/newsletter-form";
-import { FOOTER_NAV } from "@/lib/nav";
 import { SOCIAL_LINKS, SITE } from "@/lib/constants";
+import { getDict } from "@/i18n/server";
 
 export function Footer() {
+  const t = getDict();
   const year = new Date().getFullYear();
+
+  const columns = [
+    {
+      title: t.footer.colShop,
+      links: [
+        { label: t.footer.linkNew, href: "/tienda?sort=newest" },
+        { label: t.footer.linkBest, href: "/tienda?sort=popular" },
+        { label: t.footer.linkUsed, href: "/tienda?condition=USED" },
+        { label: t.footer.linkAll, href: "/tienda" },
+      ],
+    },
+    {
+      title: t.footer.colDiscover,
+      links: [
+        { label: t.footer.linkArtists, href: "/artistas" },
+        { label: t.footer.linkBlog, href: "/blog" },
+        { label: t.footer.linkAbout, href: "/sobre-nosotros" },
+      ],
+    },
+    {
+      title: t.footer.colHelp,
+      links: [
+        { label: t.footer.linkShipping, href: "/envios" },
+        { label: t.footer.linkFaq, href: "/faq" },
+        { label: t.footer.linkContact, href: "/contacto" },
+      ],
+    },
+  ];
 
   return (
     <footer className="mt-24 border-t border-border/60 bg-secondary/30">
       <div className="container py-16">
-        {/* Newsletter */}
         <div className="flex flex-col gap-8 border-b border-border/60 pb-12 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-md">
             <h2 className="font-serif text-2xl font-semibold tracking-tight">
-              No te pierdas ninguna novedad
+              {t.footer.nlTitle}
             </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Suscríbete y recibe nuestras últimas incorporaciones, ediciones
-              especiales y rarezas antes que nadie.
-            </p>
+            <p className="mt-2 text-sm text-muted-foreground">{t.footer.nlDesc}</p>
           </div>
-          <NewsletterForm className="lg:justify-self-end" />
+          <NewsletterForm className="lg:max-w-sm lg:justify-self-end" />
         </div>
 
-        {/* Enlaces */}
         <div className="grid grid-cols-2 gap-8 py-12 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2">
@@ -39,7 +63,7 @@ export function Footer() {
             </p>
           </div>
 
-          {FOOTER_NAV.map((col) => (
+          {columns.map((col) => (
             <div key={col.title}>
               <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 {col.title}
@@ -60,15 +84,14 @@ export function Footer() {
           ))}
         </div>
 
-        {/* Barra inferior */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-border/60 pt-8 sm:flex-row">
           <p className="text-xs text-muted-foreground">
-            © {year} {SITE.name}. Hecho con cariño por la música.{" "}
+            © {year} {SITE.name}. {t.footer.rights}{" "}
             <Link
               href="/admin"
               className="underline-offset-2 transition-colors hover:text-foreground hover:underline"
             >
-              Administración
+              {t.footer.admin}
             </Link>
           </p>
           <ul className="flex items-center gap-5">

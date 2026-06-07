@@ -6,8 +6,10 @@ import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useT } from "@/components/i18n/locale-provider";
 
 export function NewsletterForm({ className }: { className?: string }) {
+  const t = useT();
   const [email, setEmail] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
@@ -23,8 +25,8 @@ export function NewsletterForm({ className }: { className?: string }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Error");
-      toast.success("¡Gracias por suscribirte!", {
-        description: "Te avisaremos de novedades y ediciones especiales.",
+      toast.success(t.footer.nlSuccess, {
+        description: t.footer.nlSuccessDesc,
       });
       setEmail("");
     } catch (err) {
@@ -46,8 +48,8 @@ export function NewsletterForm({ className }: { className?: string }) {
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="tu@email.com"
-        aria-label="Correo electrónico"
+        placeholder={t.footer.nlPlaceholder}
+        aria-label={t.footer.nlAria}
         className="h-11 rounded-full border-foreground/20 bg-background/60 pr-12"
       />
       <button

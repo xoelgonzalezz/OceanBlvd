@@ -3,9 +3,11 @@ import Link from "next/link";
 import { ArrowRight, Sparkles, Truck, ShieldCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { getDict } from "@/i18n/server";
 import type { RecordCard } from "@/types";
 
 export function Hero({ record }: { record: RecordCard | null }) {
+  const t = getDict();
   const cover = record?.images[0];
 
   return (
@@ -21,43 +23,42 @@ export function Hero({ record }: { record: RecordCard | null }) {
         <div className="max-w-xl">
           <span className="section-eyebrow animate-fade-up opacity-0 [animation-delay:0ms]">
             <Sparkles className="h-3.5 w-3.5" />
-            Tienda independiente de vinilo
+            {t.hero.eyebrow}
           </span>
 
           <h1 className="mt-4 animate-fade-up text-balance font-serif text-3xl font-semibold leading-[1.06] tracking-tight opacity-0 [animation-delay:80ms] sm:text-4xl md:text-5xl lg:text-6xl">
-            Vinilos con alma,{" "}
-            <span className="text-primary">elegidos a mano.</span>
+            {t.hero.titleA}{" "}
+            <span className="text-primary">{t.hero.titleB}</span>
           </h1>
 
           <p className="mt-5 max-w-md animate-fade-up text-base leading-relaxed text-muted-foreground opacity-0 [animation-delay:160ms] sm:text-lg">
-            Novedades, ediciones especiales y joyas de segunda mano. Una
-            selección cuidada para quienes escuchan la música como se merece.
+            {t.hero.subtitle}
           </p>
 
           <div className="mt-8 flex animate-fade-up flex-wrap items-center gap-3 opacity-0 [animation-delay:240ms]">
             <Button asChild size="lg">
               <Link href="/tienda">
-                Explorar catálogo
+                {t.hero.browse}
                 <ArrowRight />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link href="/tienda?sort=newest">Ver novedades</Link>
+              <Link href="/tienda?sort=newest">{t.hero.newReleases}</Link>
             </Button>
           </div>
 
           <ul className="mt-10 flex animate-fade-up flex-wrap gap-x-7 gap-y-3 text-sm text-muted-foreground opacity-0 [animation-delay:320ms]">
             <li className="flex items-center gap-2">
               <Truck className="h-4 w-4 text-primary" />
-              Envío 24–48h
+              {t.hero.shipping}
             </li>
             <li className="flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-primary" />
-              Estado garantizado
+              {t.hero.guaranteed}
             </li>
             <li className="flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-primary" />
-              Selección de autor
+              {t.hero.curated}
             </li>
           </ul>
         </div>
@@ -102,7 +103,7 @@ export function Hero({ record }: { record: RecordCard | null }) {
               />
               <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                 <span className="block text-[11px] font-medium uppercase tracking-[0.18em] text-white/80">
-                  Edición exclusiva
+                  {t.hero.exclusive}
                 </span>
                 <span className="block font-serif text-lg font-medium text-white">
                   {record.title}

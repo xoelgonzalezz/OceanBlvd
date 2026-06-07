@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/shared/reveal";
 import { getPosts } from "@/lib/queries";
 import { formatDate } from "@/lib/utils";
+import { getDict, getLocale, pick } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -18,17 +19,17 @@ export const metadata: Metadata = {
 export default async function BlogPage() {
   const posts = await getPosts();
   const [featured, ...rest] = posts;
+  const t = getDict();
+  const locale = getLocale();
 
   return (
     <div className="container py-10 md:py-12">
       <header className="max-w-2xl">
-        <span className="section-eyebrow">El surco</span>
+        <span className="section-eyebrow">{t.blogPage.eyebrow}</span>
         <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
-          Blog &amp; noticias
+          {t.blogPage.title}
         </h1>
-        <p className="mt-3 text-muted-foreground">
-          Lanzamientos, ediciones especiales, guías y cultura del vinilo.
-        </p>
+        <p className="mt-3 text-muted-foreground">{t.blogPage.desc}</p>
       </header>
 
       {/* Artículo destacado */}
@@ -53,9 +54,11 @@ export default async function BlogPage() {
               <h2 className="mt-3 font-serif text-2xl font-semibold leading-tight transition-colors group-hover:text-primary sm:text-3xl">
                 {featured.title}
               </h2>
-              <p className="mt-3 text-muted-foreground">{featured.excerpt}</p>
+              <p className="mt-3 text-muted-foreground">
+                {pick(locale, featured.excerpt, featured.excerptEn)}
+              </p>
               <p className="mt-4 text-xs text-muted-foreground">
-                {featured.author} · {formatDate(featured.publishedAt)}
+                {featured.author} · {formatDate(featured.publishedAt, locale)}
               </p>
             </div>
           </Link>
@@ -82,10 +85,10 @@ export default async function BlogPage() {
                   {post.title}
                 </h2>
                 <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
-                  {post.excerpt}
+                  {pick(locale, post.excerpt, post.excerptEn)}
                 </p>
                 <p className="mt-3 text-xs text-muted-foreground">
-                  {post.author} · {formatDate(post.publishedAt)}
+                  {post.author} · {formatDate(post.publishedAt, locale)}
                 </p>
               </div>
             </Link>

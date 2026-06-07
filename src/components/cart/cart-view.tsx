@@ -13,8 +13,10 @@ import {
   calcShipping,
   FREE_SHIPPING_THRESHOLD_CENTS,
 } from "@/lib/constants";
+import { useT } from "@/components/i18n/locale-provider";
 
 export function CartView() {
+  const t = useT();
   const items = useCart((s) => s.items);
   const updateQuantity = useCart((s) => s.updateQuantity);
   const removeItem = useCart((s) => s.removeItem);
@@ -34,9 +36,9 @@ export function CartView() {
     return (
       <EmptyState
         icon={ShoppingBag}
-        title="Tu carrito está vacío"
-        description="Cuando añadas discos aparecerán aquí. Échale un ojo al catálogo."
-        actionLabel="Explorar catálogo"
+        title={t.cart.emptyTitle}
+        description={t.cart.emptyDesc}
+        actionLabel={t.cart.emptyAction}
         actionHref="/tienda"
       />
     );
@@ -74,7 +76,7 @@ export function CartView() {
                 </div>
                 <button
                   type="button"
-                  aria-label={`Quitar ${item.title}`}
+                  aria-label={`${t.cart.remove} ${item.title}`}
                   onClick={() => removeItem(item.id)}
                   className="-m-2 h-fit p-2 text-muted-foreground transition-colors hover:text-destructive"
                 >
@@ -86,7 +88,7 @@ export function CartView() {
                 <div className="flex items-center rounded-md border">
                   <button
                     type="button"
-                    aria-label="Reducir cantidad"
+                    aria-label={t.detail.decreaseQty}
                     onClick={() => updateQuantity(item.id, item.quantity - 1)}
                     className="flex h-9 w-9 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
                   >
@@ -97,7 +99,7 @@ export function CartView() {
                   </span>
                   <button
                     type="button"
-                    aria-label="Aumentar cantidad"
+                    aria-label={t.detail.increaseQty}
                     disabled={item.quantity >= item.stock}
                     onClick={() => updateQuantity(item.id, item.quantity + 1)}
                     className="flex h-9 w-9 items-center justify-center text-muted-foreground transition-colors hover:text-foreground disabled:opacity-30"
@@ -119,7 +121,7 @@ export function CartView() {
             onClick={clear}
             className="text-sm text-muted-foreground transition-colors hover:text-destructive"
           >
-            Vaciar carrito
+            {t.cart.clear}
           </button>
         </li>
       </ul>
@@ -127,34 +129,32 @@ export function CartView() {
       {/* Resumen */}
       <aside className="h-fit lg:sticky lg:top-24">
         <div className="rounded-lg border bg-card p-6">
-          <h2 className="font-serif text-lg font-semibold">Resumen del pedido</h2>
+          <h2 className="font-serif text-lg font-semibold">{t.cart.summary}</h2>
 
           {remaining > 0 ? (
             <p className="mt-3 rounded-md bg-secondary/60 px-3 py-2 text-xs text-secondary-foreground">
-              Te faltan{" "}
-              <span className="font-semibold">{formatPrice(remaining)}</span> para
-              el envío gratis.
+              {t.cart.freeProgress(formatPrice(remaining))}
             </p>
           ) : (
             <p className="mt-3 rounded-md bg-primary/10 px-3 py-2 text-xs font-medium text-primary">
-              Tienes envío gratis incluido
+              {t.cart.freeReached}
             </p>
           )}
 
           <dl className="mt-4 space-y-2 text-sm">
             <div className="flex justify-between">
-              <dt className="text-muted-foreground">Subtotal</dt>
+              <dt className="text-muted-foreground">{t.cart.subtotal}</dt>
               <dd className="font-medium tabular-nums">{formatPrice(subtotal)}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-muted-foreground">Envío</dt>
+              <dt className="text-muted-foreground">{t.cart.shipping}</dt>
               <dd className="font-medium tabular-nums">
-                {shipping === 0 ? "Gratis" : formatPrice(shipping)}
+                {shipping === 0 ? t.cart.free : formatPrice(shipping)}
               </dd>
             </div>
             <Separator className="my-2" />
             <div className="flex justify-between text-base">
-              <dt className="font-serif font-semibold">Total</dt>
+              <dt className="font-serif font-semibold">{t.cart.total}</dt>
               <dd className="font-serif font-semibold tabular-nums">
                 {formatPrice(subtotal + shipping)}
               </dd>
@@ -163,12 +163,12 @@ export function CartView() {
 
           <Button asChild size="lg" className="mt-6 w-full">
             <Link href="/checkout">
-              Tramitar pedido
+              {t.cart.checkout}
               <ArrowRight />
             </Link>
           </Button>
           <Button asChild variant="ghost" className="mt-2 w-full">
-            <Link href="/tienda">Seguir comprando</Link>
+            <Link href="/tienda">{t.cart.keepShopping}</Link>
           </Button>
         </div>
       </aside>

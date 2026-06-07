@@ -23,6 +23,7 @@ interface SeedAlbum {
   tracks: SeedTrack[];
   coverUrl?: string; // portada real remota (iTunes / Deezer)
   coverLocal?: string; // portada descargada a /public/covers
+  descriptionEn?: string; // descripción traducida al inglés
 }
 interface SeedArtist {
   name: string;
@@ -30,6 +31,7 @@ interface SeedArtist {
   genreSlug: string;
   data: {
     bio: string;
+    bioEn?: string; // bio traducida al inglés
     country: string;
     foundedYear: number;
     albums: SeedAlbum[];
@@ -44,6 +46,8 @@ interface SeedBlogPost {
   tag: string;
   daysAgo: number;
   coverLocal?: string; // foto real descargada a /public/blog
+  excerptEn?: string;
+  contentEn?: string;
 }
 interface SeedShape {
   artists: SeedArtist[];
@@ -67,14 +71,14 @@ const DAY = 86_400_000;
 
 /* ---------- Géneros ---------- */
 const GENRES = [
-  { name: "Rock", slug: "rock", emoji: "🎸", description: "Del clásico al progresivo, psicodélico e indie." },
-  { name: "Jazz", slug: "jazz", emoji: "🎷", description: "Bebop, cool, modal y fusión." },
-  { name: "Hip-Hop", slug: "hip-hop", emoji: "🎤", description: "Boom bap, conciencia y vanguardia." },
-  { name: "Electrónica", slug: "electronica", emoji: "🎛️", description: "House, techno, ambient e IDM." },
-  { name: "Clásica", slug: "clasica", emoji: "🎻", description: "Contemporánea, minimalista y de cámara." },
-  { name: "Soul & Funk", slug: "soul-funk", emoji: "🪩", description: "Motown, groove y ritmo con alma." },
-  { name: "Pop", slug: "pop", emoji: "✨", description: "Melodías que definen una época." },
-  { name: "Folk", slug: "folk", emoji: "🪕", description: "Cantautores y raíces acústicas." },
+  { name: "Rock", slug: "rock", description: "Del clásico al progresivo, psicodélico e indie.", descriptionEn: "From classic to progressive, psychedelic and indie." },
+  { name: "Jazz", slug: "jazz", description: "Bebop, cool, modal y fusión.", descriptionEn: "Bebop, cool, modal and fusion." },
+  { name: "Hip-Hop", slug: "hip-hop", description: "Boom bap, conciencia y vanguardia.", descriptionEn: "Boom bap, conscious and cutting-edge." },
+  { name: "Electrónica", slug: "electronica", description: "House, techno, ambient e IDM.", descriptionEn: "House, techno, ambient and IDM." },
+  { name: "Clásica", slug: "clasica", description: "Contemporánea, minimalista y de cámara.", descriptionEn: "Contemporary, minimalist and chamber." },
+  { name: "Soul & Funk", slug: "soul-funk", description: "Motown, groove y ritmo con alma.", descriptionEn: "Motown, groove and soulful rhythm." },
+  { name: "Pop", slug: "pop", description: "Melodías que definen una época.", descriptionEn: "Melodies that define an era." },
+  { name: "Folk", slug: "folk", description: "Cantautores y raíces acústicas.", descriptionEn: "Singer-songwriters and acoustic roots." },
 ];
 
 // Artistas que aparecerán destacados en el home.
@@ -125,6 +129,7 @@ async function main() {
         name: a.name,
         slug: a.slug,
         bio: a.data.bio,
+        bioEn: a.data.bioEn ?? null,
         country: a.data.country,
         foundedYear: a.data.foundedYear,
         image: a.data.imageUrl ?? `/placeholders/artist-${pad((ai % 6) + 1)}.svg`,
@@ -148,6 +153,7 @@ async function main() {
           condition: alb.condition,
           mediaGrade: alb.mediaGrade,
           description: alb.description,
+          descriptionEn: alb.descriptionEn ?? null,
           stock: alb.stock,
           salesCount: alb.salesCount,
           featured: alb.featured,
@@ -188,7 +194,9 @@ async function main() {
         title: p.title,
         slug: slugify(p.title),
         excerpt: p.excerpt,
+        excerptEn: p.excerptEn ?? null,
         content: p.content,
+        contentEn: p.contentEn ?? null,
         author: p.author,
         tag: p.tag,
         coverImage: p.coverLocal ?? `/placeholders/blog-${pad((i % 6) + 1)}.svg`,

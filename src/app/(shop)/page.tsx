@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { SITE } from "@/lib/constants";
+import { getDict } from "@/i18n/server";
 import { Hero } from "@/components/home/hero";
 import { Marquee } from "@/components/shared/marquee";
 import { RecordSection } from "@/components/home/record-section";
@@ -38,26 +39,20 @@ export default async function HomePage() {
       getLatestPosts(3),
     ]);
 
+  const t = getDict();
+
   return (
     <>
       <Hero record={heroRecord} />
 
-      <Marquee
-        items={[
-          "Nuevos ingresos cada semana",
-          "Prensajes limitados",
-          "Segunda mano garantizada",
-          "Envío en 24–48h",
-          "Selección de autor",
-        ]}
-      />
+      <Marquee items={[...t.marquee]} />
 
       <RecordSection
-        eyebrow="Recién llegados"
-        title="Últimas novedades"
-        description="Lo último que ha entrado en la tienda, recién desempaquetado."
+        eyebrow={t.home.newEyebrow}
+        title={t.home.newTitle}
+        description={t.home.newDesc}
         href="/tienda?sort=newest"
-        linkLabel="Ver novedades"
+        linkLabel={t.home.newLink}
         records={newReleases}
         priorityCount={4}
       />
@@ -65,11 +60,11 @@ export default async function HomePage() {
       <GenreGrid genres={genres} />
 
       <RecordSection
-        eyebrow="Favoritos"
-        title="Más vendidos"
-        description="Los discos que más giran entre nuestra clientela."
+        eyebrow={t.home.bestEyebrow}
+        title={t.home.bestTitle}
+        description={t.home.bestDesc}
         href="/tienda?sort=popular"
-        linkLabel="Ver más vendidos"
+        linkLabel={t.home.bestLink}
         records={bestSellers}
       />
 
@@ -85,11 +80,10 @@ export default async function HomePage() {
             className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-primary/30 blur-3xl"
           />
           <h2 className="mx-auto max-w-2xl text-balance font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
-            Tu próxima joya en vinilo te está esperando.
+            {t.home.ctaTitle}
           </h2>
           <p className="mx-auto mt-4 max-w-md text-background/70">
-            Más de 40 títulos cuidadosamente seleccionados, entre novedades y
-            segunda mano garantizada.
+            {t.home.ctaDesc}
           </p>
           <Button
             asChild
@@ -97,7 +91,7 @@ export default async function HomePage() {
             className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90"
           >
             <Link href="/tienda">
-              Entrar en la tienda
+              {t.home.ctaButton}
               <ArrowRight />
             </Link>
           </Button>

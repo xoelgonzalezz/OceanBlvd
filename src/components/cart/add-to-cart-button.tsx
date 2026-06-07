@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { useCart } from "@/store/cart";
+import { useT } from "@/components/i18n/locale-provider";
 import type { CartItem } from "@/types";
 
 interface AddToCartButtonProps extends Omit<ButtonProps, "children"> {
@@ -18,20 +19,21 @@ interface AddToCartButtonProps extends Omit<ButtonProps, "children"> {
 export function AddToCartButton({
   item,
   quantity = 1,
-  label = "Añadir al carrito",
+  label,
   openDrawer = true,
   className,
   ...rest
 }: AddToCartButtonProps) {
   const addItem = useCart((s) => s.addItem);
   const setOpen = useCart((s) => s.setOpen);
+  const t = useT();
   const [added, setAdded] = React.useState(false);
   const soldOut = item.stock <= 0;
 
   function handleClick() {
     if (soldOut) return;
     addItem(item, quantity);
-    toast.success("Añadido al carrito", {
+    toast.success(t.detail.addedToast, {
       description: `${item.title} — ${item.artist}`,
     });
     if (openDrawer) setOpen(true);
@@ -47,14 +49,14 @@ export function AddToCartButton({
       {...rest}
     >
       {soldOut ? (
-        "Agotado"
+        t.detail.soldOut
       ) : added ? (
         <>
-          <Check /> Añadido
+          <Check /> {t.detail.added}
         </>
       ) : (
         <>
-          <ShoppingBag /> {label}
+          <ShoppingBag /> {label ?? t.detail.addToCart}
         </>
       )}
     </Button>

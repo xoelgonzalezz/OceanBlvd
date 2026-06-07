@@ -17,10 +17,10 @@ export function formatPrice(cents: number): string {
   }).format(cents / 100);
 }
 
-/** Formatea una fecha larga en español. Ej: "7 de junio de 2026" */
-export function formatDate(date: Date | string): string {
+/** Formatea una fecha larga según el idioma. Ej: "7 de junio de 2026" / "7 June 2026" */
+export function formatDate(date: Date | string, locale: string = "es"): string {
   const d = typeof date === "string" ? new Date(date) : date;
-  return new Intl.DateTimeFormat("es-ES", {
+  return new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "es-ES", {
     day: "numeric",
     month: "long",
     year: "numeric",

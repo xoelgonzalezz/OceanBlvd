@@ -14,12 +14,13 @@ datasource db {
 /// Género musical (Rock, Jazz, Hip-Hop...)
 model Genre {
   id          String   @id @default(cuid())
-  name        String   @unique
-  slug        String   @unique
-  description String?
+  name          String   @unique
+  slug          String   @unique
+  description   String?
+  descriptionEn String?
   // Pequeño icono/emoji para la rejilla de géneros del home.
-  emoji       String?
-  records     Record[]
+  emoji         String?
+  records       Record[]
 
   @@index([slug])
 }
@@ -30,6 +31,7 @@ model Artist {
   name        String   @unique
   slug        String   @unique
   bio         String
+  bioEn       String?
   image       String?
   country     String?
   foundedYear Int?
@@ -52,6 +54,7 @@ model Record {
   condition   String   @default("USED") // "NEW" (nuevo) | "USED" (segunda mano)
   mediaGrade  String? // "M" | "NM" | "VG+" | "VG" ... (estado del disco)
   description String
+  descriptionEn String?
   stock       Int      @default(1)
   salesCount  Int      @default(0) // para "Más vendidos" / popularidad
   featured    Boolean  @default(false) // destacados del home/hero
@@ -106,7 +109,9 @@ model BlogPost {
   title       String
   slug        String   @unique
   excerpt     String
+  excerptEn   String?
   content     String // cuerpo del artículo (texto enriquecido / párrafos)
+  contentEn   String?
   coverImage  String?
   author      String
   tag         String? // "Lanzamientos" | "Cultura" | "Ediciones especiales"...

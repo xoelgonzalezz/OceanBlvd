@@ -16,6 +16,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { useCart, useCartHydrated, useCartSubtotal } from "@/store/cart";
 import { formatPrice } from "@/lib/utils";
 import { calcShipping } from "@/lib/constants";
+import { useT } from "@/components/i18n/locale-provider";
 
 const initialForm = {
   fullName: "",
@@ -30,6 +31,7 @@ const initialForm = {
 
 export function CheckoutView() {
   const router = useRouter();
+  const t = useT();
   const items = useCart((s) => s.items);
   const clear = useCart((s) => s.clear);
   const subtotal = useCartSubtotal();
@@ -48,9 +50,9 @@ export function CheckoutView() {
     return (
       <EmptyState
         icon={ShoppingBag}
-        title="Tu carrito está vacío"
-        description="Añade algún disco antes de tramitar el pedido."
-        actionLabel="Explorar catálogo"
+        title={t.cart.emptyTitle}
+        description={t.cart.emptyDesc}
+        actionLabel={t.cart.emptyAction}
         actionHref="/tienda"
       />
     );
@@ -91,7 +93,7 @@ export function CheckoutView() {
       router.push(`/checkout/exito?order=${data.orderId}`);
     } catch (err) {
       toast.error(
-        err instanceof Error ? err.message : "No se pudo procesar el pedido."
+        err instanceof Error ? err.message : t.checkout.errorGeneric
       );
     } finally {
       setLoading(false);
@@ -102,11 +104,13 @@ export function CheckoutView() {
     <form onSubmit={onSubmit} className="grid gap-10 lg:grid-cols-[1fr_360px]">
       {/* Datos de envío */}
       <div>
-        <h2 className="font-serif text-xl font-semibold">Datos de envío</h2>
+        <h2 className="font-serif text-xl font-semibold">
+          {t.checkout.shippingData}
+        </h2>
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <Field
             id="fullName"
-            label="Nombre y apellidos"
+            label={t.checkout.fullName}
             className="sm:col-span-2"
             value={form.fullName}
             onChange={(v) => set("fullName", v)}
@@ -115,7 +119,7 @@ export function CheckoutView() {
           />
           <Field
             id="email"
-            label="Correo electrónico"
+            label={t.checkout.email}
             type="email"
             className="sm:col-span-2"
             value={form.email}
@@ -125,7 +129,7 @@ export function CheckoutView() {
           />
           <Field
             id="address"
-            label="Dirección"
+            label={t.checkout.address}
             className="sm:col-span-2"
             value={form.address}
             onChange={(v) => set("address", v)}
@@ -134,7 +138,7 @@ export function CheckoutView() {
           />
           <Field
             id="city"
-            label="Ciudad"
+            label={t.checkout.city}
             value={form.city}
             onChange={(v) => set("city", v)}
             error={errors.city}
@@ -142,7 +146,7 @@ export function CheckoutView() {
           />
           <Field
             id="postalCode"
-            label="Código postal"
+            label={t.checkout.postalCode}
             value={form.postalCode}
             onChange={(v) => set("postalCode", v)}
             error={errors.postalCode}
@@ -150,7 +154,7 @@ export function CheckoutView() {
           />
           <Field
             id="country"
-            label="País"
+            label={t.checkout.country}
             value={form.country}
             onChange={(v) => set("country", v)}
             error={errors.country}
@@ -158,7 +162,7 @@ export function CheckoutView() {
           />
           <Field
             id="phone"
-            label="Teléfono (opcional)"
+            label={t.checkout.phone}
             value={form.phone}
             onChange={(v) => set("phone", v)}
             error={errors.phone}
@@ -166,12 +170,12 @@ export function CheckoutView() {
             required={false}
           />
           <div className="sm:col-span-2">
-            <Label htmlFor="notes">Notas del pedido (opcional)</Label>
+            <Label htmlFor="notes">{t.checkout.notes}</Label>
             <Textarea
               id="notes"
               value={form.notes}
               onChange={(e) => set("notes", e.target.value)}
-              placeholder="¿Algo que debamos saber sobre tu envío?"
+              placeholder={t.checkout.notesPlaceholder}
               className="mt-1.5"
             />
           </div>
@@ -179,17 +183,16 @@ export function CheckoutView() {
 
         <div className="mt-6 flex items-start gap-2 rounded-md bg-secondary/40 p-4 text-sm text-muted-foreground">
           <Lock className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-          <p>
-            Pasarela de pago <strong>simulada</strong> para esta demo. No se
-            realizará ningún cargo ni se solicitan datos de tarjeta.
-          </p>
+          <p>{t.checkout.mockNote}</p>
         </div>
       </div>
 
       {/* Resumen */}
       <aside className="h-fit lg:sticky lg:top-24">
         <div className="rounded-lg border bg-card p-6">
-          <h2 className="font-serif text-lg font-semibold">Tu pedido</h2>
+          <h2 className="font-serif text-lg font-semibold">
+            {t.checkout.yourOrder}
+          </h2>
 
           <ul className="mt-4 space-y-3">
             {items.map((item) => (
@@ -223,18 +226,18 @@ export function CheckoutView() {
 
           <dl className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <dt className="text-muted-foreground">Subtotal</dt>
+              <dt className="text-muted-foreground">{t.cart.subtotal}</dt>
               <dd className="tabular-nums">{formatPrice(subtotal)}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-muted-foreground">Envío</dt>
+              <dt className="text-muted-foreground">{t.cart.shipping}</dt>
               <dd className="tabular-nums">
-                {shipping === 0 ? "Gratis" : formatPrice(shipping)}
+                {shipping === 0 ? t.cart.free : formatPrice(shipping)}
               </dd>
             </div>
             <Separator className="my-2" />
             <div className="flex justify-between text-base">
-              <dt className="font-serif font-semibold">Total</dt>
+              <dt className="font-serif font-semibold">{t.cart.total}</dt>
               <dd className="font-serif font-semibold tabular-nums">
                 {formatPrice(total)}
               </dd>
@@ -249,11 +252,11 @@ export function CheckoutView() {
           >
             {loading ? (
               <>
-                <Loader2 className="animate-spin" /> Procesando…
+                <Loader2 className="animate-spin" /> {t.checkout.processing}
               </>
             ) : (
               <>
-                <Lock /> Pagar {formatPrice(total)}
+                <Lock /> {t.checkout.pay} {formatPrice(total)}
               </>
             )}
           </Button>
@@ -261,7 +264,7 @@ export function CheckoutView() {
             href="/carrito"
             className="mt-3 block text-center text-sm text-muted-foreground hover:text-foreground"
           >
-            Volver al carrito
+            {t.checkout.backToCart}
           </Link>
         </div>
       </aside>

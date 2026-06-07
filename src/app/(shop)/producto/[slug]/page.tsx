@@ -13,21 +13,15 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { Separator } from "@/components/ui/separator";
 import { toCartItem } from "@/lib/mappers";
 import {
-  CONDITION_LABELS,
   GRADE_DESCRIPTIONS,
+  GRADE_DESCRIPTIONS_EN,
   GRADE_LABELS,
   SITE,
 } from "@/lib/constants";
-import {
-  getAllRecordSlugs,
-  getRecordBySlug,
-  getRelatedRecords,
-} from "@/lib/queries";
+import { getDict, getLocale, pick } from "@/i18n/server";
+import { getRecordBySlug, getRelatedRecords } from "@/lib/queries";
 
-export async function generateStaticParams() {
-  const slugs = await getAllRecordSlugs();
-  return slugs.map((s) => ({ slug: s.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -61,6 +55,8 @@ export default async function ProductPage({
 
   const related = await getRelatedRecords(record, 4);
   const lowStock = record.stock > 0 && record.stock <= 3;
+  const t = getDict();
+  const locale = getLocale();
 
   const productLd = {
     "@context": "https://schema.org",
@@ -98,7 +94,7 @@ export default async function ProductPage({
 
   const details: { label: string; value: React.ReactNode }[] = [
     {
-      label: "Artista",
+      label: t.detail.artist,
       value: (
         <Link
           href={`/artistas/${record.artist.slug}`}
@@ -108,10 +104,10 @@ export default async function ProductPage({
         </Link>
       ),
     },
-    { label: "Sello", value: record.label },
-    { label: "Año", value: record.year },
+    { label: t.detail.label, value: record.label },
+    { label: t.detail.year, value: record.year },
     {
-      label: "Género",
+      label: t.detail.genre,
       value: (
         <Link
           href={`/tienda?genre=${record.genre.slug}`}
@@ -121,12 +117,15 @@ export default async function ProductPage({
         </Link>
       ),
     },
-    { label: "Formato", value: "Vinilo LP" },
-    { label: "Estado", value: CONDITION_LABELS[record.condition] ?? record.condition },
+    { label: t.detail.format, value: t.detail.formatValue },
+    {
+      label: t.detail.condition,
+      value: record.condition === "NEW" ? t.card.new : t.card.used,
+    },
     ...(record.mediaGrade
       ? [
           {
-            label: "Calidad",
+            label: t.detail.grade,
             value: GRADE_LABELS[record.mediaGrade] ?? record.mediaGrade,
           },
         ]
@@ -149,11 +148,11 @@ export default async function ProductPage({
         className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground"
       >
         <Link href="/" className="hover:text-foreground">
-          Inicio
+          {t.detail.home}
         </Link>
         <ChevronRight className="h-3.5 w-3.5" />
         <Link href="/tienda" className="hover:text-foreground">
-          Tienda
+          {t.detail.shop}
         </Link>
         <ChevronRight className="h-3.5 w-3.5" />
         <span className="truncate text-foreground">{record.title}</span>
@@ -190,7 +189,7 @@ export default async function ProductPage({
               className="font-serif text-3xl font-semibold"
             />
             <p className="mt-1 text-sm text-muted-foreground">
-              IVA incluido. Envío calculado en el checkout.
+              {t.detail.taxNote}
             </p>
           </div>
 
@@ -198,13 +197,13 @@ export default async function ProductPage({
             <BuyBox item={toCartItem(record)} />
             <p className="mt-3 text-sm">
               {record.stock <= 0 ? (
-                <span className="text-destructive">Agotado temporalmente</span>
+                <span className="text-destructive">{t.detail.soldOutTemp}</span>
               ) : lowStock ? (
                 <span className="text-primary">
-                  ¡Solo quedan {record.stock} en stock!
+                  {t.detail.lowStock(record.stock)}
                 </span>
               ) : (
-                <span className="text-muted-foreground">En stock · listo para enviar</span>
+                <span className="text-muted-foreground">{t.detail.inStock}</span>
               )}
             </p>
           </div>
@@ -213,15 +212,15 @@ export default async function ProductPage({
           <ul className="mt-6 grid gap-3 rounded-lg border bg-card p-4 text-sm sm:grid-cols-3">
             <li className="flex items-center gap-2">
               <Truck className="h-4 w-4 shrink-0 text-primary" />
-              Envío 24–48h
+              {t.detail.ship}
             </li>
             <li className="flex items-center gap-2">
               <RotateCcw className="h-4 w-4 shrink-0 text-primary" />
-              30 días devolución
+              {t.detail.returns}
             </li>
             <li className="flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 shrink-0 text-primary" />
-              Estado garantizado
+              {t.detail.guaranteed}
             </li>
           </ul>
 
@@ -240,16 +239,24 @@ export default async function ProductPage({
       {/* Descripción + Tracklist */}
       <div className="mt-16 grid gap-12 lg:grid-cols-2 lg:gap-16">
         <div>
-          <h2 className="mb-4 font-serif text-xl font-semibold">Descripción</h2>
-          <p className="prose-editorial">{record.description}</p>
+          <h2 className="mb-4 font-serif text-xl font-semibold">
+            {t.detail.description}
+          </h2>
+          <p className="prose-editorial">
+            {pick(locale, record.description, record.descriptionEn)}
+          </p>
 
           {record.mediaGrade && GRADE_DESCRIPTIONS[record.mediaGrade] ? (
             <div className="mt-6 rounded-lg bg-secondary/40 p-4 text-sm">
               <p className="font-medium">
-                Estado del disco: {GRADE_LABELS[record.mediaGrade]}
+                {t.detail.condition}: {GRADE_LABELS[record.mediaGrade]}
               </p>
               <p className="mt-1 text-muted-foreground">
-                {GRADE_DESCRIPTIONS[record.mediaGrade]}
+                {pick(
+                  locale,
+                  GRADE_DESCRIPTIONS[record.mediaGrade],
+                  GRADE_DESCRIPTIONS_EN[record.mediaGrade]
+                )}
               </p>
             </div>
           ) : null}
@@ -263,8 +270,8 @@ export default async function ProductPage({
         <div className="mt-20">
           <Separator className="mb-12" />
           <SectionHeading
-            eyebrow="Quizá te guste"
-            title="Discos relacionados"
+            eyebrow={t.detail.relatedEyebrow}
+            title={t.detail.relatedTitle}
           />
           <RecordGrid records={related} sizes="(max-width: 640px) 50vw, 25vw" />
         </div>

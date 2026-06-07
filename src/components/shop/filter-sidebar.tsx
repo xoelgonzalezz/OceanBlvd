@@ -7,8 +7,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { CONDITION_LABELS } from "@/lib/constants";
-import { decadeLabel, formatPrice } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
+import { useT } from "@/components/i18n/locale-provider";
 import type { FilterFacets } from "@/types";
 
 const FILTER_KEYS = ["genre", "artist", "decade", "condition", "min", "max", "q"];
@@ -23,6 +23,7 @@ export function FilterSidebar({
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
+  const t = useT();
 
   const minEuro = Math.floor(facets.minPrice / 100);
   const maxEuro = Math.ceil(facets.maxPrice / 100);
@@ -76,19 +77,19 @@ export function FilterSidebar({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="font-serif text-lg font-semibold">Filtros</h2>
+        <h2 className="font-serif text-lg font-semibold">{t.shop.filters}</h2>
         {hasActive ? (
           <button
             type="button"
             onClick={clearAll}
             className="text-xs font-medium text-primary hover:underline"
           >
-            Limpiar todo
+            {t.shop.clearAll}
           </button>
         ) : null}
       </div>
 
-      <FilterGroup label="Género">
+      <FilterGroup label={t.shop.genre}>
         {facets.genres.map((g) => (
           <FilterRow
             key={g.slug}
@@ -102,11 +103,11 @@ export function FilterSidebar({
 
       <Separator />
 
-      <FilterGroup label="Estado">
+      <FilterGroup label={t.shop.condition}>
         {["NEW", "USED"].map((c) => (
           <FilterRow
             key={c}
-            label={CONDITION_LABELS[c]}
+            label={c === "NEW" ? t.card.new : t.card.used}
             checked={getList("condition").includes(c)}
             onChange={() => toggle("condition", c)}
           />
@@ -115,11 +116,11 @@ export function FilterSidebar({
 
       <Separator />
 
-      <FilterGroup label="Década">
+      <FilterGroup label={t.shop.decade}>
         {facets.decades.map((d) => (
           <FilterRow
             key={d}
-            label={decadeLabel(d)}
+            label={t.decadeLabel(d)}
             checked={getList("decade").includes(String(d))}
             onChange={() => toggle("decade", String(d))}
           />
@@ -128,7 +129,7 @@ export function FilterSidebar({
 
       <Separator />
 
-      <FilterGroup label="Precio">
+      <FilterGroup label={t.shop.price}>
         <div className="px-1 pt-2">
           <Slider
             value={range}
@@ -149,7 +150,7 @@ export function FilterSidebar({
 
       <Separator />
 
-      <FilterGroup label="Artista">
+      <FilterGroup label={t.shop.artist}>
         <ScrollArea className="-mr-3 h-56 pr-3">
           <div className="space-y-0.5">
             {facets.artists.map((a) => (

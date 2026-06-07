@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Reveal } from "@/components/shared/reveal";
 import { getArtists } from "@/lib/queries";
 import { truncate } from "@/lib/utils";
+import { getDict, getLocale, pick } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -16,18 +17,17 @@ export const metadata: Metadata = {
 
 export default async function ArtistasPage() {
   const artists = await getArtists();
+  const t = getDict();
+  const locale = getLocale();
 
   return (
     <div className="container py-10 md:py-12">
       <header className="max-w-2xl">
-        <span className="section-eyebrow">Voces</span>
+        <span className="section-eyebrow">{t.artistsPage.eyebrow}</span>
         <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
-          Artistas
+          {t.artistsPage.title}
         </h1>
-        <p className="mt-3 text-muted-foreground">
-          De leyendas del rock a pioneros del jazz y la electrónica. Conoce a
-          quienes dan forma a nuestra estantería.
-        </p>
+        <p className="mt-3 text-muted-foreground">{t.artistsPage.desc}</p>
       </header>
 
       <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
@@ -51,10 +51,10 @@ export default async function ArtistasPage() {
               </h2>
               <p className="text-xs text-muted-foreground">
                 {artist.country ? `${artist.country} · ` : ""}
-                {artist._count.records} discos
+                {artist._count.records} {t.product.records}
               </p>
               <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">
-                {truncate(artist.bio, 110)}
+                {truncate(pick(locale, artist.bio, artist.bioEn), 110)}
               </p>
             </Link>
           </Reveal>

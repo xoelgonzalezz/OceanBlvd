@@ -14,19 +14,26 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { MAIN_NAV } from "@/lib/nav";
 import { cn } from "@/lib/utils";
-
-const SECONDARY = [
-  { label: "Contacto", href: "/contacto" },
-  { label: "Preguntas frecuentes", href: "/faq" },
-  { label: "Envíos y devoluciones", href: "/envios" },
-  { label: "Acceso administración", href: "/admin" },
-];
+import { useT } from "@/components/i18n/locale-provider";
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
+  const t = useT();
+
+  const MAIN_NAV = [
+    { label: t.nav.shop, href: "/tienda" },
+    { label: t.nav.artists, href: "/artistas" },
+    { label: t.nav.blog, href: "/blog" },
+    { label: t.nav.about, href: "/sobre-nosotros" },
+  ];
+  const SECONDARY = [
+    { label: t.footer.linkContact, href: "/contacto" },
+    { label: t.footer.linkFaq, href: "/faq" },
+    { label: t.footer.linkShipping, href: "/envios" },
+    { label: t.footer.admin, href: "/admin" },
+  ];
 
   function MobileLink({ href, label }: { href: string; label: string }) {
     const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -52,7 +59,7 @@ export function MobileNav() {
         <Button
           variant="ghost"
           size="icon"
-          aria-label="Abrir menú"
+          aria-label={t.header.menu}
           className="lg:hidden"
         >
           <Menu className="h-5 w-5" />
@@ -67,7 +74,7 @@ export function MobileNav() {
         </SheetHeader>
 
         <nav className="flex flex-col gap-1 p-3">
-          <MobileLink href="/" label="Inicio" />
+          <MobileLink href="/" label={t.nav.home} />
           {MAIN_NAV.map((l) => (
             <MobileLink key={l.href} href={l.href} label={l.label} />
           ))}

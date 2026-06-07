@@ -5,6 +5,7 @@ import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import { useCart } from "@/store/cart";
+import { useT } from "@/components/i18n/locale-provider";
 import type { CartItem } from "@/types";
 
 /** Botón rápido (icono) para añadir al carrito desde una tarjeta de producto. */
@@ -17,6 +18,7 @@ export function QuickAddButton({
 }) {
   const addItem = useCart((s) => s.addItem);
   const setOpen = useCart((s) => s.setOpen);
+  const t = useT();
   const soldOut = item.stock <= 0;
 
   function handleClick(e: React.MouseEvent) {
@@ -25,7 +27,7 @@ export function QuickAddButton({
     e.stopPropagation();
     if (soldOut) return;
     addItem(item, 1);
-    toast.success("Añadido al carrito", {
+    toast.success(t.detail.addedToast, {
       description: `${item.title} — ${item.artist}`,
     });
     setOpen(true);

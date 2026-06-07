@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { CONDITION_LABELS } from "@/lib/constants";
+import { getDict } from "@/i18n/server";
 import { cn } from "@/lib/utils";
 
 interface ConditionBadgeProps {
@@ -15,13 +15,14 @@ export function ConditionBadge({
   className,
   showGrade = false,
 }: ConditionBadgeProps) {
+  const t = getDict();
   const isNew = condition === "NEW";
   return (
     <Badge
       variant={isNew ? "default" : "secondary"}
       className={cn("backdrop-blur-sm", className)}
     >
-      {CONDITION_LABELS[condition] ?? condition}
+      {isNew ? t.card.new : t.card.used}
       {showGrade && grade && !isNew ? ` · ${grade}` : ""}
     </Badge>
   );

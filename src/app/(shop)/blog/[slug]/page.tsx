@@ -6,14 +6,12 @@ import { ChevronLeft } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { getAllPostSlugs, getPostBySlug, getPosts } from "@/lib/queries";
+import { getPostBySlug, getPosts } from "@/lib/queries";
 import { formatDate, truncate } from "@/lib/utils";
 import { SITE } from "@/lib/constants";
+import { getDict, getLocale, pick } from "@/i18n/server";
 
-export async function generateStaticParams() {
-  const slugs = await getAllPostSlugs();
-  return slugs.map((s) => ({ slug: s.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -48,7 +46,11 @@ export default async function BlogPostPage({
     .filter((p) => p.slug !== post.slug)
     .slice(0, 3);
 
-  const paragraphs = post.content.split(/\n\s*\n/).filter(Boolean);
+  const t = getDict();
+  const locale = getLocale();
+  const paragraphs = pick(locale, post.content, post.contentEn)
+    .split(/\n\s*\n/)
+    .filter(Boolean);
 
   const articleLd = {
     "@context": "https://schema.org",
@@ -73,7 +75,7 @@ export default async function BlogPostPage({
           className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           <ChevronLeft className="h-4 w-4" />
-          Volver al blog
+          {t.blogPage.back}
         </Link>
 
         <header className="mt-6">
@@ -82,7 +84,7 @@ export default async function BlogPostPage({
             {post.title}
           </h1>
           <p className="mt-4 text-sm text-muted-foreground">
-            Por {post.author} · {formatDate(post.publishedAt)}
+            {t.blogPage.by} {post.author} · {formatDate(post.publishedAt, locale)}
           </p>
         </header>
       </div>
@@ -102,7 +104,9 @@ export default async function BlogPostPage({
 
       <div className="container mt-10 max-w-3xl">
         <div className="prose-editorial">
-          <p className="text-lg font-medium text-foreground">{post.excerpt}</p>
+          <p className="text-lg font-medium text-foreground">
+            {pick(locale, post.excerpt, post.excerptEn)}
+          </p>
           {paragraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
@@ -114,7 +118,7 @@ export default async function BlogPostPage({
         <div className="container mt-20 max-w-5xl">
           <Separator className="mb-10" />
           <h2 className="mb-8 font-serif text-2xl font-semibold tracking-tight">
-            Más del blog
+            {t.blogPage.more}
           </h2>
           <div className="grid gap-8 sm:grid-cols-3">
             {others.map((p) => (
@@ -132,7 +136,7 @@ export default async function BlogPostPage({
                   {p.title}
                 </h3>
                 <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
-                  {truncate(p.excerpt, 90)}
+                  {truncate(pick(locale, p.excerpt, p.excerptEn), 90)}
                 </p>
               </Link>
             ))}

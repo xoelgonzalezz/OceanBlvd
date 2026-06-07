@@ -6,18 +6,21 @@ import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
 import { Badge } from "@/components/ui/badge";
 import { formatDate } from "@/lib/utils";
+import { getDict, getLocale, pick } from "@/i18n/server";
 
 export function BlogPreview({ posts }: { posts: BlogPost[] }) {
+  const t = getDict();
+  const locale = getLocale();
   if (!posts.length) return null;
 
   return (
     <section className="container py-16 md:py-20">
       <SectionHeading
-        eyebrow="El surco"
-        title="Desde el blog"
-        description="Cultura, lanzamientos y rarezas del mundo del vinilo."
+        eyebrow={t.home.blogEyebrow}
+        title={t.home.blogTitle}
+        description={t.home.blogDesc}
         href="/blog"
-        linkLabel="Ver todas las noticias"
+        linkLabel={t.home.blogLink}
       />
       <div className="grid gap-8 md:grid-cols-3">
         {posts.map((post, i) => (
@@ -38,10 +41,10 @@ export function BlogPreview({ posts }: { posts: BlogPost[] }) {
                   {post.title}
                 </h3>
                 <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
-                  {post.excerpt}
+                  {pick(locale, post.excerpt, post.excerptEn)}
                 </p>
                 <p className="mt-3 text-xs text-muted-foreground">
-                  {post.author} · {formatDate(post.publishedAt)}
+                  {post.author} · {formatDate(post.publishedAt, locale)}
                 </p>
               </div>
             </Link>
