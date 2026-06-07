@@ -5,21 +5,18 @@ import { ArrowRight, Sparkles, Truck, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { RecordCard } from "@/types";
 
-export function Hero({ featured }: { featured: RecordCard[] }) {
-  const cover = featured[0]?.images[0];
+export function Hero({ record }: { record: RecordCard | null }) {
+  const cover = record?.images[0];
 
   return (
     <section className="relative overflow-hidden border-b border-border/60">
-      {/* Flourishes de fondo */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-      >
-        <div className="absolute -right-32 -top-24 h-[28rem] w-[28rem] rounded-full bg-primary/10 blur-3xl" />
-        <div className="absolute -bottom-32 -left-24 h-[24rem] w-[24rem] rounded-full bg-secondary/50 blur-3xl" />
+      {/* Flourishes de fondo (monocromo) */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -right-32 -top-24 h-[28rem] w-[28rem] rounded-full bg-foreground/[0.05] blur-3xl" />
+        <div className="absolute -bottom-32 -left-24 h-[24rem] w-[24rem] rounded-full bg-foreground/[0.03] blur-3xl" />
       </div>
 
-      <div className="container grid items-center gap-12 py-16 md:py-24 lg:grid-cols-2 lg:gap-10">
+      <div className="container grid items-center gap-10 py-14 sm:py-16 md:py-24 lg:grid-cols-2 lg:gap-10">
         {/* Texto */}
         <div className="max-w-xl">
           <span className="section-eyebrow animate-fade-up opacity-0 [animation-delay:0ms]">
@@ -27,12 +24,12 @@ export function Hero({ featured }: { featured: RecordCard[] }) {
             Tienda independiente de vinilo
           </span>
 
-          <h1 className="mt-4 animate-fade-up text-balance font-serif text-4xl font-semibold leading-[1.05] tracking-tight opacity-0 [animation-delay:80ms] sm:text-5xl md:text-6xl">
+          <h1 className="mt-4 animate-fade-up text-balance font-serif text-3xl font-semibold leading-[1.06] tracking-tight opacity-0 [animation-delay:80ms] sm:text-4xl md:text-5xl lg:text-6xl">
             Vinilos con alma,{" "}
             <span className="text-primary">elegidos a mano.</span>
           </h1>
 
-          <p className="mt-5 max-w-md animate-fade-up text-lg leading-relaxed text-muted-foreground opacity-0 [animation-delay:160ms]">
+          <p className="mt-5 max-w-md animate-fade-up text-base leading-relaxed text-muted-foreground opacity-0 [animation-delay:160ms] sm:text-lg">
             Novedades, ediciones especiales y joyas de segunda mano. Una
             selección cuidada para quienes escuchan la música como se merece.
           </p>
@@ -65,18 +62,18 @@ export function Hero({ featured }: { featured: RecordCard[] }) {
           </ul>
         </div>
 
-        {/* Visual: portada destacada + vinilo girando */}
-        <div className="relative mx-auto aspect-square w-full max-w-md animate-scale-in opacity-0 [animation-delay:200ms]">
-          {/* Disco de vinilo asomando */}
-          <div className="absolute right-[-10%] top-1/2 aspect-square w-[80%] -translate-y-1/2 rounded-full bg-[repeating-radial-gradient(circle_at_center,#15120f_0px,#15120f_1px,#241f1a_2px,#241f1a_3px)] shadow-2xl motion-safe:animate-spin-slow">
+        {/* Visual: portada exclusiva + vinilo girando */}
+        <div className="relative mx-auto aspect-square w-full max-w-[20rem] animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-md">
+          {/* Disco de vinilo monocromo asomando y girando */}
+          <div className="absolute right-0 top-1/2 aspect-square w-[72%] -translate-y-1/2 rounded-full bg-[repeating-radial-gradient(circle_at_center,#0a0a0a_0px,#0a0a0a_1px,#1c1c1c_2px,#1c1c1c_3px)] shadow-2xl ring-1 ring-white/5 motion-safe:animate-spin-slow sm:right-[-8%] sm:w-[80%]">
             <div className="absolute left-1/2 top-1/2 h-[26%] w-[26%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary" />
             <div className="absolute left-1/2 top-1/2 h-[4%] w-[4%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-background" />
           </div>
 
-          {/* Portada destacada */}
-          {cover ? (
+          {/* Portada exclusiva (Lana Del Rey) */}
+          {cover && record ? (
             <Link
-              href={`/producto/${featured[0].slug}`}
+              href={`/producto/${record.slug}`}
               className="group relative z-10 block aspect-square w-[82%] overflow-hidden rounded-lg shadow-2xl ring-1 ring-border/60"
             >
               <Image
@@ -87,15 +84,15 @@ export function Hero({ featured }: { featured: RecordCard[] }) {
                 sizes="(max-width: 1024px) 80vw, 40vw"
                 className="object-cover transition-transform duration-700 ease-out-quint group-hover:scale-105"
               />
-              <span className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                <span className="block text-xs uppercase tracking-wide text-white/70">
-                  Destacado
+              <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                <span className="block text-[11px] font-medium uppercase tracking-[0.18em] text-white/80">
+                  Edición exclusiva
                 </span>
                 <span className="block font-serif text-lg font-medium text-white">
-                  {featured[0].title}
+                  {record.title}
                 </span>
                 <span className="block text-sm text-white/80">
-                  {featured[0].artist.name}
+                  {record.artist.name}
                 </span>
               </span>
             </Link>

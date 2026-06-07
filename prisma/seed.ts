@@ -21,6 +21,8 @@ interface SeedAlbum {
   featured: boolean;
   stock: number;
   tracks: SeedTrack[];
+  coverUrl?: string; // portada real remota (iTunes / Deezer)
+  coverLocal?: string; // portada descargada a /public/covers
 }
 interface SeedArtist {
   name: string;
@@ -31,6 +33,7 @@ interface SeedArtist {
     country: string;
     foundedYear: number;
     albums: SeedAlbum[];
+    imageUrl?: string; // foto real (Wikipedia)
   };
 }
 interface SeedBlogPost {
@@ -40,6 +43,7 @@ interface SeedBlogPost {
   author: string;
   tag: string;
   daysAgo: number;
+  coverLocal?: string; // foto real descargada a /public/blog
 }
 interface SeedShape {
   artists: SeedArtist[];
@@ -123,14 +127,13 @@ async function main() {
         bio: a.data.bio,
         country: a.data.country,
         foundedYear: a.data.foundedYear,
-        image: `/placeholders/artist-${pad((ai % 6) + 1)}.svg`,
+        image: a.data.imageUrl ?? `/placeholders/artist-${pad((ai % 6) + 1)}.svg`,
         featured: FEATURED_ARTISTS.has(a.slug),
       },
     });
 
     for (const alb of a.data.albums) {
       const ci = recordIndex % 12;
-      const bi = (recordIndex + 6) % 12;
       // Dispersamos las fechas de alta para que "Novedades" tenga variedad.
       const offsetDays = (recordIndex * 13 + 7) % 95;
 
@@ -154,14 +157,12 @@ async function main() {
           images: {
             create: [
               {
-                url: `/placeholders/cover-${pad(ci + 1)}.svg`,
+                url:
+                  alb.coverLocal ??
+                  alb.coverUrl ??
+                  `/placeholders/cover-${pad(ci + 1)}.svg`,
                 alt: `Portada de ${alb.title} de ${a.name}`,
                 position: 0,
-              },
-              {
-                url: `/placeholders/cover-${pad(bi + 1)}.svg`,
-                alt: `Contraportada de ${alb.title} de ${a.name}`,
-                position: 1,
               },
             ],
           },
@@ -190,7 +191,7 @@ async function main() {
         content: p.content,
         author: p.author,
         tag: p.tag,
-        coverImage: `/placeholders/blog-${pad((i % 6) + 1)}.svg`,
+        coverImage: p.coverLocal ?? `/placeholders/blog-${pad((i % 6) + 1)}.svg`,
         publishedAt: new Date(Date.now() - (p.daysAgo || 10) * DAY),
       },
     });

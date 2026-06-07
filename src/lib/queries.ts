@@ -18,6 +18,24 @@ const fullInclude = {
 
 /* ============== HOME ============== */
 
+/** Disco para el hero: preferimos el álbum "Ocean Blvd" de Lana Del Rey. */
+export async function getHeroRecord() {
+  const lana = await db.record.findMany({
+    where: { artist: { slug: "lana-del-rey" } },
+    include: cardInclude,
+    orderBy: { salesCount: "desc" },
+  });
+  const ocean = lana.find((r) => /ocean blvd/i.test(r.title));
+  if (ocean) return ocean;
+  if (lana.length) return lana[0];
+  // Sin Lana: caemos al destacado más vendido.
+  return db.record.findFirst({
+    where: { featured: true },
+    include: cardInclude,
+    orderBy: { salesCount: "desc" },
+  });
+}
+
 export function getFeaturedRecords(limit = 6) {
   return db.record.findMany({
     where: { featured: true },
@@ -278,6 +296,46 @@ export function getRecordsByIds(ids: string[]) {
   return db.record.findMany({
     where: { id: { in: ids } },
     include: cardInclude,
+  });
+}
+
+/* ============== ADMIN ============== */
+
+export function getAdminRecords() {
+  return db.record.findMany({
+    include: { artist: true, images: { orderBy: { position: "asc" } } },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+export function getRecordForEdit(id: string) {
+  return db.record.findUnique({
+    where: { id },
+    include: {
+      tracks: { orderBy: { position: "asc" } },
+      images: { orderBy: { position: "asc" } },
+    },
+  });
+}
+
+export function getArtistsBasic() {
+  return db.artist.findMany({
+    select: { id: true, name: true },
+    orderBy: { name: "asc" },
+  });
+}
+
+export function getGenresBasic() {
+  return db.genre.findMany({
+    select: { id: true, name: true },
+    orderBy: { name: "asc" },
+  });
+}
+
+export function getAdminArtists() {
+  return db.artist.findMany({
+    include: { _count: { select: { records: true } } },
+    orderBy: { name: "asc" },
   });
 }
 

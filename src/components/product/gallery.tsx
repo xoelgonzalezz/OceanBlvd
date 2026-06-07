@@ -29,7 +29,7 @@ export function Gallery({
       </div>
 
       {images.length > 1 ? (
-        <div className="flex gap-3">
+        <div className="flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {images.map((img, i) => (
             <button
               key={i}
@@ -38,7 +38,7 @@ export function Gallery({
               aria-label={`Ver imagen ${i + 1}`}
               aria-current={i === active}
               className={cn(
-                "relative aspect-square w-20 overflow-hidden rounded-md ring-1 transition-all duration-200 ease-out-quint",
+                "relative aspect-square w-20 shrink-0 overflow-hidden rounded-md ring-1 transition-all duration-200 ease-out-quint",
                 i === active
                   ? "ring-2 ring-primary"
                   : "ring-border/60 hover:ring-primary/50"

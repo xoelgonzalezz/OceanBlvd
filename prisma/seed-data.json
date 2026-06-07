@@ -71,7 +71,9 @@
                 "title": "Eclipse",
                 "duration": "2:03"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/e635a8510c1a74bc089b3566ebbb9cb8/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/pink-floyd-the-dark-side-of-the-moon.jpg"
           },
           {
             "title": "Wish You Were Here",
@@ -110,7 +112,9 @@
                 "title": "Shine On You Crazy Diamond (Parts VI-IX)",
                 "duration": "12:23"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/cb029c785b8d0cd624ddee9d4127ceff/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/pink-floyd-wish-you-were-here.jpg"
           },
           {
             "title": "The Wall",
@@ -254,9 +258,12 @@
                 "title": "Outside the Wall",
                 "duration": "1:41"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/2bea643b92a8fc6b19a23756f718cbd4/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/pink-floyd-the-wall.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/pink-floyd.jpg"
       }
     },
     {
@@ -335,7 +342,9 @@
                 "title": "Gold Dust Woman",
                 "duration": "4:51"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/9732751ce91d786dcf30069853697078/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/fleetwood-mac-rumours.jpg"
           },
           {
             "title": "Fleetwood Mac",
@@ -404,7 +413,9 @@
                 "title": "I'm So Afraid",
                 "duration": "4:21"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/35b5526dd0df498eb85355c7427a5a3b/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/fleetwood-mac-fleetwood-mac.jpg"
           },
           {
             "title": "Tusk",
@@ -518,9 +529,12 @@
                 "title": "Never Forget",
                 "duration": "3:40"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/195730d781bb0bb9b723bdfe30ed1977/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/fleetwood-mac-tusk.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/fleetwood-mac.jpg"
       }
     },
     {
@@ -569,7 +583,9 @@
                 "title": "Flamenco Sketches",
                 "duration": "09:26"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/88aec77a2c4a8ed8dd3c709a9fe418bc/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/miles-davis-kind-of-blue.jpg"
           },
           {
             "title": "Bitches Brew",
@@ -613,7 +629,9 @@
                 "title": "Sanctuary",
                 "duration": "10:56"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/bbc96da10e597caa2cb32e98f9af037a/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/miles-davis-bitches-brew.jpg"
           },
           {
             "title": "Sketches of Spain",
@@ -652,9 +670,12 @@
                 "title": "Solea",
                 "duration": "12:15"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/1a1f421286cb1bbd8821d7463bbda464/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/miles-davis-sketches-of-spain.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/miles-davis.jpg"
       }
     },
     {
@@ -698,7 +719,9 @@
                 "title": "Part 4: Psalm",
                 "duration": "07:05"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/41ae651a2f190e6f8dff4669367e710e/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/john-coltrane-a-love-supreme.jpg"
           },
           {
             "title": "Giant Steps",
@@ -747,7 +770,9 @@
                 "title": "Mr. P.C.",
                 "duration": "06:57"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/277f756814a84afd79e5d202ed0c2217/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/john-coltrane-giant-steps.jpg"
           },
           {
             "title": "Blue Train",
@@ -786,9 +811,12 @@
                 "title": "Lazy Bird",
                 "duration": "07:00"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/42888514a6c4258bec5487f9bfea7b44/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/john-coltrane-blue-train.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/john-coltrane.jpg"
       }
     },
     {
@@ -872,7 +900,9 @@
                 "title": "Compton",
                 "duration": "4:08"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/beaffccb372735044f4b8252b0cd9c2b/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/kendrick-lamar-good-kid-m-a-a-d-city.jpg"
           },
           {
             "title": "To Pimp a Butterfly",
@@ -966,7 +996,9 @@
                 "title": "Mortal Man",
                 "duration": "12:07"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/00dd0da365a94b1829302d6b7fec70e6/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/kendrick-lamar-to-pimp-a-butterfly.jpg"
           },
           {
             "title": "DAMN.",
@@ -1050,9 +1082,12 @@
                 "title": "DUCKWORTH.",
                 "duration": "4:08"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/7ce6b8452fae425557067db6e6a1cad5/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/kendrick-lamar-damn.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/kendrick-lamar.jpg"
       }
     },
     {
@@ -1146,7 +1181,9 @@
                 "title": "Scenario",
                 "duration": "4:10"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/08793909075a6d5f812fdfab902f03b0/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/a-tribe-called-quest-the-low-end-theory.jpg"
           },
           {
             "title": "Midnight Marauders",
@@ -1230,7 +1267,9 @@
                 "title": "God Lives Through",
                 "duration": "4:24"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/7edbc81197483e75798028a31078391f/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/a-tribe-called-quest-midnight-marauders.jpg"
           },
           {
             "title": "People's Instinctive Travels and the Paths of Rhythm",
@@ -1314,9 +1353,12 @@
                 "title": "Description of a Fool",
                 "duration": "5:36"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/615dd8e071e3faafdf3bd9b8e7f4c344/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/a-tribe-called-quest-people-s-instinctive-travels-and-the-paths-of-rhythm.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/a-tribe-called-quest.jpg"
       }
     },
     {
@@ -1410,7 +1452,9 @@
                 "title": "Too Long",
                 "duration": "10:00"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/5718f7c81c27e0b2417e2a4c45224f8a/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/daft-punk-discovery.jpg"
           },
           {
             "title": "Random Access Memories",
@@ -1489,7 +1533,9 @@
                 "title": "Contact",
                 "duration": "6:21"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/311bba0fc112d15f72c8b5a65f0456c1/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/daft-punk-random-access-memories.jpg"
           },
           {
             "title": "Homework",
@@ -1583,9 +1629,12 @@
                 "title": "Funk Ad",
                 "duration": "0:51"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/b870579c8650cd59b1cce656dde2ef17/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/daft-punk-homework.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/daft-punk.jpg"
       }
     },
     {
@@ -1674,7 +1723,9 @@
                 "title": "Actium",
                 "duration": "7:35"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/61597432632bf90678b7132db0451f45/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/aphex-twin-selected-ambient-works-85-92.jpg"
           },
           {
             "title": "Richard D. James Album",
@@ -1738,7 +1789,9 @@
                 "title": "Logon Rock Witch",
                 "duration": "3:58"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/3aa42e96e2c621d7e4caf305812a6398/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/aphex-twin-richard-d-james-album.jpg"
           },
           {
             "title": "Drukqs",
@@ -1857,9 +1910,12 @@
                 "title": "Nanou2",
                 "duration": "3:14"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/84ab3eb653275903b014b8ea6cf261bc/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/aphex-twin-drukqs.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/aphex-twin.jpg"
       }
     },
     {
@@ -1938,7 +1994,9 @@
                 "title": "Written On The Sky",
                 "duration": "01:29"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/ed07053951a44ce34a5ca9c61a2d680f/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/max-richter-the-blue-notebooks.jpg"
           },
           {
             "title": "Sleep",
@@ -1992,7 +2050,9 @@
                 "title": "Space 2 (away)",
                 "duration": "04:22"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/0aca5032edbaeb217d1f92d9efb46a23/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/max-richter-sleep.jpg"
           },
           {
             "title": "Recomposed By Max Richter: Vivaldi - The Four Seasons",
@@ -2066,9 +2126,12 @@
                 "title": "Winter 3",
                 "duration": "02:34"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/15a084b3d5bd2e026ed6f09bd0ffb6e6/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/max-richter-recomposed-by-max-richter-vivaldi-the-four-seasons.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/max-richter.jpg"
       }
     },
     {
@@ -2137,7 +2200,9 @@
                 "title": "Inner City Blues (Make Me Wanna Holler)",
                 "duration": "5:26"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/dd5e37f720256949a07a7e1a91754550/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/marvin-gaye-what-s-going-on.jpg"
           },
           {
             "title": "Let's Get It On",
@@ -2191,7 +2256,9 @@
                 "title": "Just to Keep You Satisfied",
                 "duration": "4:26"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/e8bf5369b0d4a9211e209952ff903265/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/marvin-gaye-let-s-get-it-on.jpg"
           },
           {
             "title": "Midnight Love",
@@ -2245,9 +2312,12 @@
                 "title": "My Love Is Waiting",
                 "duration": "5:14"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/295fc7b07a69b60e4b95315940d4336b/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/marvin-gaye-midnight-love.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/marvin-gaye.jpg"
       }
     },
     {
@@ -2356,7 +2426,9 @@
                 "title": "Another Star",
                 "duration": "8:28"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/ed7d05fc8407ff367c7fe39bd0d28a56/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/stevie-wonder-songs-in-the-key-of-life.jpg"
           },
           {
             "title": "Innervisions",
@@ -2415,7 +2487,9 @@
                 "title": "He's Misstra Know-It-All",
                 "duration": "5:36"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/1cf2b7972e30a477b82f03302ec5453d/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/stevie-wonder-innervisions.jpg"
           },
           {
             "title": "Talking Book",
@@ -2479,9 +2553,12 @@
                 "title": "I Believe (When I Fall in Love It Will Be Forever)",
                 "duration": "4:48"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/cedeeaceb07483dede6538bcd9afc012/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/stevie-wonder-talking-book.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/stevie-wonder.jpg"
       }
     },
     {
@@ -2570,7 +2647,9 @@
                 "title": "New Person, Same Old Mistakes",
                 "duration": "06:01"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/de5b9b704cd4ec36f8bf49beb3e17ba2/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/tame-impala-currents.jpg"
           },
           {
             "title": "Lonerism",
@@ -2644,7 +2723,9 @@
                 "title": "Sun's Coming Up",
                 "duration": "05:20"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/9fe30ce99ef17cb1250bef071f15ccee/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/tame-impala-lonerism.jpg"
           },
           {
             "title": "InnerSpeaker",
@@ -2713,9 +2794,12 @@
                 "title": "I Don't Really Mind",
                 "duration": "04:55"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/5bf6a2d836429e215be5f0213882ad1f/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/tame-impala-innerspeaker.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/tame-impala.jpg"
       }
     },
     {
@@ -2784,7 +2868,9 @@
                 "title": "Desolation Row",
                 "duration": "11:21"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/96193f14db0501c035bd43ab93960317/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/bob-dylan-highway-61-revisited.jpg"
           },
           {
             "title": "Blonde on Blonde",
@@ -2868,7 +2954,9 @@
                 "title": "Sad Eyed Lady of the Lowlands",
                 "duration": "11:23"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/0a59ebd1192454bac7b5d273f0b017c9/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/bob-dylan-blonde-on-blonde.jpg"
           },
           {
             "title": "Blood on the Tracks",
@@ -2932,9 +3020,12 @@
                 "title": "Buckets of Rain",
                 "duration": "3:22"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/7ee9e4f89dba0f743a6b24e428e7f6ab/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/bob-dylan-blood-on-the-tracks.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/bob-dylan.jpg"
       }
     },
     {
@@ -3013,7 +3104,9 @@
                 "title": "From the Morning",
                 "duration": "02:30"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/6829c0844fd6a12923e991503be7db41/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/nick-drake-pink-moon.jpg"
           },
           {
             "title": "Five Leaves Left",
@@ -3077,7 +3170,9 @@
                 "title": "Saturday Sun",
                 "duration": "04:01"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/8e1330155275bbb3df49a7a623d2ed54/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/nick-drake-five-leaves-left.jpg"
           },
           {
             "title": "Bryter Layter",
@@ -3141,9 +3236,12 @@
                 "title": "Sunday",
                 "duration": "03:39"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/8d2d8affb063f38d8e3e4914a225061e/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/nick-drake-bryter-layter.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/nick-drake.jpg"
       }
     },
     {
@@ -3227,7 +3325,9 @@
                 "title": "This Is What Makes Us Girls",
                 "duration": "4:00"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/4c2c6143c3e83a01ea73517c57d1d138/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/lana-del-rey-born-to-die.jpg"
           },
           {
             "title": "Did You Know That There's a Tunnel Under Ocean Blvd",
@@ -3316,7 +3416,9 @@
                 "title": "Taco Truck x VB",
                 "duration": "5:36"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/0ae53c84250981214bcb7ca39f8c2195/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/lana-del-rey-did-you-know-that-there-s-a-tunnel-under-ocean-blvd.jpg"
           },
           {
             "title": "Honeymoon",
@@ -3400,9 +3502,12 @@
                 "title": "Don't Let Me Be Misunderstood",
                 "duration": "3:30"
               }
-            ]
+            ],
+            "coverUrl": "https://cdn-images.dzcdn.net/images/cover/e69dade74de5e1f3f524f1c985696330/1000x1000-000000-80-0-0.jpg",
+            "coverLocal": "/covers/lana-del-rey-honeymoon.jpg"
           }
-        ]
+        ],
+        "imageUrl": "/artists/lana-del-rey.jpg"
       }
     }
   ],
@@ -3414,7 +3519,8 @@
         "content": "Hay reediciones que son meros trámites comerciales y otras que son auténticos actos de restauración. Las que han llegado a Ocean Blvd Vinyl estas últimas semanas pertenecen, sin duda, a la segunda categoría. Tras años de copias gastadas y prensados anémicos, varios sellos han decidido tratar sus catálogos con el respeto que merecen: cintas originales rescatadas, masterings analógicos y vinilos de 180 gramos que se asientan en el plato con la seriedad de un buen libro.\n\nLo que distingue a estas nuevas tiradas no es solo el peso del disco, sino la atención al detalle. Las galletas centrales recuperan los diseños de época, los encartes recobran letras y créditos que las primeras reediciones digitales habían sepultado, y el sonido vuelve a respirar. Donde antes había una pared compacta, ahora hay aire entre los instrumentos, esa profundidad que solo el surco sabe contar.\n\nNo se trata de nostalgia barata. Escuchar de nuevo estos títulos en condiciones es descubrir matices que llevaban décadas escondidos: una segunda voz al fondo, el roce de unas escobillas sobre la caja, el silencio justo antes del estribillo. Reeditar bien es, en el fondo, devolverle a la música su intención original.\n\nEn la tienda hemos reservado un pequeño rincón para estas joyas recuperadas, con la cápsula calibrada para que cualquiera pueda escucharlas antes de llevárselas. Pásate, pon una cara entera y comprueba por qué decimos que algunos discos no se reeditan: se rescatan.",
         "author": "Marta Esteban",
         "tag": "Lanzamientos",
-        "daysAgo": 6
+        "daysAgo": 6,
+        "coverLocal": "/blog/post-1.jpg"
       },
       {
         "title": "Color, humo y galaxias: la fiebre de los vinilos especiales",
@@ -3422,7 +3528,8 @@
         "content": "Hubo un tiempo en que un vinilo de color era poco más que un capricho de coleccionista. Hoy, sin embargo, se ha convertido en una declaración de intenciones. Los sellos compiten por sorprender con prensados que parecen pequeñas obras plásticas: el azul translúcido que recuerda al agua de una cala, el splatter rojo y negro que estalla como tinta sobre nieve, el efecto mármol que hace que no haya dos copias exactamente iguales.\n\nEn Ocean Blvd Vinyl nos llegan cada mes tiradas numeradas que se agotan en días. Y conviene decirlo sin rodeos: parte del encanto está en su rareza, pero la pregunta sensata siempre es si suenan tan bien como lucen. La buena noticia es que la tecnología de prensado ha mejorado tanto que un disco de color cuidado puede competir de tú a tú con el clásico vinilo negro, siempre que el pigmento esté bien dosificado.\n\nNuestro consejo para quien empieza a coleccionar ediciones especiales es sencillo: prioriza las que vienen acompañadas de un mastering específico y un buen prensado, no solo de un envoltorio vistoso. Una funda interior antiestática, una portada troquelada o un encarte ilustrado dicen mucho del mimo que el sello ha puesto en el objeto entero.\n\nGuardamos las novedades más llamativas en la vitrina de la entrada, esa que tanto os gusta fotografiar. Algunas son tan bonitas que da pena ponerlas en el plato; otras, sencillamente, piden a gritos sonar. Lo ideal, ya lo sabéis, es tener dos copias: una para mirar y otra para gastar.",
         "author": "Julio Cárdenas",
         "tag": "Ediciones especiales",
-        "daysAgo": 19
+        "daysAgo": 19,
+        "coverLocal": "/blog/post-2.jpg"
       },
       {
         "title": "El ritual del disco: pequeño tratado sobre cuidar lo que amamos",
@@ -3430,7 +3537,8 @@
         "content": "Poner un disco es, ante todo, un gesto que pide calma. En una época que premia la inmediatez, el vinilo nos obliga a detenernos: sacar la funda, sostener el disco por los bordes, soplar suavemente el polvo, bajar la aguja con pulso firme. Ese pequeño ceremonial no es un estorbo, es parte del placer. Quien aprende a disfrutarlo descubre que la música escuchada con atención sabe distinta.\n\nEl cuidado empieza por lo evidente y a menudo olvidado: nunca tocar la superficie con los dedos. La grasa de la piel atrae polvo y, con el tiempo, ataca el surco. Un cepillo de fibra de carbono antes de cada escucha, una funda interior antiestática de calidad y, de vez en cuando, una limpieza húmeda con líquido específico bastan para que un disco dure generaciones. No hay misterio: hay constancia.\n\nEl almacenaje merece mención aparte. Los vinilos deben guardarse en vertical, jamás apilados, lejos del calor y de la luz directa que alabean la pasta sin remedio. Una estantería firme, un poco de aire entre los discos para no forzarlos y la temperatura estable de una casa normal son condiciones más que suficientes. La humedad excesiva y los radiadores son sus únicos enemigos serios.\n\nHay quien ve en todo esto una exageración. Nosotros lo vemos como una forma de respeto. Cuidar un disco es reconocer que ese objeto guarda un trozo de tiempo, una voz, una tarde. Y que, bien tratado, seguirá sonando cuando nosotros ya no estemos para escucharlo. En la tienda tenemos siempre cepillos, fundas y líquidos a mano, y encantados de enseñaros el truco.",
         "author": "Elena Vidaurre",
         "tag": "Cultura",
-        "daysAgo": 33
+        "daysAgo": 33,
+        "coverLocal": "/blog/post-3.jpg"
       },
       {
         "title": "Montar tu primer equipo sin arruinarte ni equivocarte",
@@ -3438,7 +3546,8 @@
         "content": "La pregunta nos la hacéis casi a diario: ¿por dónde empiezo? La tentación de comprar el primer tocadiscos todo en uno con altavoces incorporados es grande, pero conviene resistirla. Esos aparatos suelen maltratar el surco con agujas pesadas y mal alineadas, y a la larga salen caros porque desgastan tus discos. Mejor empezar modesto pero bien planteado, con piezas que puedas ir mejorando una a una.\n\nEl corazón del sistema es el giradiscos. Busca uno con tracción por correa, plato de cierto peso y un brazo donde puedas ajustar la fuerza de seguimiento y el antiskating. No hace falta gastar una fortuna: hay modelos de iniciación muy honestos. La cápsula es el otro elemento clave, porque es literalmente lo que lee la música; una buena aguja en un plato discreto rinde más que al revés.\n\nDespués viene la amplificación. Necesitarás una etapa de phono, ya sea integrada en el plato, en el amplificador o en un previo aparte. No la subestimes: es la que devuelve a la señal su equilibrio correcto. Y para los altavoces, la regla es simple pero implacable: colócalos bien, separados entre sí y algo apartados de la pared, formando un triángulo contigo. La acústica de la habitación influye tanto como el equipo.\n\nNuestro consejo final es que escuches antes de comprar y que no caigas en la carrera de las cifras. Un sistema modesto, bien ajustado y colocado con cabeza supera a un montón de aparatos caros mal calibrados. Pásate por la tienda con tus dudas y, si quieres, con tu disco favorito; lo ponemos en distintos equipos y eliges con el oído, que es el único experto que de verdad importa.",
         "author": "Rubén Ferrán",
         "tag": "Guías",
-        "daysAgo": 48
+        "daysAgo": 48,
+        "coverLocal": "/blog/post-4.jpg"
       },
       {
         "title": "Tres días de cajas, hallazgos y manos manchadas: vuelve la feria del disco",
@@ -3446,7 +3555,8 @@
         "content": "Pocos placeres se parecen al de pasar una mañana entera con los dedos recorriendo lomos de cartón. La feria del disco que tanto esperábamos vuelve este mes a la ciudad, y con ella ese ambiente irrepetible de cajas hasta el techo, vendedores que lo saben todo y desconocidos que comparten contigo el entusiasmo por un hallazgo. No es un comercio cualquiera: es un ritual de comunidad.\n\nLo bonito de estos mercadillos es que premian la paciencia. Bajo montañas de discos comunes se esconde siempre el título que llevabas años buscando, esa primera prensa que dabas por imposible o ese descarte feliz que ni sabías que necesitabas. El precio se negocia mirando a los ojos, se escucha en una pletina compartida y, muchas veces, se acompaña de una conversación que vale tanto como el vinilo.\n\nDesde Ocean Blvd Vinyl tendremos puesto propio, con una selección de segunda mano cuidada y algunas rarezas que guardábamos precisamente para la ocasión. Pero más allá de lo que vendamos, os animamos a venir a perderos entre los cientos de cajas del recinto. Llevad bolsa resistente, calcetines cómodos y, sobre todo, tiempo: las prisas y los buenos hallazgos no se llevan bien.\n\nHabrá actuaciones pequeñas, pinchadas a lo largo del día y el habitual reencuentro de caras conocidas. Si nunca has ido a una feria de discos, esta es tu oportunidad de entender por qué los que vamos volvemos siempre con la espalda dolorida y una sonrisa de oreja a oreja. Os esperamos entre el polvo y el vinilo.",
         "author": "Lucía Mendizábal",
         "tag": "Eventos",
-        "daysAgo": 11
+        "daysAgo": 11,
+        "coverLocal": "/blog/post-5.jpg"
       },
       {
         "title": "Nina Simone, la voz que se negó a pedir permiso",
@@ -3454,7 +3564,8 @@
         "content": "Hay artistas que cantan y artistas que testifican. Nina Simone perteneció siempre a los segundos. Formada como pianista clásica y apartada de ese camino por las puertas que el racismo le cerró, convirtió esa herida en una obra inclasificable que mezcló jazz, soul, blues, gospel y canción europea sin pedirle permiso a nadie. Escucharla hoy, en buen vinilo, sigue siendo una experiencia que estremece.\n\nSu manera de habitar una canción no se parecía a ninguna otra. Podía susurrar una balada hasta dejarla en carne viva y, acto seguido, golpear el piano con la furia de quien exige justicia. Temas como sus interpretaciones de protesta o sus relecturas de standards no eran versiones: eran reescrituras del alma. La técnica estaba al servicio de algo más grande, y por eso nunca suena fechada.\n\nRevisitar su discografía en surco es redescubrir hasta qué punto el formato la favorece. Su voz, grabada con la calidez de la época, encuentra en el vinilo un cuerpo que ningún archivo comprimido reproduce igual. Las respiraciones, el roce del taburete, la sala entera entrando en silencio cuando ella ataca la primera nota: todo eso vive en el surco con una intimidad casi indecente.\n\nEn la tienda hemos dedicado este mes nuestra estantería de retrospectiva a su figura, con reediciones cuidadas y alguna copia original que ha pasado por aquí de milagro. Si solo conoces sus dos o tres temas más célebres, te invitamos a sentarte y escuchar un disco entero de principio a fin. Nina Simone no se consume a trozos: se escucha como ella vivió, con todo el cuerpo y sin medias tintas.",
         "author": "Diego Alcántara",
         "tag": "Artistas",
-        "daysAgo": 72
+        "daysAgo": 72,
+        "coverLocal": "/blog/post-6.jpg"
       }
     ]
   }

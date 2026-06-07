@@ -1,7 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { SITE } from "@/lib/constants";
 import { Hero } from "@/components/home/hero";
+import { Marquee } from "@/components/shared/marquee";
 import { RecordSection } from "@/components/home/record-section";
 import { GenreGrid } from "@/components/home/genre-grid";
 import { FeaturedArtists } from "@/components/home/featured-artists";
@@ -10,18 +13,24 @@ import { Button } from "@/components/ui/button";
 import {
   getBestSellers,
   getFeaturedArtists,
-  getFeaturedRecords,
   getGenresWithCount,
+  getHeroRecord,
   getLatestPosts,
   getNewReleases,
 } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
+export const metadata: Metadata = {
+  title: { absolute: `${SITE.name} — Discos de vinilo, novedades y segunda mano` },
+  description: SITE.description,
+  alternates: { canonical: "/" },
+};
+
 export default async function HomePage() {
-  const [featured, newReleases, bestSellers, genres, artists, posts] =
+  const [heroRecord, newReleases, bestSellers, genres, artists, posts] =
     await Promise.all([
-      getFeaturedRecords(6),
+      getHeroRecord(),
       getNewReleases(8),
       getBestSellers(8),
       getGenresWithCount(),
@@ -31,7 +40,17 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero featured={featured} />
+      <Hero record={heroRecord} />
+
+      <Marquee
+        items={[
+          "Nuevos ingresos cada semana",
+          "Prensajes limitados",
+          "Segunda mano garantizada",
+          "Envío en 24–48h",
+          "Selección de autor",
+        ]}
+      />
 
       <RecordSection
         eyebrow="Recién llegados"
@@ -60,7 +79,7 @@ export default async function HomePage() {
 
       {/* CTA final */}
       <section className="container pb-24 pt-4">
-        <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-foreground px-8 py-14 text-center text-background sm:px-16 sm:py-20">
+        <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-foreground px-6 py-12 text-center text-background sm:px-12 sm:py-16 md:px-16 md:py-20">
           <div
             aria-hidden
             className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-primary/30 blur-3xl"

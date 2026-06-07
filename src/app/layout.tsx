@@ -41,13 +41,13 @@ export const metadata: Metadata = {
     siteName: SITE.name,
     title: `${SITE.name} — Discos de vinilo`,
     description: SITE.description,
-    images: [{ url: "/placeholders/og-default.svg", width: 1200, height: 630 }],
+    images: [{ url: "/og-default.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: `${SITE.name} — Discos de vinilo`,
     description: SITE.description,
-    images: ["/placeholders/og-default.svg"],
+    images: ["/og-default.png"],
   },
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
@@ -64,6 +64,35 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen font-sans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: SITE.name,
+              url: SITE.url,
+              description: SITE.description,
+              logo: new URL("/icon.svg", SITE.url).toString(),
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: SITE.name,
+              url: SITE.url,
+              potentialAction: {
+                "@type": "SearchAction",
+                target: `${SITE.url}/tienda?q={search_term_string}`,
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
         <Providers>{children}</Providers>
       </body>
     </html>

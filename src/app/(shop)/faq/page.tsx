@@ -46,8 +46,22 @@ const FAQS = [
 ];
 
 export default function FaqPage() {
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQS.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   return (
     <div className="container max-w-3xl py-10 md:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
       <header className="max-w-2xl">
         <span className="section-eyebrow">Ayuda</span>
         <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">

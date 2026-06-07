@@ -36,7 +36,7 @@ export function FeaturedArtists({ artists }: { artists: ArtistWithCount[] }) {
                     className="object-cover transition-transform duration-500 ease-out-quint group-hover:scale-105"
                   />
                 </div>
-                <h3 className="mt-3 font-serif text-base font-medium transition-colors group-hover:text-primary">
+                <h3 className="mt-3 line-clamp-1 font-serif text-sm font-medium transition-colors group-hover:text-primary sm:text-base">
                   {artist.name}
                 </h3>
                 <p className="text-xs text-muted-foreground">

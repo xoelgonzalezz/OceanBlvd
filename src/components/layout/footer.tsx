@@ -63,7 +63,13 @@ export function Footer() {
         {/* Barra inferior */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-border/60 pt-8 sm:flex-row">
           <p className="text-xs text-muted-foreground">
-            © {year} {SITE.name}. Hecho con cariño por la música.
+            © {year} {SITE.name}. Hecho con cariño por la música.{" "}
+            <Link
+              href="/admin"
+              className="underline-offset-2 transition-colors hover:text-foreground hover:underline"
+            >
+              Administración
+            </Link>
           </p>
           <ul className="flex items-center gap-5">
             {SOCIAL_LINKS.map((social) => (

@@ -7,9 +7,9 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    remotePatterns: [
-      { protocol: "https", hostname: "**" },
-    ],
+    // Permite imágenes reales de cualquier origen https (portadas iTunes/Deezer,
+    // fotos de Wikipedia y URLs que añada el administrador).
+    remotePatterns: [{ protocol: "https", hostname: "**" }],
   },
 };
 

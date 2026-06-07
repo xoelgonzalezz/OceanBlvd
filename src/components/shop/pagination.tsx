@@ -26,12 +26,25 @@ export function Pagination({
     return q ? `${pathname}?${q}` : pathname;
   };
 
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  // Ventana de páginas con elipsis para no desbordar en móvil.
+  const items: (number | "…")[] = [];
+  const delta = 1;
+  const lo = Math.max(1, page - delta);
+  const hi = Math.min(totalPages, page + delta);
+  if (lo > 1) {
+    items.push(1);
+    if (lo > 2) items.push("…");
+  }
+  for (let i = lo; i <= hi; i++) items.push(i);
+  if (hi < totalPages) {
+    if (hi < totalPages - 1) items.push("…");
+    items.push(totalPages);
+  }
 
   return (
     <nav
       aria-label="Paginación"
-      className="mt-12 flex items-center justify-center gap-1.5"
+      className="mt-12 flex flex-wrap items-center justify-center gap-1.5"
     >
       <PageLink
         href={href(page - 1)}
@@ -41,21 +54,31 @@ export function Pagination({
         <ChevronLeft className="h-4 w-4" />
       </PageLink>
 
-      {pages.map((p) => (
-        <Link
-          key={p}
-          href={href(p)}
-          aria-current={p === page ? "page" : undefined}
-          className={cn(
-            "inline-flex h-9 min-w-9 items-center justify-center rounded-md px-3 text-sm font-medium transition-colors",
-            p === page
-              ? "bg-primary text-primary-foreground"
-              : "border border-input hover:bg-accent hover:text-accent-foreground"
-          )}
-        >
-          {p}
-        </Link>
-      ))}
+      {items.map((p, i) =>
+        p === "…" ? (
+          <span
+            key={`dots-${i}`}
+            className="px-1 text-sm text-muted-foreground"
+            aria-hidden
+          >
+            …
+          </span>
+        ) : (
+          <Link
+            key={p}
+            href={href(p)}
+            aria-current={p === page ? "page" : undefined}
+            className={cn(
+              "inline-flex h-9 min-w-9 items-center justify-center rounded-md px-3 text-sm font-medium transition-colors",
+              p === page
+                ? "bg-primary text-primary-foreground"
+                : "border border-input hover:bg-accent hover:text-accent-foreground"
+            )}
+          >
+            {p}
+          </Link>
+        )
+      )}
 
       <PageLink
         href={href(page + 1)}

@@ -16,6 +16,7 @@ import {
   CONDITION_LABELS,
   GRADE_DESCRIPTIONS,
   GRADE_LABELS,
+  SITE,
 } from "@/lib/constants";
 import {
   getAllRecordSlugs,
@@ -61,6 +62,40 @@ export default async function ProductPage({
   const related = await getRelatedRecords(record, 4);
   const lowStock = record.stock > 0 && record.stock <= 3;
 
+  const productLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${record.title} — ${record.artist.name}`,
+    image: [new URL(record.images[0]?.url ?? "/og-default.png", SITE.url).toString()],
+    description: record.description,
+    brand: { "@type": "Brand", name: record.artist.name },
+    category: record.genre.name,
+    releaseDate: String(record.year),
+    offers: {
+      "@type": "Offer",
+      price: (record.priceCents / 100).toFixed(2),
+      priceCurrency: "EUR",
+      availability:
+        record.stock > 0
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+      itemCondition:
+        record.condition === "NEW"
+          ? "https://schema.org/NewCondition"
+          : "https://schema.org/UsedCondition",
+      url: new URL(`/producto/${record.slug}`, SITE.url).toString(),
+    },
+  };
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Inicio", item: SITE.url },
+      { "@type": "ListItem", position: 2, name: "Tienda", item: new URL("/tienda", SITE.url).toString() },
+      { "@type": "ListItem", position: 3, name: record.title },
+    ],
+  };
+
   const details: { label: string; value: React.ReactNode }[] = [
     {
       label: "Artista",
@@ -100,6 +135,14 @@ export default async function ProductPage({
 
   return (
     <div className="container py-8 md:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       {/* Migas de pan */}
       <nav
         aria-label="Migas de pan"

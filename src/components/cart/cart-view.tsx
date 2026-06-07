@@ -76,7 +76,7 @@ export function CartView() {
                   type="button"
                   aria-label={`Quitar ${item.title}`}
                   onClick={() => removeItem(item.id)}
-                  className="h-fit text-muted-foreground transition-colors hover:text-destructive"
+                  className="-m-2 h-fit p-2 text-muted-foreground transition-colors hover:text-destructive"
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
@@ -137,7 +137,7 @@ export function CartView() {
             </p>
           ) : (
             <p className="mt-3 rounded-md bg-primary/10 px-3 py-2 text-xs font-medium text-primary">
-              ¡Tienes envío gratis! 🎉
+              Tienes envío gratis incluido
             </p>
           )}
 

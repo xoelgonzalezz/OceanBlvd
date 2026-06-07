@@ -31,8 +31,9 @@ export async function POST(request: Request) {
 
     for (const item of items) {
       const record = byId.get(item.id);
-      if (!record) continue;
-      const quantity = Math.max(1, item.quantity);
+      // Ignoramos productos inexistentes o agotados y limitamos al stock real.
+      if (!record || record.stock <= 0) continue;
+      const quantity = Math.max(1, Math.min(item.quantity, record.stock));
       subtotalCents += record.priceCents * quantity;
       orderItems.push({
         recordId: record.id,
@@ -43,7 +44,7 @@ export async function POST(request: Request) {
 
     if (orderItems.length === 0) {
       return NextResponse.json(
-        { error: "No hay productos válidos en el carrito." },
+        { error: "Los productos del carrito están agotados o no son válidos." },
         { status: 400 }
       );
     }
@@ -51,16 +52,29 @@ export async function POST(request: Request) {
     const shippingCents = calcShipping(subtotalCents);
     const totalCents = subtotalCents + shippingCents;
 
-    // Pago simulado: creamos el pedido como PENDING.
-    const order = await db.order.create({
-      data: {
-        ...customer,
-        subtotalCents,
-        shippingCents,
-        totalCents,
-        status: "PENDING",
-        items: { create: orderItems },
-      },
+    // Pago simulado: creamos el pedido y actualizamos inventario y ventas
+    // de forma atómica (transacción).
+    const order = await db.$transaction(async (tx) => {
+      const created = await tx.order.create({
+        data: {
+          ...customer,
+          subtotalCents,
+          shippingCents,
+          totalCents,
+          status: "PENDING",
+          items: { create: orderItems },
+        },
+      });
+      for (const oi of orderItems) {
+        await tx.record.update({
+          where: { id: oi.recordId },
+          data: {
+            stock: { decrement: oi.quantity },
+            salesCount: { increment: oi.quantity },
+          },
+        });
+      }
+      return created;
     });
 
     return NextResponse.json({ orderId: order.id });

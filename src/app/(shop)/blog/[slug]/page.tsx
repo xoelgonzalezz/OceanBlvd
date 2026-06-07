@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { getAllPostSlugs, getPostBySlug, getPosts } from "@/lib/queries";
 import { formatDate, truncate } from "@/lib/utils";
+import { SITE } from "@/lib/constants";
 
 export async function generateStaticParams() {
   const slugs = await getAllPostSlugs();
@@ -49,8 +50,23 @@ export default async function BlogPostPage({
 
   const paragraphs = post.content.split(/\n\s*\n/).filter(Boolean);
 
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    image: [new URL(post.coverImage ?? "/og-default.png", SITE.url).toString()],
+    author: { "@type": "Person", name: post.author },
+    publisher: { "@type": "Organization", name: SITE.name },
+    datePublished: post.publishedAt.toISOString(),
+  };
+
   return (
     <article className="py-8 md:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+      />
       <div className="container max-w-3xl">
         <Link
           href="/blog"

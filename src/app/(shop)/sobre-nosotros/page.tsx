@@ -89,7 +89,7 @@ export default function SobreNosotrosPage() {
           { n: "500+", l: "Títulos en catálogo" },
           { n: "15", l: "Artistas destacados" },
           { n: "8", l: "Géneros" },
-          { n: "10★", l: "Años escuchando" },
+          { n: "10+", l: "Años escuchando" },
         ].map((s) => (
           <div key={s.l}>
             <p className="font-serif text-3xl font-semibold text-primary">

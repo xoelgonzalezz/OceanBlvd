@@ -28,7 +28,7 @@ export function SortSelect() {
 
   return (
     <Select value={current} onValueChange={onChange}>
-      <SelectTrigger className="w-[185px]" aria-label="Ordenar por">
+      <SelectTrigger className="w-full min-w-[150px] sm:w-[185px]" aria-label="Ordenar por">
         <SelectValue />
       </SelectTrigger>
       <SelectContent align="end">

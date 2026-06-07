@@ -3,69 +3,73 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    /* ---- Tema CLARO editorial (crema / marfil) ---- */
-    --background: 40 38% 94%;
-    --foreground: 24 14% 11%;
+  /* ---- Tema OSCURO (por defecto) — blanco y negro, alto contraste ---- */
+  :root,
+  .dark {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 96%;
 
-    --card: 38 44% 96%;
-    --card-foreground: 24 14% 11%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 40 44% 97%;
-    --popover-foreground: 24 14% 11%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 96%;
 
-    /* Acento terracota (atardecer Cali) */
-    --primary: 14 62% 49%;
-    --primary-foreground: 40 44% 97%;
+    /* Acento = blanco (botones blancos sobre texto negro) */
+    --primary: 0 0% 96%;
+    --primary-foreground: 0 0% 6%;
 
-    --secondary: 36 24% 88%;
-    --secondary-foreground: 24 14% 16%;
+    --secondary: 0 0% 13%;
+    --secondary-foreground: 0 0% 96%;
 
-    --muted: 36 22% 89%;
-    --muted-foreground: 28 8% 38%;
+    --muted: 0 0% 11%;
+    --muted-foreground: 0 0% 58%;
 
-    --accent: 36 30% 86%;
-    --accent-foreground: 24 14% 16%;
+    --accent: 0 0% 16%;
+    --accent-foreground: 0 0% 96%;
 
-    --destructive: 0 70% 45%;
-    --destructive-foreground: 40 44% 97%;
+    --destructive: 0 62% 48%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 32 18% 82%;
-    --input: 32 18% 80%;
-    --ring: 14 62% 49%;
+    --border: 0 0% 16%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 75%;
 
-    --radius: 0.5rem;
+    --radius: 0.3rem;
   }
 
-  .dark {
-    /* ---- Tema OSCURO premium (negro cálido) ---- */
-    --background: 24 14% 6%;
-    --foreground: 40 30% 92%;
+  /* ---- Tema CLARO — blanco y negro invertido ---- */
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 5%;
 
-    --card: 24 12% 9%;
-    --card-foreground: 40 30% 92%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 5%;
 
-    --popover: 24 12% 8%;
-    --popover-foreground: 40 30% 92%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 5%;
 
-    --primary: 14 70% 55%;
-    --primary-foreground: 24 14% 8%;
+    /* Acento = negro (botones negros sobre texto blanco) */
+    --primary: 0 0% 8%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 24 8% 16%;
-    --secondary-foreground: 40 30% 92%;
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 24 8% 15%;
-    --muted-foreground: 36 10% 62%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 40%;
 
-    --accent: 24 8% 18%;
-    --accent-foreground: 40 30% 92%;
+    --accent: 0 0% 93%;
+    --accent-foreground: 0 0% 10%;
 
-    --destructive: 0 62% 46%;
-    --destructive-foreground: 40 30% 92%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 30 8% 18%;
-    --input: 30 8% 20%;
-    --ring: 14 70% 55%;
+    --border: 0 0% 89%;
+    --input: 0 0% 85%;
+    --ring: 0 0% 12%;
+
+    --radius: 0.3rem;
   }
 }
 

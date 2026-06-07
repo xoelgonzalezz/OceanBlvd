@@ -11,7 +11,7 @@ export function Logo({ className }: { className?: string }) {
       className={cn("group flex shrink-0 items-center gap-2", className)}
     >
       <Disc3 className="h-6 w-6 text-primary transition-transform duration-700 ease-out-quint group-hover:rotate-180" />
-      <span className="font-serif text-lg font-semibold leading-none tracking-tight">
+      <span className="truncate font-serif text-base font-semibold leading-none tracking-tight sm:text-lg">
         Ocean Blvd <span className="text-primary">Vinyl</span>
       </span>
     </Link>
