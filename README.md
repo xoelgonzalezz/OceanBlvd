@@ -50,12 +50,13 @@ Tienda de comercio electrónico de **discos de vinilo**, moderna y muy cuidada. 
 
 ## 🚀 Puesta en marcha (local)
 
-Requisitos: **Node.js 18.18+** y npm.
+Requisitos: **Node.js 18.18+**, npm y una base de datos **PostgreSQL** (p. ej. [Neon](https://neon.tech), plan gratuito).
 
 ```bash
 npm install
 cp .env.example .env          # Windows (PowerShell): copy .env.example .env
-npm run db:push               # crea la base de datos SQLite
+# Edita .env y pon tu DATABASE_URL de PostgreSQL (Neon) y ADMIN_PASSWORD
+npm run db:push               # crea las tablas
 npm run db:seed               # carga datos realistas
 npm run dev                   # http://localhost:3000
 ```
@@ -81,36 +82,22 @@ npm run dev                   # http://localhost:3000
 
 ## 🖼️ Imágenes reales
 
-Las portadas (iTunes/Deezer), las fotos de artista (Wikipedia) y las del blog (Wikimedia Commons) se **descargaron y optimizaron a `/public`** (`/covers`, `/artists`, `/blog`). Así la app no depende de CDNs externos en tiempo de ejecución ni sufre límites de tasa. Para usar tus propias fotos, sustituye los archivos o, desde el panel admin, pega/busca una URL.
+Las portadas (iTunes/Deezer, coincidencia exacta de título), las **fotos profesionales de artista** (Deezer) y las fotos editoriales del blog (Openverse) se **descargaron y optimizaron a `/public`** (`/covers`, `/artists`, `/blog`). Así la app no depende de CDNs externos en tiempo de ejecución ni sufre límites de tasa. Para usar tus propias fotos, sustituye los archivos o, desde el panel admin, pega/busca una URL.
 
 ---
 
 ## ☁️ Desplegar en producción (Vercel + Neon)
 
-SQLite es ideal en local, pero en *serverless* el sistema de archivos no persiste. Para desplegar con el panel admin funcionando, usa **PostgreSQL** (Neon tiene plan gratuito). Pasos:
+La app ya usa **PostgreSQL** (Prisma `provider = "postgresql"`), lista para *serverless*. La base de datos Neon ya está creada y sembrada. Pasos para publicarla en Vercel:
 
-1. **Sube el repo a GitHub** (ya hecho: `https://github.com/xoelgonzalezz/OceanBlvd`).
-2. Crea una base de datos gratis en **[Neon](https://neon.tech)** y copia su *connection string* (`postgresql://…`).
-3. En `prisma/schema.prisma`, cambia el `provider`:
-   ```prisma
-   datasource db {
-     provider = "postgresql"   // antes: "sqlite"
-     url      = env("DATABASE_URL")
-   }
-   ```
-4. **Siembra la base de datos remota** desde tu equipo:
-   ```bash
-   # con DATABASE_URL apuntando a Neon (en tu .env o exportada)
-   npm run db:push
-   npm run db:seed
-   ```
-5. En **[Vercel](https://vercel.com/new)** importa el repo de GitHub y añade las variables de entorno:
-   - `DATABASE_URL` → la de Neon
-   - `ADMIN_PASSWORD` → una contraseña segura
-   - `NEXT_PUBLIC_SITE_URL` → la URL pública (p. ej. `https://oceanblvd.vercel.app`)
-6. **Deploy.** ¡Listo! Cada `git push` a `main` redeplega automáticamente.
+1. Entra en **[vercel.com/new](https://vercel.com/new)** e importa el repo de GitHub `xoelgonzalezz/OceanBlvd`.
+2. Añade las **variables de entorno** (Settings → Environment Variables):
+   - `DATABASE_URL` → tu *connection string* de Neon (`postgresql://…`).
+   - `ADMIN_PASSWORD` → una contraseña segura para el panel `/admin`.
+   - `NEXT_PUBLIC_SITE_URL` → la URL pública (p. ej. `https://oceanblvd.vercel.app`).
+3. Pulsa **Deploy**. Cada `git push` a `main` redeplega automáticamente.
 
-> **Alternativa sin migrar (SQLite):** plataformas con disco persistente como **Railway** o **Render** permiten desplegar tal cual (sin cambiar el `provider`), montando un volumen para `prisma/dev.db`.
+> La base de datos ya está poblada. Para reinicializarla: con `DATABASE_URL` apuntando a Neon, `npm run db:push && npm run db:seed`.
 
 ---
 
