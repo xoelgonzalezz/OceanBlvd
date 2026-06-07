@@ -73,6 +73,7 @@ type ParsedRecord =
         mediaGrade: string | null;
         stock: number;
         description: string;
+        descriptionEn: string | null;
         featured: boolean;
       };
       tracks: { position: number; title: string; duration: string | null }[];
@@ -92,6 +93,7 @@ function parseRecordForm(formData: FormData): ParsedRecord {
   const mediaGrade = String(formData.get("mediaGrade") || "").trim();
   const stock = Number(formData.get("stock")) || 1;
   const description = String(formData.get("description") || "").trim();
+  const descriptionEn = String(formData.get("descriptionEn") || "").trim();
   const featured = formData.get("featured") === "on";
   const coverUrl = String(formData.get("coverUrl") || "").trim();
   const tracksText = String(formData.get("tracks") || "");
@@ -118,6 +120,7 @@ function parseRecordForm(formData: FormData): ParsedRecord {
       mediaGrade: mediaGrade || null,
       stock: Math.max(0, stock),
       description,
+      descriptionEn: descriptionEn || null,
       featured,
     },
     tracks: parseTracks(tracksText),
@@ -234,36 +237,43 @@ export async function deleteRecordAction(formData: FormData) {
 
 /* ---------- CRUD de artistas ---------- */
 
-export async function createArtistAction(
-  _prev: ActionState,
-  formData: FormData
-): Promise<ActionState> {
+function parseArtistForm(formData: FormData) {
   const name = String(formData.get("name") || "").trim();
   const bio = String(formData.get("bio") || "").trim();
+  const bioEn = String(formData.get("bioEn") || "").trim();
   const image = String(formData.get("image") || "").trim();
   const country = String(formData.get("country") || "").trim();
   const foundedYearRaw = formData.get("foundedYear");
   const featured = formData.get("featured") === "on";
+  if (!name) return { error: "El nombre es obligatorio." } as const;
+  if (!bio) return { error: "Añade una biografía." } as const;
+  return {
+    data: {
+      name,
+      bio,
+      bioEn: bioEn || null,
+      image: image || null,
+      country: country || null,
+      foundedYear: foundedYearRaw ? Number(foundedYearRaw) || null : null,
+      featured,
+    },
+  } as const;
+}
 
-  if (!name) return { error: "El nombre es obligatorio." };
-  if (!bio) return { error: "Añade una biografía." };
+export async function createArtistAction(
+  _prev: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const parsed = parseArtistForm(formData);
+  if ("error" in parsed) return parsed;
 
-  let slug = slugify(name);
+  let slug = slugify(parsed.data.name);
   let i = 2;
-  while (await db.artist.findUnique({ where: { slug } })) slug = `${slugify(name)}-${i++}`;
+  while (await db.artist.findUnique({ where: { slug } }))
+    slug = `${slugify(parsed.data.name)}-${i++}`;
 
   try {
-    await db.artist.create({
-      data: {
-        name,
-        slug,
-        bio,
-        image: image || null,
-        country: country || null,
-        foundedYear: foundedYearRaw ? Number(foundedYearRaw) || null : null,
-        featured,
-      },
-    });
+    await db.artist.create({ data: { ...parsed.data, slug } });
   } catch {
     return { error: "No se pudo crear el artista (¿nombre repetido?)." };
   }
@@ -271,6 +281,133 @@ export async function createArtistAction(
   revalidatePath("/artistas");
   revalidatePath("/admin/artists");
   redirect("/admin/artists");
+}
+
+export async function updateArtistAction(
+  _prev: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const id = String(formData.get("id") || "");
+  if (!id) return { error: "Falta el identificador." };
+  const parsed = parseArtistForm(formData);
+  if ("error" in parsed) return parsed;
+
+  const existing = await db.artist.findUnique({ where: { id } });
+  if (!existing) return { error: "El artista no existe." };
+
+  try {
+    await db.artist.update({ where: { id }, data: parsed.data });
+  } catch {
+    return { error: "No se pudo guardar el artista (¿nombre repetido?)." };
+  }
+
+  revalidatePath("/artistas");
+  revalidatePath(`/artistas/${existing.slug}`);
+  revalidatePath("/admin/artists");
+  redirect("/admin/artists");
+}
+
+export async function deleteArtistAction(formData: FormData) {
+  const id = String(formData.get("id") || "");
+  if (!id) return;
+  try {
+    await db.artist.delete({ where: { id } });
+  } catch {
+    // Puede tener discos asociados; en la demo lo ignoramos.
+  }
+  revalidatePath("/artistas");
+  revalidatePath("/admin/artists");
+  revalidatePath("/admin");
+  redirect("/admin/artists");
+}
+
+/* ---------- CRUD del blog ---------- */
+
+function parseBlogForm(formData: FormData) {
+  const title = String(formData.get("title") || "").trim();
+  const excerpt = String(formData.get("excerpt") || "").trim();
+  const content = String(formData.get("content") || "").trim();
+  const author = String(formData.get("author") || "").trim();
+  const tag = String(formData.get("tag") || "").trim();
+  const coverImage = String(formData.get("coverImage") || "").trim();
+  const excerptEn = String(formData.get("excerptEn") || "").trim();
+  const contentEn = String(formData.get("contentEn") || "").trim();
+  if (!title) return { error: "El título es obligatorio." } as const;
+  if (!excerpt) return { error: "Añade un extracto." } as const;
+  if (!content) return { error: "Añade el contenido." } as const;
+  if (!author) return { error: "Indica el autor." } as const;
+  return {
+    data: {
+      title,
+      excerpt,
+      content,
+      author,
+      tag: tag || null,
+      coverImage: coverImage || null,
+      excerptEn: excerptEn || null,
+      contentEn: contentEn || null,
+    },
+  } as const;
+}
+
+export async function createBlogAction(
+  _prev: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const parsed = parseBlogForm(formData);
+  if ("error" in parsed) return parsed;
+
+  let slug = slugify(parsed.data.title);
+  let i = 2;
+  while (await db.blogPost.findUnique({ where: { slug } }))
+    slug = `${slugify(parsed.data.title)}-${i++}`;
+
+  try {
+    await db.blogPost.create({ data: { ...parsed.data, slug } });
+  } catch {
+    return { error: "No se pudo crear el artículo." };
+  }
+
+  revalidatePath("/blog");
+  revalidatePath("/admin/blog");
+  redirect("/admin/blog");
+}
+
+export async function updateBlogAction(
+  _prev: ActionState,
+  formData: FormData
+): Promise<ActionState> {
+  const id = String(formData.get("id") || "");
+  if (!id) return { error: "Falta el identificador." };
+  const parsed = parseBlogForm(formData);
+  if ("error" in parsed) return parsed;
+
+  const existing = await db.blogPost.findUnique({ where: { id } });
+  if (!existing) return { error: "El artículo no existe." };
+
+  try {
+    await db.blogPost.update({ where: { id }, data: parsed.data });
+  } catch {
+    return { error: "No se pudo guardar el artículo." };
+  }
+
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${existing.slug}`);
+  revalidatePath("/admin/blog");
+  redirect("/admin/blog");
+}
+
+export async function deleteBlogAction(formData: FormData) {
+  const id = String(formData.get("id") || "");
+  if (!id) return;
+  try {
+    await db.blogPost.delete({ where: { id } });
+  } catch {
+    /* ignore */
+  }
+  revalidatePath("/blog");
+  revalidatePath("/admin/blog");
+  redirect("/admin/blog");
 }
 
 /* ---------- Buscar portada real ---------- */

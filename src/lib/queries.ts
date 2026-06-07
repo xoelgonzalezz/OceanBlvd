@@ -339,6 +339,18 @@ export function getAdminArtists() {
   });
 }
 
+export function getArtistForEdit(id: string) {
+  return db.artist.findUnique({ where: { id } });
+}
+
+export function getAdminPosts() {
+  return db.blogPost.findMany({ orderBy: { publishedAt: "desc" } });
+}
+
+export function getPostForEdit(id: string) {
+  return db.blogPost.findUnique({ where: { id } });
+}
+
 /** Pedidos de un usuario (área de cuenta). */
 export function getUserOrders(userId: string) {
   return db.order.findMany({

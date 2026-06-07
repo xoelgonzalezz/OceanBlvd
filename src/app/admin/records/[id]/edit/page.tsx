@@ -41,6 +41,7 @@ export default async function EditRecordPage({
     mediaGrade: record.mediaGrade ?? "",
     stock: record.stock,
     description: record.description,
+    descriptionEn: record.descriptionEn ?? "",
     featured: record.featured,
     coverUrl: record.images[0]?.url ?? "",
     tracksText: record.tracks

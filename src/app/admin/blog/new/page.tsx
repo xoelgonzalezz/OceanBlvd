@@ -1,24 +1,24 @@
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
-import { ArtistForm } from "@/components/admin/artist-form";
-import { createArtistAction } from "@/app/admin/actions";
+import { BlogForm } from "@/components/admin/blog-form";
+import { createBlogAction } from "@/app/admin/actions";
 
 export const dynamic = "force-dynamic";
 
-export default function NewArtistPage() {
+export default function NewBlogPage() {
   return (
     <div className="container max-w-2xl py-10">
       <Link
-        href="/admin/artists"
+        href="/admin/blog"
         className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
-        <ChevronLeft className="h-4 w-4" /> Volver a artistas
+        <ChevronLeft className="h-4 w-4" /> Volver al blog
       </Link>
       <h1 className="mb-8 mt-4 font-serif text-3xl font-semibold tracking-tight">
-        Nuevo artista
+        Nuevo artículo
       </h1>
-      <ArtistForm action={createArtistAction} submitLabel="Crear artista" />
+      <BlogForm action={createBlogAction} submitLabel="Publicar artículo" />
     </div>
   );
 }

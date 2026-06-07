@@ -37,7 +37,11 @@ export default async function AdminArtistsPage() {
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         {artists.map((a) => (
-          <div key={a.id} className="rounded-lg border bg-card p-4">
+          <Link
+            key={a.id}
+            href={`/admin/artists/${a.id}/edit`}
+            className="rounded-lg border bg-card p-4 transition-colors hover:border-primary/40 hover:bg-card/70"
+          >
             <div className="flex items-center gap-3">
               <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full bg-muted">
                 <Image
@@ -55,7 +59,7 @@ export default async function AdminArtistsPage() {
                 </p>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

@@ -32,6 +32,7 @@ export interface RecordInitial {
   mediaGrade: string;
   stock: number;
   description: string;
+  descriptionEn: string;
   featured: boolean;
   coverUrl: string;
   tracksText: string;
@@ -203,8 +204,13 @@ export function RecordForm({
         </div>
 
         <div>
-          <Label htmlFor="description">Descripción</Label>
+          <Label htmlFor="description">Descripción (español)</Label>
           <Textarea id="description" name="description" defaultValue={initial?.description} required rows={4} className="mt-1.5" />
+        </div>
+
+        <div>
+          <Label htmlFor="descriptionEn">Descripción (inglés, opcional)</Label>
+          <Textarea id="descriptionEn" name="descriptionEn" defaultValue={initial?.descriptionEn} rows={4} className="mt-1.5" />
         </div>
 
         <div>

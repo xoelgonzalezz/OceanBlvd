@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Pencil, Plus, Trash2, Users, LogOut } from "lucide-react";
+import { Pencil, Plus, Trash2, Users, LogOut, Newspaper } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +29,11 @@ export default async function AdminDashboard() {
           <Button asChild variant="outline">
             <Link href="/admin/artists">
               <Users /> Artistas
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/admin/blog">
+              <Newspaper /> Blog
             </Link>
           </Button>
           <Button asChild>
