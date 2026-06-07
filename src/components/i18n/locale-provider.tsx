@@ -2,40 +2,37 @@
 
 import * as React from "react";
 
-import type { Dictionary, Locale } from "@/i18n/dictionary";
+import { getDictionary, type Locale } from "@/i18n/dictionary";
 
-interface LocaleContextValue {
-  locale: Locale;
-  t: Dictionary;
-}
-
-const LocaleContext = React.createContext<LocaleContextValue | null>(null);
+const LocaleContext = React.createContext<Locale | null>(null);
 
 export function LocaleProvider({
   locale,
-  dict,
   children,
 }: {
   locale: Locale;
-  dict: Dictionary;
   children: React.ReactNode;
 }) {
-  const value = React.useMemo(() => ({ locale, t: dict }), [locale, dict]);
   return (
-    <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>
+    <LocaleContext.Provider value={locale}>{children}</LocaleContext.Provider>
   );
 }
 
-function useLocaleContext() {
+function useLocaleValue(): Locale {
   const ctx = React.useContext(LocaleContext);
   if (!ctx) throw new Error("useT/useLocale deben usarse dentro de LocaleProvider");
   return ctx;
 }
 
+/**
+ * Diccionario para componentes cliente. Se calcula en el cliente a partir del
+ * locale (las funciones del diccionario nunca cruzan el límite servidor→cliente).
+ */
 export function useT() {
-  return useLocaleContext().t;
+  const locale = useLocaleValue();
+  return React.useMemo(() => getDictionary(locale), [locale]);
 }
 
 export function useLocale() {
-  return useLocaleContext().locale;
+  return useLocaleValue();
 }

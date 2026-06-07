@@ -13,7 +13,7 @@ export default function ShopLayout({
   const t = getDict();
 
   return (
-    <LocaleProvider locale={locale} dict={t}>
+    <LocaleProvider locale={locale}>
       <div className="flex min-h-screen flex-col">
         <a
           href="#contenido"
