@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { User } from "lucide-react";
+
 import { Logo } from "@/components/layout/logo";
 import { NavLink } from "@/components/layout/nav-link";
 import { MobileNav } from "@/components/layout/mobile-nav";
@@ -6,9 +9,11 @@ import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { LanguageToggle } from "@/components/layout/language-toggle";
 import { CartButton } from "@/components/layout/cart-button";
 import { getDict } from "@/i18n/server";
+import { getCurrentUser } from "@/lib/auth/session";
 
-export function Header() {
+export async function Header() {
   const t = getDict();
+  const user = await getCurrentUser();
   const nav = [
     { href: "/tienda", label: t.nav.shop },
     { href: "/artistas", label: t.nav.artists },
@@ -37,6 +42,14 @@ export function Header() {
           <SearchCommand />
           <LanguageToggle />
           <ThemeToggle />
+          <Link
+            href={user ? "/cuenta" : "/acceso"}
+            aria-label={user ? t.account.myAccount : t.account.signIn}
+            title={user ? t.account.myAccount : t.account.signIn}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
+          >
+            <User className="h-5 w-5" />
+          </Link>
           <CartButton />
         </div>
       </div>

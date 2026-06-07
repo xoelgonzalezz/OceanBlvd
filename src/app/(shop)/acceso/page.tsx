@@ -1,0 +1,39 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+import { LoginForm } from "@/components/account/login-form";
+import { getDict } from "@/i18n/server";
+import { getCurrentUser } from "@/lib/auth/session";
+
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Iniciar sesión",
+  robots: { index: false },
+};
+
+export default async function AccesoPage() {
+  if (await getCurrentUser()) redirect("/cuenta");
+  const t = getDict();
+
+  return (
+    <div className="container flex min-h-[60vh] items-center justify-center py-12">
+      <div className="w-full max-w-sm rounded-lg border bg-card p-8">
+        <h1 className="font-serif text-2xl font-semibold tracking-tight">
+          {t.account.loginTitle}
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">{t.account.loginDesc}</p>
+        <div className="mt-6">
+          <LoginForm />
+        </div>
+        <p className="mt-5 text-center text-sm text-muted-foreground">
+          {t.account.noAccount}{" "}
+          <Link href="/registro" className="font-medium text-primary hover:underline">
+            {t.account.signUp}
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+}

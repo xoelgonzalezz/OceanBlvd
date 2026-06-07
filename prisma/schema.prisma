@@ -121,6 +121,18 @@ model BlogPost {
   @@index([publishedAt])
 }
 
+/// Cuenta de cliente.
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+  orders       Order[]
+
+  @@index([email])
+}
+
 /// Pedido (la pasarela de pago es simulada por ahora).
 model Order {
   id            String      @id @default(cuid())
@@ -138,6 +150,11 @@ model Order {
   status        String      @default("PENDING") // PENDING | PAID | SHIPPED | CANCELLED
   createdAt     DateTime    @default(now())
   items         OrderItem[]
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
 }
 
 /// Línea de un pedido.

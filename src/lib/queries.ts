@@ -339,6 +339,23 @@ export function getAdminArtists() {
   });
 }
 
+/** Pedidos de un usuario (área de cuenta). */
+export function getUserOrders(userId: string) {
+  return db.order.findMany({
+    where: { userId },
+    include: {
+      items: {
+        include: {
+          record: {
+            include: { artist: true, images: { orderBy: { position: "asc" } } },
+          },
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
 /** Pedido con sus líneas (página de confirmación). */
 export function getOrderById(id: string) {
   return db.order.findUnique({

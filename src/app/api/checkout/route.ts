@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { checkoutSchema } from "@/lib/validators";
 import { calcShipping } from "@/lib/constants";
+import { getCurrentUser } from "@/lib/auth/session";
 
 export async function POST(request: Request) {
   try {
@@ -51,6 +52,7 @@ export async function POST(request: Request) {
 
     const shippingCents = calcShipping(subtotalCents);
     const totalCents = subtotalCents + shippingCents;
+    const user = await getCurrentUser();
 
     // Pago simulado: creamos el pedido y actualizamos inventario y ventas
     // de forma atómica (transacción).
@@ -62,6 +64,7 @@ export async function POST(request: Request) {
           shippingCents,
           totalCents,
           status: "PENDING",
+          userId: user?.id ?? null,
           items: { create: orderItems },
         },
       });

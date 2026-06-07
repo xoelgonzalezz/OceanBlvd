@@ -29,6 +29,7 @@ export function MobileNav() {
     { label: t.nav.about, href: "/sobre-nosotros" },
   ];
   const SECONDARY = [
+    { label: t.account.myAccount, href: "/cuenta" },
     { label: t.footer.linkContact, href: "/contacto" },
     { label: t.footer.linkFaq, href: "/faq" },
     { label: t.footer.linkShipping, href: "/envios" },

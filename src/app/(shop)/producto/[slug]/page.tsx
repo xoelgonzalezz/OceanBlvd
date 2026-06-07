@@ -11,6 +11,7 @@ import { Price } from "@/components/shared/price";
 import { RecordGrid } from "@/components/shared/record-grid";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { toCartItem } from "@/lib/mappers";
 import {
   GRADE_DESCRIPTIONS,
@@ -233,6 +234,13 @@ export default async function ProductPage({
               </div>
             ))}
           </dl>
+
+          <Button asChild variant="outline" className="mt-6 w-full sm:w-auto">
+            <Link href={`/artistas/${record.artist.slug}`}>
+              {t.detail.moreFrom(record.artist.name)}
+              <ChevronRight className="h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </div>
 

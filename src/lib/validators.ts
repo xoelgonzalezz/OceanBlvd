@@ -4,6 +4,17 @@ export const newsletterSchema = z.object({
   email: z.string().email("Introduce un correo válido."),
 });
 
+export const registerSchema = z.object({
+  name: z.string().min(2, "Indica tu nombre."),
+  email: z.string().email("Introduce un correo válido."),
+  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres."),
+});
+
+export const loginSchema = z.object({
+  email: z.string().email("Introduce un correo válido."),
+  password: z.string().min(1, "Introduce tu contraseña."),
+});
+
 export const contactSchema = z.object({
   name: z.string().min(2, "Indica tu nombre."),
   email: z.string().email("Introduce un correo válido."),
