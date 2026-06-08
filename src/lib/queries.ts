@@ -351,6 +351,31 @@ export function getPostForEdit(id: string) {
   return db.blogPost.findUnique({ where: { id } });
 }
 
+/* ============== RESEÑAS ============== */
+
+export function getRecordReviews(recordId: string) {
+  return db.review.findMany({
+    where: { recordId },
+    include: { user: { select: { name: true } } },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+export async function getRecordRating(recordId: string) {
+  const agg = await db.review.aggregate({
+    where: { recordId },
+    _avg: { rating: true },
+    _count: true,
+  });
+  return { avg: agg._avg.rating ?? 0, count: agg._count };
+}
+
+export function getUserReview(userId: string, recordId: string) {
+  return db.review.findUnique({
+    where: { userId_recordId: { userId, recordId } },
+  });
+}
+
 /** Pedidos de un usuario (área de cuenta). */
 export function getUserOrders(userId: string) {
   return db.order.findMany({

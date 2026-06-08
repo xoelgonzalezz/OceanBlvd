@@ -19,8 +19,14 @@ import {
   GRADE_LABELS,
   SITE,
 } from "@/lib/constants";
+import { Stars } from "@/components/reviews/stars";
+import { ReviewSection } from "@/components/reviews/review-section";
 import { getDict, getLocale, pick } from "@/i18n/server";
-import { getRecordBySlug, getRelatedRecords } from "@/lib/queries";
+import {
+  getRecordBySlug,
+  getRecordRating,
+  getRelatedRecords,
+} from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
@@ -55,6 +61,7 @@ export default async function ProductPage({
   if (!record) notFound();
 
   const related = await getRelatedRecords(record, 4);
+  const rating = await getRecordRating(record.id);
   const lowStock = record.stock > 0 && record.stock <= 3;
   const t = getDict();
   const locale = getLocale();
@@ -184,6 +191,15 @@ export default async function ProductPage({
             </span>
           </div>
 
+          {rating.count > 0 ? (
+            <a href="#reviews" className="mt-3 inline-flex items-center gap-2">
+              <Stars value={rating.avg} />
+              <span className="text-sm text-muted-foreground">
+                {rating.avg.toFixed(1)} · {t.reviews.basedOn(rating.count)}
+              </span>
+            </a>
+          ) : null}
+
           <div className="mt-6">
             <Price
               cents={record.priceCents}
@@ -271,6 +287,11 @@ export default async function ProductPage({
         </div>
 
         <Tracklist tracks={record.tracks} />
+      </div>
+
+      {/* Reseñas */}
+      <div id="reviews" className="scroll-mt-24">
+        <ReviewSection recordId={record.id} slug={record.slug} />
       </div>
 
       {/* Relacionados */}

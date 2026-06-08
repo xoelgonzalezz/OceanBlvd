@@ -3,12 +3,16 @@
 // y `DATABASE_URL` (los modelos son compatibles, no usamos tipos exclusivos de SQLite).
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  // "native" para desarrollo local; "rhel-openssl-3.0.x" para el runtime de Vercel.
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  // Conexión "pooled" (PgBouncer) para la app; conexión directa para migraciones.
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 /// Género musical (Rock, Jazz, Hip-Hop...)
@@ -68,6 +72,7 @@ model Record {
   images     RecordImage[]
   tracks     Track[]
   orderItems OrderItem[]
+  reviews    Review[]
 
   @@index([slug])
   @@index([artistId])
@@ -129,8 +134,25 @@ model User {
   passwordHash String
   createdAt    DateTime @default(now())
   orders       Order[]
+  reviews      Review[]
 
   @@index([email])
+}
+
+/// Reseña/valoración de un disco por un usuario.
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int // 1..5
+  comment   String?
+  createdAt DateTime @default(now())
+
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recordId String
+  record   Record @relation(fields: [recordId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, recordId]) // una reseña por usuario y disco
+  @@index([recordId])
 }
 
 /// Pedido (la pasarela de pago es simulada por ahora).
