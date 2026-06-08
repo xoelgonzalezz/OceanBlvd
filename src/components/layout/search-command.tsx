@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Disc3, Search, Users } from "lucide-react";
+import { Search } from "lucide-react";
 
 import {
   CommandDialog,
@@ -26,6 +26,7 @@ interface SearchResult {
 }
 
 export function SearchCommand() {
+  // Buscador: solo búsqueda (sin accesos rápidos).
   const router = useRouter();
   const t = useT();
   const [open, setOpen] = React.useState(false);
@@ -147,18 +148,7 @@ export function SearchCommand() {
                 {t.search.seeAll(query)}
               </CommandItem>
             </CommandGroup>
-          ) : (
-            <CommandGroup heading={t.search.quickLinks}>
-              <CommandItem value="tienda" onSelect={() => go("/tienda")}>
-                <Disc3 />
-                {t.search.browseCatalog}
-              </CommandItem>
-              <CommandItem value="artistas" onSelect={() => go("/artistas")}>
-                <Users />
-                {t.search.viewArtists}
-              </CommandItem>
-            </CommandGroup>
-          )}
+          ) : null}
         </CommandList>
       </CommandDialog>
     </>

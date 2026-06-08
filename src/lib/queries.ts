@@ -149,9 +149,9 @@ function buildWhere(f: RecordFilters): Prisma.RecordWhereInput {
   if (f.search?.trim()) {
     const q = f.search.trim();
     where.OR = [
-      { title: { contains: q } },
-      { label: { contains: q } },
-      { artist: { name: { contains: q } } },
+      { title: { contains: q, mode: "insensitive" } },
+      { label: { contains: q, mode: "insensitive" } },
+      { artist: { name: { contains: q, mode: "insensitive" } } },
     ];
   }
   return where;
@@ -325,8 +325,8 @@ export async function searchRecords(query: string, limit = 8) {
   return db.record.findMany({
     where: {
       OR: [
-        { title: { contains: q } },
-        { artist: { name: { contains: q } } },
+        { title: { contains: q, mode: "insensitive" } },
+        { artist: { name: { contains: q, mode: "insensitive" } } },
       ],
     },
     include: cardInclude,
