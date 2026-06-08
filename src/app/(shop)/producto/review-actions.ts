@@ -18,7 +18,7 @@ export async function submitReviewAction(
   if (!user) return { error: "Inicia sesión para dejar tu valoración." };
 
   const rating = Number(formData.get("rating"));
-  const comment = String(formData.get("comment") || "").trim();
+  const comment = String(formData.get("comment") || "").trim().slice(0, 2000);
   const recordId = String(formData.get("recordId") || "");
   const slug = String(formData.get("slug") || "");
 

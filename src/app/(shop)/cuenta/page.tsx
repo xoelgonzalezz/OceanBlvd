@@ -63,7 +63,11 @@ export default async function CuentaPage() {
       ) : (
         <ul className="space-y-4">
           {orders.map((order) => (
-            <li key={order.id} className="rounded-lg border bg-card p-5">
+            <li key={order.id}>
+              <Link
+                href={`/checkout/exito?order=${order.id}&t=${order.accessToken ?? ""}`}
+                className="block rounded-lg border bg-card p-5 transition-colors hover:border-primary/40"
+              >
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
                   <p className="font-medium">
@@ -94,6 +98,7 @@ export default async function CuentaPage() {
                   </div>
                 ))}
               </div>
+              </Link>
             </li>
           ))}
         </ul>

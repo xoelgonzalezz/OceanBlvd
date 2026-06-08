@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ClearCart } from "@/components/checkout/clear-cart";
-import { getOrderById } from "@/lib/queries";
+import { getOrderForConfirmation } from "@/lib/queries";
+import { getCurrentUser } from "@/lib/auth/session";
 import { formatPrice } from "@/lib/utils";
 import { getDict } from "@/i18n/server";
 
@@ -21,10 +22,13 @@ export const dynamic = "force-dynamic";
 export default async function CheckoutSuccessPage({
   searchParams,
 }: {
-  searchParams: { order?: string };
+  searchParams: { order?: string; t?: string };
 }) {
   const id = searchParams.order;
-  const order = id ? await getOrderById(id) : null;
+  const user = await getCurrentUser();
+  const order = id
+    ? await getOrderForConfirmation(id, searchParams.t, user?.id)
+    : null;
   const t = getDict();
 
   if (!order) {

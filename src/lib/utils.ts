@@ -6,6 +6,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/** Serializa datos para un <script type="application/ld+json"> escapando '<'. */
+export function jsonLd(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 /**
  * Formatea un precio almacenado en céntimos a euros con el formato español.
  * Ej: 1299 -> "12,99 €"

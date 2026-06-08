@@ -103,7 +103,7 @@ export async function POST(request: Request) {
         mode: "payment",
         line_items: lineItems,
         customer_email: customer.email,
-        success_url: `${SITE.url}/checkout/exito?order=${order.id}`,
+        success_url: `${SITE.url}/checkout/exito?order=${order.id}&t=${order.accessToken ?? ""}`,
         cancel_url: `${SITE.url}/checkout?cancelado=1`,
         metadata: { orderId: order.id },
       });
@@ -136,7 +136,7 @@ export async function POST(request: Request) {
       return created;
     });
 
-    return NextResponse.json({ orderId: order.id });
+    return NextResponse.json({ orderId: order.id, token: order.accessToken });
   } catch {
     return NextResponse.json(
       { error: "No se pudo procesar el pedido. Inténtalo de nuevo." },

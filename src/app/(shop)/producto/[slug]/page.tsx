@@ -19,6 +19,7 @@ import {
   GRADE_LABELS,
   SITE,
 } from "@/lib/constants";
+import { jsonLd } from "@/lib/utils";
 import { Stars } from "@/components/reviews/stars";
 import { ReviewSection } from "@/components/reviews/review-section";
 import { getDict, getLocale, pick } from "@/i18n/server";
@@ -144,11 +145,11 @@ export default async function ProductPage({
     <div className="container py-8 md:py-12">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(productLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbLd) }}
       />
       {/* Migas de pan */}
       <nav

@@ -1,13 +1,36 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/db";
 import { slugify, decadeOf } from "@/lib/utils";
 import { findCover } from "@/lib/cover-search";
-import { ADMIN_COOKIE, ADMIN_PASSWORD, adminSessionToken } from "@/lib/admin-token";
+import {
+  ADMIN_COOKIE,
+  checkAdminPassword,
+  createAdminToken,
+  isAdminRequest,
+} from "@/lib/admin-token";
+import { rateLimit } from "@/lib/rate-limit";
+
+function clientIp(): string {
+  const h = headers();
+  return (
+    h.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    h.get("x-real-ip") ||
+    "local"
+  );
+}
+
+/** Acepta solo rutas locales o URLs http(s); descarta javascript:/data:/etc. */
+function safeImageUrl(raw: string): string {
+  const u = (raw || "").trim();
+  if (!u) return "";
+  if (u.startsWith("/")) return u;
+  return /^https?:\/\//i.test(u) ? u : "";
+}
 
 export interface ActionState {
   error?: string;
@@ -19,16 +42,18 @@ export async function loginAction(
   _prev: ActionState,
   formData: FormData
 ): Promise<ActionState> {
+  if (!rateLimit(`admin-login:${clientIp()}`, 5, 60_000)) {
+    return { error: "Demasiados intentos. Espera un minuto." };
+  }
   const password = String(formData.get("password") || "");
-  if (password !== ADMIN_PASSWORD) {
+  if (!checkAdminPassword(password)) {
     return { error: "Contraseña incorrecta." };
   }
-  const token = await adminSessionToken();
-  cookies().set(ADMIN_COOKIE, token, {
+  cookies().set(ADMIN_COOKIE, await createAdminToken(), {
     httpOnly: true,
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 8,
     secure: process.env.NODE_ENV === "production",
   });
   redirect("/admin");
@@ -95,7 +120,7 @@ function parseRecordForm(formData: FormData): ParsedRecord {
   const description = String(formData.get("description") || "").trim();
   const descriptionEn = String(formData.get("descriptionEn") || "").trim();
   const featured = formData.get("featured") === "on";
-  const coverUrl = String(formData.get("coverUrl") || "").trim();
+  const coverUrl = safeImageUrl(String(formData.get("coverUrl") || ""));
   const tracksText = String(formData.get("tracks") || "");
 
   if (!title) return { error: "El título es obligatorio." };
@@ -143,6 +168,7 @@ export async function createRecordAction(
   _prev: ActionState,
   formData: FormData
 ): Promise<ActionState> {
+  if (!(await isAdminRequest())) return { error: "No autorizado." };
   const parsed = parseRecordForm(formData);
   if ("error" in parsed) return parsed;
 
@@ -181,6 +207,7 @@ export async function updateRecordAction(
   _prev: ActionState,
   formData: FormData
 ): Promise<ActionState> {
+  if (!(await isAdminRequest())) return { error: "No autorizado." };
   const id = String(formData.get("id") || "");
   if (!id) return { error: "Falta el identificador." };
 
@@ -224,6 +251,7 @@ export async function updateRecordAction(
 }
 
 export async function deleteRecordAction(formData: FormData) {
+  if (!(await isAdminRequest())) return;
   const id = String(formData.get("id") || "");
   if (!id) return;
   try {
@@ -241,7 +269,7 @@ function parseArtistForm(formData: FormData) {
   const name = String(formData.get("name") || "").trim();
   const bio = String(formData.get("bio") || "").trim();
   const bioEn = String(formData.get("bioEn") || "").trim();
-  const image = String(formData.get("image") || "").trim();
+  const image = safeImageUrl(String(formData.get("image") || ""));
   const country = String(formData.get("country") || "").trim();
   const foundedYearRaw = formData.get("foundedYear");
   const featured = formData.get("featured") === "on";
@@ -264,6 +292,7 @@ export async function createArtistAction(
   _prev: ActionState,
   formData: FormData
 ): Promise<ActionState> {
+  if (!(await isAdminRequest())) return { error: "No autorizado." };
   const parsed = parseArtistForm(formData);
   if ("error" in parsed) return parsed;
 
@@ -287,6 +316,7 @@ export async function updateArtistAction(
   _prev: ActionState,
   formData: FormData
 ): Promise<ActionState> {
+  if (!(await isAdminRequest())) return { error: "No autorizado." };
   const id = String(formData.get("id") || "");
   if (!id) return { error: "Falta el identificador." };
   const parsed = parseArtistForm(formData);
@@ -308,6 +338,7 @@ export async function updateArtistAction(
 }
 
 export async function deleteArtistAction(formData: FormData) {
+  if (!(await isAdminRequest())) return;
   const id = String(formData.get("id") || "");
   if (!id) return;
   try {
@@ -329,7 +360,7 @@ function parseBlogForm(formData: FormData) {
   const content = String(formData.get("content") || "").trim();
   const author = String(formData.get("author") || "").trim();
   const tag = String(formData.get("tag") || "").trim();
-  const coverImage = String(formData.get("coverImage") || "").trim();
+  const coverImage = safeImageUrl(String(formData.get("coverImage") || ""));
   const excerptEn = String(formData.get("excerptEn") || "").trim();
   const contentEn = String(formData.get("contentEn") || "").trim();
   if (!title) return { error: "El título es obligatorio." } as const;
@@ -354,6 +385,7 @@ export async function createBlogAction(
   _prev: ActionState,
   formData: FormData
 ): Promise<ActionState> {
+  if (!(await isAdminRequest())) return { error: "No autorizado." };
   const parsed = parseBlogForm(formData);
   if ("error" in parsed) return parsed;
 
@@ -377,6 +409,7 @@ export async function updateBlogAction(
   _prev: ActionState,
   formData: FormData
 ): Promise<ActionState> {
+  if (!(await isAdminRequest())) return { error: "No autorizado." };
   const id = String(formData.get("id") || "");
   if (!id) return { error: "Falta el identificador." };
   const parsed = parseBlogForm(formData);
@@ -398,6 +431,7 @@ export async function updateBlogAction(
 }
 
 export async function deleteBlogAction(formData: FormData) {
+  if (!(await isAdminRequest())) return;
   const id = String(formData.get("id") || "");
   if (!id) return;
   try {
@@ -416,6 +450,8 @@ export async function searchCoverAction(
   artist: string,
   title: string
 ): Promise<string | null> {
+  if (!(await isAdminRequest())) return null;
+  if (!rateLimit(`cover-search:${clientIp()}`, 20, 60_000)) return null;
   if (!artist?.trim() || !title?.trim()) return null;
-  return findCover(artist, title);
+  return findCover(artist, String(title).slice(0, 200));
 }

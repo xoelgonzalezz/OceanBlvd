@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-import { ADMIN_COOKIE, adminSessionToken } from "@/lib/admin-token";
+import { ADMIN_COOKIE, verifyToken } from "@/lib/auth/token";
 
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -9,10 +9,10 @@ export async function middleware(req: NextRequest) {
   // La página de login es pública.
   if (pathname.startsWith("/admin/login")) return NextResponse.next();
 
-  const cookie = req.cookies.get(ADMIN_COOKIE)?.value;
-  const expected = await adminSessionToken();
+  const token = req.cookies.get(ADMIN_COOKIE)?.value;
+  const payload = token ? await verifyToken(token) : null;
 
-  if (cookie && cookie === expected) return NextResponse.next();
+  if (payload && payload.role === "admin") return NextResponse.next();
 
   const url = req.nextUrl.clone();
   url.pathname = "/admin/login";

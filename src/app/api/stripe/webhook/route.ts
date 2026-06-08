@@ -49,7 +49,8 @@ export async function POST(request: Request) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
     const orderId = session.metadata?.orderId;
-    if (orderId) {
+    // Solo confirmamos si el pago está realmente realizado.
+    if (orderId && session.payment_status === "paid") {
       try {
         await markOrderPaid(orderId);
       } catch {

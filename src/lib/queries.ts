@@ -411,3 +411,19 @@ export function getOrderById(id: string) {
     },
   });
 }
+
+/**
+ * Pedido para la página de confirmación, con control de acceso:
+ * solo se devuelve si coincide el token aleatorio o si es del usuario en sesión.
+ */
+export async function getOrderForConfirmation(
+  id: string,
+  token?: string,
+  userId?: string
+) {
+  const order = await getOrderById(id);
+  if (!order) return null;
+  const byToken = Boolean(token && order.accessToken && order.accessToken === token);
+  const byOwner = Boolean(userId && order.userId === userId);
+  return byToken || byOwner ? order : null;
+}

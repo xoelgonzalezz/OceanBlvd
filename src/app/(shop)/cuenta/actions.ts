@@ -1,20 +1,30 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 
 import { db } from "@/lib/db";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
 import { createUserSession, clearUserSession } from "@/lib/auth/session";
 import { loginSchema, registerSchema } from "@/lib/validators";
+import { rateLimit } from "@/lib/rate-limit";
 
 export interface AuthState {
   error?: string;
+}
+
+function clientIp(): string {
+  const h = headers();
+  return h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "local";
 }
 
 export async function registerAction(
   _prev: AuthState,
   formData: FormData
 ): Promise<AuthState> {
+  if (!rateLimit(`register:${clientIp()}`, 5, 60_000)) {
+    return { error: "Demasiados intentos. Espera un minuto." };
+  }
   const parsed = registerSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
@@ -46,6 +56,9 @@ export async function loginAction(
   _prev: AuthState,
   formData: FormData
 ): Promise<AuthState> {
+  if (!rateLimit(`login:${clientIp()}`, 10, 60_000)) {
+    return { error: "Demasiados intentos. Espera un minuto." };
+  }
   const parsed = loginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),

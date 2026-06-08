@@ -1,26 +1,50 @@
-// Utilidades de sesión de administrador.
-// Compatible con Edge (middleware) y Node (server actions): solo usa Web Crypto.
+import { cookies } from "next/headers";
 
-export const ADMIN_PASSWORD =
-  process.env.ADMIN_PASSWORD || "oceanblvd";
-export const ADMIN_COOKIE = "ob_admin";
+import { ADMIN_COOKIE, signToken, verifyToken } from "@/lib/auth/token";
 
-async function hmacHex(message: string, secret: string): Promise<string> {
-  const enc = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    "raw",
-    enc.encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"]
-  );
-  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(message));
-  return Array.from(new Uint8Array(sig))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
+export { ADMIN_COOKIE };
+
+const ADMIN_TTL = 60 * 60 * 8; // 8 horas
+
+function getAdminPassword(): string {
+  const p =
+    process.env.ADMIN_PASSWORD ||
+    (process.env.NODE_ENV !== "production" ? "oceanblvd" : "");
+  if (!p) {
+    throw new Error("ADMIN_PASSWORD no está definido (obligatorio en producción).");
+  }
+  return p;
 }
 
-/** Token de sesión: depende del ADMIN_PASSWORD, así que no es falsificable sin él. */
-export function adminSessionToken(): Promise<string> {
-  return hmacHex("ocean-blvd-admin-session-v1", ADMIN_PASSWORD);
+/** Comparación en tiempo constante de la contraseña de administrador. */
+export function checkAdminPassword(input: string): boolean {
+  const expected = getAdminPassword();
+  if (input.length !== expected.length) return false;
+  let r = 0;
+  for (let i = 0; i < input.length; i++)
+    r |= input.charCodeAt(i) ^ expected.charCodeAt(i);
+  return r === 0;
+}
+
+/** Token de sesión de admin firmado y con expiración. */
+export function createAdminToken(): Promise<string> {
+  return signToken({ role: "admin" }, ADMIN_TTL);
+}
+
+export async function isAdminToken(token?: string): Promise<boolean> {
+  if (!token) return false;
+  const payload = await verifyToken(token);
+  return Boolean(payload && payload.role === "admin");
+}
+
+/** ¿La petición actual está autenticada como admin? (server actions / páginas) */
+export async function isAdminRequest(): Promise<boolean> {
+  return isAdminToken(cookies().get(ADMIN_COOKIE)?.value);
+}
+
+/** Lanza si la petición no es de un admin autenticado. Usar en TODA mutación. */
+export async function requireAdmin(): Promise<void> {
+  if (!(await isAdminRequest())) {
+    throw new Error("No autorizado.");
+  }
 }

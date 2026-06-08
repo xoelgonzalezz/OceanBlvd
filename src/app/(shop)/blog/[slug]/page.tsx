@@ -7,7 +7,7 @@ import { ChevronLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { getPostBySlug, getPosts } from "@/lib/queries";
-import { formatDate, truncate } from "@/lib/utils";
+import { formatDate, truncate, jsonLd } from "@/lib/utils";
 import { SITE } from "@/lib/constants";
 import { getDict, getLocale, pick } from "@/i18n/server";
 
@@ -67,7 +67,7 @@ export default async function BlogPostPage({
     <article className="py-8 md:py-12">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(articleLd) }}
       />
       <div className="container max-w-3xl">
         <Link

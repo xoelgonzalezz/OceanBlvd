@@ -170,6 +170,8 @@ model Order {
   shippingCents Int
   totalCents    Int
   status        String      @default("PENDING") // PENDING | PAID | SHIPPED | CANCELLED
+  // Token aleatorio para acceder a la confirmación sin sesión (evita IDOR por id).
+  accessToken   String?     @default(cuid())
   createdAt     DateTime    @default(now())
   items         OrderItem[]
 

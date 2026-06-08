@@ -96,7 +96,9 @@ export function CheckoutView() {
         return;
       }
       clear();
-      router.push(`/checkout/exito?order=${data.orderId}`);
+      router.push(
+        `/checkout/exito?order=${data.orderId}&t=${data.token ?? ""}`
+      );
     } catch (err) {
       toast.error(
         err instanceof Error ? err.message : t.checkout.errorGeneric
