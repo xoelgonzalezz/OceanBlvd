@@ -40,6 +40,13 @@ Tienda de comercio electrónico de **discos de vinilo**, moderna y muy cuidada. 
 - **SEO**: metadatos por página, Open Graph (imagen PNG 1200×630), `sitemap.xml`, `robots.txt` y **datos estructurados JSON-LD** (Product, BlogPosting, FAQPage, BreadcrumbList, Organization, WebSite).
 - **Accesibilidad**: HTML semántico, `alt`, `aria-label`, foco visible, `prefers-reduced-motion`, objetivos táctiles y `text-base` en formularios (evita el zoom de iOS).
 
+### Seguridad (endurecido para producción)
+- **Autenticación**: contraseñas con bcrypt; sesiones (usuario y admin) en cookies `httpOnly` con **token firmado HMAC + expiración** y comparación en **tiempo constante**. Secretos obligatorios en producción (sin fallback).
+- **Autorización**: cada server action de admin verifica la sesión (no depende solo del middleware); la confirmación de pedido exige token aleatorio o ser su dueño (anti-IDOR).
+- **Cabeceras**: CSP, HSTS, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`.
+- **Entrada**: validación con zod y límites de longitud/tamaño; `remotePatterns` de imágenes restringido a CDNs conocidos; JSON-LD escapado; URLs de admin saneadas.
+- **Abuso**: rate-limiting en los logins; webhook de Stripe verificado y confirmando solo pagos `paid`.
+
 ---
 
 ## 🧱 Stack
