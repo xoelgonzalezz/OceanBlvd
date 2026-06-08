@@ -456,6 +456,22 @@ export async function deleteBlogAction(formData: FormData) {
   redirect("/admin/blog");
 }
 
+/* ---------- Usuarios ---------- */
+
+export async function deleteUserAction(formData: FormData) {
+  if (!(await isAdminRequest())) return;
+  const id = String(formData.get("id") || "");
+  if (!id) return;
+  try {
+    // Las reseñas se borran en cascada; los pedidos se desvinculan (userId = null).
+    await db.user.delete({ where: { id } });
+  } catch {
+    /* ignore */
+  }
+  revalidatePath("/admin/usuarios");
+  redirect("/admin/usuarios");
+}
+
 /* ---------- Buscar portada real ---------- */
 
 export async function searchCoverAction(

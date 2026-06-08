@@ -1,10 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, Mail } from "lucide-react";
+import { ChevronLeft, Mail, Trash2 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { getAdminUsers } from "@/lib/queries";
 import { formatDate } from "@/lib/utils";
+import { deleteUserAction } from "@/app/admin/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +40,7 @@ export default async function AdminUsersPage() {
               <th className="hidden p-3 font-medium sm:table-cell">Acceso</th>
               <th className="p-3 text-right font-medium">Pedidos</th>
               <th className="p-3 text-right font-medium">Alta</th>
+              <th className="p-3 text-right font-medium">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y">
@@ -71,6 +74,21 @@ export default async function AdminUsersPage() {
                 <td className="p-3 text-right tabular-nums">{u._count.orders}</td>
                 <td className="p-3 text-right text-muted-foreground">
                   {formatDate(u.createdAt)}
+                </td>
+                <td className="p-3 text-right">
+                  <form action={deleteUserAction} className="inline">
+                    <input type="hidden" name="id" value={u.id} />
+                    <Button
+                      type="submit"
+                      variant="ghost"
+                      size="icon"
+                      title={`Eliminar la cuenta de ${u.name}`}
+                      aria-label={`Eliminar la cuenta de ${u.name}`}
+                      className="text-muted-foreground hover:text-destructive"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </form>
                 </td>
               </tr>
             ))}
