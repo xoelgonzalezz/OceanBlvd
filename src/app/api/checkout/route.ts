@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
+import type Stripe from "stripe";
 
 import { db } from "@/lib/db";
 import { checkoutSchema } from "@/lib/validators";
-import { calcShipping } from "@/lib/constants";
+import { calcShipping, SITE } from "@/lib/constants";
 import { getCurrentUser } from "@/lib/auth/session";
+import { stripe, stripeEnabled } from "@/lib/stripe";
 
 export async function POST(request: Request) {
   try {
@@ -19,28 +21,22 @@ export async function POST(request: Request) {
 
     const { items, ...customer } = parsed.data;
     const ids = items.map((i) => i.id);
-    const records = await db.record.findMany({ where: { id: { in: ids } } });
+    const records = await db.record.findMany({
+      where: { id: { in: ids } },
+      include: { images: { orderBy: { position: "asc" }, take: 1 } },
+    });
     const byId = new Map(records.map((r) => [r.id, r]));
 
-    // Calculamos los totales SIEMPRE en el servidor (no confiamos en el cliente).
+    // Totales SIEMPRE en el servidor (no confiamos en el cliente).
     let subtotalCents = 0;
-    const orderItems: {
-      recordId: string;
-      quantity: number;
-      unitPriceCents: number;
-    }[] = [];
+    const orderItems: { recordId: string; quantity: number; unitPriceCents: number }[] = [];
 
     for (const item of items) {
       const record = byId.get(item.id);
-      // Ignoramos productos inexistentes o agotados y limitamos al stock real.
       if (!record || record.stock <= 0) continue;
       const quantity = Math.max(1, Math.min(item.quantity, record.stock));
       subtotalCents += record.priceCents * quantity;
-      orderItems.push({
-        recordId: record.id,
-        quantity,
-        unitPriceCents: record.priceCents,
-      });
+      orderItems.push({ recordId: record.id, quantity, unitPriceCents: record.priceCents });
     }
 
     if (orderItems.length === 0) {
@@ -54,8 +50,68 @@ export async function POST(request: Request) {
     const totalCents = subtotalCents + shippingCents;
     const user = await getCurrentUser();
 
-    // Pago simulado: creamos el pedido y actualizamos inventario y ventas
-    // de forma atómica (transacción).
+    /* ---------- Pago REAL con Stripe ---------- */
+    if (stripeEnabled && stripe) {
+      // Pedido PENDING; el stock se descuenta al confirmar el pago (webhook).
+      const order = await db.order.create({
+        data: {
+          ...customer,
+          subtotalCents,
+          shippingCents,
+          totalCents,
+          status: "PENDING",
+          userId: user?.id ?? null,
+          items: { create: orderItems },
+        },
+      });
+
+      const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = orderItems.map(
+        (oi) => {
+          const record = byId.get(oi.recordId)!;
+          const raw = record.images[0]?.url;
+          const abs = raw
+            ? raw.startsWith("http")
+              ? raw
+              : new URL(raw, SITE.url).toString()
+            : undefined;
+          return {
+            quantity: oi.quantity,
+            price_data: {
+              currency: "eur",
+              unit_amount: oi.unitPriceCents,
+              product_data: {
+                name: record.title,
+                images: abs && abs.startsWith("https://") ? [abs] : undefined,
+              },
+            },
+          };
+        }
+      );
+
+      if (shippingCents > 0) {
+        lineItems.push({
+          quantity: 1,
+          price_data: {
+            currency: "eur",
+            unit_amount: shippingCents,
+            product_data: { name: "Envío" },
+          },
+        });
+      }
+
+      const session = await stripe.checkout.sessions.create({
+        mode: "payment",
+        line_items: lineItems,
+        customer_email: customer.email,
+        success_url: `${SITE.url}/checkout/exito?order=${order.id}`,
+        cancel_url: `${SITE.url}/checkout?cancelado=1`,
+        metadata: { orderId: order.id },
+      });
+
+      return NextResponse.json({ url: session.url });
+    }
+
+    /* ---------- Pago SIMULADO (sin Stripe) ---------- */
     const order = await db.$transaction(async (tx) => {
       const created = await tx.order.create({
         data: {
@@ -63,7 +119,7 @@ export async function POST(request: Request) {
           subtotalCents,
           shippingCents,
           totalCents,
-          status: "PENDING",
+          status: "PAID",
           userId: user?.id ?? null,
           items: { create: orderItems },
         },

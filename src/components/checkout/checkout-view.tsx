@@ -89,6 +89,12 @@ export function CheckoutView() {
         }
         throw new Error(data.error ?? "No se pudo procesar el pedido.");
       }
+      // Pago real con Stripe: redirigimos a la pasarela (no vaciamos el carrito
+      // hasta confirmar; la página de éxito lo vacía al volver).
+      if (data.url) {
+        window.location.href = data.url;
+        return;
+      }
       clear();
       router.push(`/checkout/exito?order=${data.orderId}`);
     } catch (err) {

@@ -6,6 +6,7 @@ import { CheckCircle2, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { EmptyState } from "@/components/shared/empty-state";
+import { ClearCart } from "@/components/checkout/clear-cart";
 import { getOrderById } from "@/lib/queries";
 import { formatPrice } from "@/lib/utils";
 import { getDict } from "@/i18n/server";
@@ -44,6 +45,7 @@ export default async function CheckoutSuccessPage({
 
   return (
     <div className="container max-w-2xl py-14 md:py-20">
+      <ClearCart />
       <div className="text-center">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
           <CheckCircle2 className="h-8 w-8 text-primary" />
