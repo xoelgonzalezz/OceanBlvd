@@ -24,21 +24,23 @@ function clientIp(): string {
   return h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "local";
 }
 
-/** Destino seguro tras autenticarse (solo rutas internas). */
-function safeNext(formData: FormData): string {
-  const next = formData.get("next");
-  if (typeof next === "string" && next.startsWith("/") && !next.startsWith("//")) {
-    return next;
-  }
-  return "/cuenta";
+/** Devuelve un destino interno seguro de `next`, o undefined. */
+function rawNext(formData: FormData): string | undefined {
+  const n = formData.get("next");
+  return typeof n === "string" && n.startsWith("/") && !n.startsWith("//")
+    ? n
+    : undefined;
 }
 
 function genCode(): string {
   return String(randomInt(100000, 1000000)); // 6 dígitos
 }
 
-async function setPending(uid: string) {
-  const token = await signToken({ uid, purpose: "verify" }, PENDING_TTL_S);
+async function setPending(uid: string, next?: string) {
+  const token = await signToken(
+    { uid, purpose: "verify", next: next ?? null },
+    PENDING_TTL_S
+  );
   cookies().set(PENDING_COOKIE, token, {
     httpOnly: true,
     sameSite: "lax",
@@ -48,31 +50,37 @@ async function setPending(uid: string) {
   });
 }
 
-async function getPendingUid(): Promise<string | null> {
+async function getPending(): Promise<{ uid: string; next?: string } | null> {
   const token = cookies().get(PENDING_COOKIE)?.value;
   if (!token) return null;
-  const payload = await verifyToken(token);
-  return payload && payload.purpose === "verify" && typeof payload.uid === "string"
-    ? payload.uid
-    : null;
+  const p = await verifyToken(token);
+  if (!p || p.purpose !== "verify" || typeof p.uid !== "string") return null;
+  const next =
+    typeof p.next === "string" && p.next.startsWith("/") && !p.next.startsWith("//")
+      ? p.next
+      : undefined;
+  return { uid: p.uid, next };
 }
 
 function clearPending() {
   cookies().delete(PENDING_COOKIE);
 }
 
-/** Genera y envía un nuevo código de verificación a un usuario. */
-async function issueCode(user: { id: string; email: string; name: string }) {
+/** Genera y envía un nuevo código de verificación, y guarda la sesión pendiente. */
+async function issueCode(
+  user: { id: string; email: string; name: string },
+  next?: string
+) {
   const code = genCode();
   await db.user.update({
     where: { id: user.id },
     data: { verifyCode: code, verifyCodeExpires: new Date(Date.now() + CODE_TTL_MS) },
   });
   await sendVerificationCode(user.email, user.name, code);
-  await setPending(user.id);
+  await setPending(user.id, next);
 }
 
-/* ---------- Registro ---------- */
+/* ---------- Registro (con verificación obligatoria) ---------- */
 
 export async function registerAction(
   _prev: AuthState,
@@ -105,11 +113,8 @@ export async function registerAction(
     },
   });
 
-  // Verificación NO bloqueante (la entrega de email a terceros requiere dominio
-  // verificado en Resend): iniciamos sesión directamente para no atascar a nadie.
-  await sendWelcomeEmail(user.email, user.name);
-  await createUserSession(user.id);
-  redirect(safeNext(formData));
+  await issueCode(user, rawNext(formData));
+  redirect("/verificar");
 }
 
 /* ---------- Verificación ---------- */
@@ -121,8 +126,8 @@ export async function verifyAction(
   if (!rateLimit(`verify:${clientIp()}`, 10, 60_000)) {
     return { error: "Demasiados intentos. Espera un minuto." };
   }
-  const uid = await getPendingUid();
-  if (!uid) {
+  const pending = await getPending();
+  if (!pending) {
     return { error: "Tu sesión de verificación ha caducado. Vuelve a entrar." };
   }
   const code = String(formData.get("code") || "").replace(/\D/g, "").slice(0, 6);
@@ -130,7 +135,7 @@ export async function verifyAction(
     return { error: "Introduce el código de 6 dígitos." };
   }
 
-  const user = await db.user.findUnique({ where: { id: uid } });
+  const user = await db.user.findUnique({ where: { id: pending.uid } });
   if (!user) return { error: "Cuenta no encontrada." };
 
   if (
@@ -149,18 +154,18 @@ export async function verifyAction(
   await sendWelcomeEmail(user.email, user.name);
   clearPending();
   await createUserSession(user.id);
-  redirect("/cuenta");
+  redirect(pending.next ?? "/cuenta");
 }
 
 export async function resendCodeAction(): Promise<void> {
   if (!rateLimit(`verify-resend:${clientIp()}`, 3, 60_000)) {
     redirect("/verificar?error=wait");
   }
-  const uid = await getPendingUid();
-  if (!uid) redirect("/acceso");
-  const user = await db.user.findUnique({ where: { id: uid! } });
+  const pending = await getPending();
+  if (!pending) redirect("/acceso");
+  const user = await db.user.findUnique({ where: { id: pending!.uid } });
   if (!user) redirect("/acceso");
-  await issueCode(user!);
+  await issueCode(user!, pending!.next);
   redirect("/verificar?resent=1");
 }
 
@@ -191,8 +196,14 @@ export async function loginAction(
     return { error: "Correo o contraseña incorrectos." };
   }
 
+  // Verificación obligatoria: si no ha verificado, lo mandamos a verificar.
+  if (!user.verified) {
+    await issueCode(user, rawNext(formData));
+    redirect("/verificar");
+  }
+
   await createUserSession(user.id);
-  redirect(safeNext(formData));
+  redirect(rawNext(formData) ?? "/cuenta");
 }
 
 export async function logoutAction() {
