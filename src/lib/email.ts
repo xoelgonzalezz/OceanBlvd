@@ -1,3 +1,5 @@
+import nodemailer from "nodemailer";
+
 import { SITE } from "@/lib/constants";
 import { getOrderById } from "@/lib/queries";
 
@@ -5,7 +7,61 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const EMAIL_FROM =
   process.env.EMAIL_FROM || "Ocean Blvd Vinyl <onboarding@resend.dev>";
 
-export const emailEnabled = Boolean(RESEND_API_KEY);
+// SMTP (p. ej. Gmail con contraseña de aplicación): envía a CUALQUIER destinatario.
+const SMTP_USER = process.env.SMTP_USER;
+const SMTP_PASS = process.env.SMTP_PASS;
+const SMTP_HOST = process.env.SMTP_HOST || "smtp.gmail.com";
+const SMTP_PORT = Number(process.env.SMTP_PORT || 465);
+const smtpEnabled = Boolean(SMTP_USER && SMTP_PASS);
+
+export const emailEnabled = Boolean(smtpEnabled || RESEND_API_KEY);
+
+let transporter: nodemailer.Transporter | null = null;
+function getTransporter(): nodemailer.Transporter | null {
+  if (!smtpEnabled) return null;
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: SMTP_HOST,
+      port: SMTP_PORT,
+      secure: SMTP_PORT === 465,
+      auth: { user: SMTP_USER, pass: SMTP_PASS },
+    });
+  }
+  return transporter;
+}
+
+/**
+ * Envía un correo. Prioridad: SMTP (Gmail) -> Resend -> nada.
+ * No lanza: nunca bloquea el flujo de la app.
+ */
+async function sendMail(to: string, subject: string, html: string): Promise<void> {
+  if (!to) return;
+
+  const tx = getTransporter();
+  if (tx) {
+    try {
+      await tx.sendMail({ from: EMAIL_FROM, to, subject, html });
+    } catch {
+      /* no bloquea */
+    }
+    return;
+  }
+
+  if (RESEND_API_KEY) {
+    try {
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ from: EMAIL_FROM, to: [to], subject, html }),
+      });
+    } catch {
+      /* no bloquea */
+    }
+  }
+}
 
 function abs(url: string): string {
   return url.startsWith("http") ? url : `${SITE.url}${url}`;
@@ -140,24 +196,7 @@ export function welcomeHtml(name: string): string {
 
 /** Envía el email de bienvenida al registrarse (no hace nada sin RESEND_API_KEY). */
 export async function sendWelcomeEmail(to: string, name: string): Promise<void> {
-  if (!RESEND_API_KEY || !to) return;
-  try {
-    await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: EMAIL_FROM,
-        to: [to],
-        subject: "Bienvenido a Ocean Blvd Vinyl",
-        html: welcomeHtml(name),
-      }),
-    });
-  } catch {
-    // No bloqueamos el registro si el email falla.
-  }
+  await sendMail(to, "Bienvenido a Ocean Blvd Vinyl", welcomeHtml(name));
 }
 
 /** Email con el código de verificación (OTP). */
@@ -198,46 +237,20 @@ export async function sendVerificationCode(
   name: string,
   code: string
 ): Promise<void> {
-  if (!RESEND_API_KEY || !to) return;
-  try {
-    await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: EMAIL_FROM,
-        to: [to],
-        subject: `Tu código de Ocean Blvd Vinyl: ${code}`,
-        html: verificationHtml(name, code),
-      }),
-    });
-  } catch {
-    /* no bloquea el flujo */
-  }
+  await sendMail(
+    to,
+    `Tu código de Ocean Blvd Vinyl: ${code}`,
+    verificationHtml(name, code)
+  );
 }
 
 /** Envía el email de confirmación (no hace nada si RESEND_API_KEY no está configurada). */
 export async function sendOrderConfirmation(orderId: string): Promise<void> {
-  if (!RESEND_API_KEY) return;
-  try {
-    const order = await getOrderById(orderId);
-    if (!order) return;
-    await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: EMAIL_FROM,
-        to: [order.email],
-        subject: `Tu pedido en Ocean Blvd Vinyl — #${order.id.slice(-8).toUpperCase()}`,
-        html: orderConfirmationHtml(order),
-      }),
-    });
-  } catch {
-    // No bloqueamos el pedido si el email falla.
-  }
+  const order = await getOrderById(orderId);
+  if (!order) return;
+  await sendMail(
+    order.email,
+    `Tu pedido en Ocean Blvd Vinyl — #${order.id.slice(-8).toUpperCase()}`,
+    orderConfirmationHtml(order)
+  );
 }
