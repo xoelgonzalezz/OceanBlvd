@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import type Stripe from "stripe";
 
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
+import { TAGS } from "@/lib/queries";
+import { sendOrderConfirmation } from "@/lib/email";
 
 export const runtime = "nodejs";
 
@@ -53,6 +56,8 @@ export async function POST(request: Request) {
     if (orderId && session.payment_status === "paid") {
       try {
         await markOrderPaid(orderId);
+        revalidateTag(TAGS.records); // stock/ventas actualizados
+        await sendOrderConfirmation(orderId); // email de confirmación
       } catch {
         return NextResponse.json({ error: "Error al actualizar el pedido." }, { status: 500 });
       }

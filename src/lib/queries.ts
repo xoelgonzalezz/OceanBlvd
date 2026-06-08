@@ -1,6 +1,18 @@
+import { unstable_cache } from "next/cache";
+
 import { db } from "@/lib/db";
 import { PAGE_SIZE, type SortValue } from "@/lib/constants";
 import type { Prisma } from "@prisma/client";
+
+// Etiquetas de caché; se invalidan desde el admin / checkout al cambiar datos.
+export const TAGS = {
+  records: "records",
+  artists: "artists",
+  blog: "blog",
+  genres: "genres",
+} as const;
+
+const DAY = 86400; // segundo de respaldo; la invalidación real es por etiqueta
 
 /* Includes reutilizables */
 const cardInclude = {
@@ -19,70 +31,93 @@ const fullInclude = {
 /* ============== HOME ============== */
 
 /** Disco para el hero: preferimos el álbum "Ocean Blvd" de Lana Del Rey. */
-export async function getHeroRecord() {
-  const lana = await db.record.findMany({
-    where: { artist: { slug: "lana-del-rey" } },
-    include: cardInclude,
-    orderBy: { salesCount: "desc" },
-  });
-  const ocean = lana.find((r) => /ocean blvd/i.test(r.title));
-  if (ocean) return ocean;
-  if (lana.length) return lana[0];
-  // Sin Lana: caemos al destacado más vendido.
-  return db.record.findFirst({
-    where: { featured: true },
-    include: cardInclude,
-    orderBy: { salesCount: "desc" },
-  });
-}
+export const getHeroRecord = unstable_cache(
+  async () => {
+    const lana = await db.record.findMany({
+      where: { artist: { slug: "lana-del-rey" } },
+      include: cardInclude,
+      orderBy: { salesCount: "desc" },
+    });
+    const ocean = lana.find((r) => /ocean blvd/i.test(r.title));
+    if (ocean) return ocean;
+    if (lana.length) return lana[0];
+    return db.record.findFirst({
+      where: { featured: true },
+      include: cardInclude,
+      orderBy: { salesCount: "desc" },
+    });
+  },
+  ["hero-record"],
+  { tags: [TAGS.records], revalidate: DAY }
+);
 
-export function getFeaturedRecords(limit = 6) {
-  return db.record.findMany({
-    where: { featured: true },
-    include: cardInclude,
-    orderBy: { salesCount: "desc" },
-    take: limit,
-  });
-}
+export const getFeaturedRecords = (limit = 6) =>
+  unstable_cache(
+    (l: number) =>
+      db.record.findMany({
+        where: { featured: true },
+        include: cardInclude,
+        orderBy: { salesCount: "desc" },
+        take: l,
+      }),
+    ["featured-records"],
+    { tags: [TAGS.records], revalidate: DAY }
+  )(limit);
 
-export function getNewReleases(limit = 8) {
-  return db.record.findMany({
-    include: cardInclude,
-    orderBy: { createdAt: "desc" },
-    take: limit,
-  });
-}
+export const getNewReleases = (limit = 8) =>
+  unstable_cache(
+    (l: number) =>
+      db.record.findMany({
+        include: cardInclude,
+        orderBy: { createdAt: "desc" },
+        take: l,
+      }),
+    ["new-releases"],
+    { tags: [TAGS.records], revalidate: DAY }
+  )(limit);
 
-export function getBestSellers(limit = 8) {
-  return db.record.findMany({
-    include: cardInclude,
-    orderBy: { salesCount: "desc" },
-    take: limit,
-  });
-}
+export const getBestSellers = (limit = 8) =>
+  unstable_cache(
+    (l: number) =>
+      db.record.findMany({
+        include: cardInclude,
+        orderBy: { salesCount: "desc" },
+        take: l,
+      }),
+    ["best-sellers"],
+    { tags: [TAGS.records], revalidate: DAY }
+  )(limit);
 
-export function getFeaturedArtists(limit = 6) {
-  return db.artist.findMany({
-    where: { featured: true },
-    include: { _count: { select: { records: true } } },
-    orderBy: { name: "asc" },
-    take: limit,
-  });
-}
+export const getFeaturedArtists = (limit = 6) =>
+  unstable_cache(
+    (l: number) =>
+      db.artist.findMany({
+        where: { featured: true },
+        include: { _count: { select: { records: true } } },
+        orderBy: { name: "asc" },
+        take: l,
+      }),
+    ["featured-artists"],
+    { tags: [TAGS.artists, TAGS.records], revalidate: DAY }
+  )(limit);
 
-export function getGenresWithCount() {
-  return db.genre.findMany({
-    include: { _count: { select: { records: true } } },
-    orderBy: { name: "asc" },
-  });
-}
+export const getGenresWithCount = unstable_cache(
+  () =>
+    db.genre.findMany({
+      include: { _count: { select: { records: true } } },
+      orderBy: { name: "asc" },
+    }),
+  ["genres-with-count"],
+  { tags: [TAGS.genres, TAGS.records], revalidate: DAY }
+);
 
-export function getLatestPosts(limit = 3) {
-  return db.blogPost.findMany({
-    orderBy: { publishedAt: "desc" },
-    take: limit,
-  });
-}
+export const getLatestPosts = (limit = 3) =>
+  unstable_cache(
+    (l: number) =>
+      db.blogPost.findMany({ orderBy: { publishedAt: "desc" }, take: l }),
+    ["latest-posts"],
+    { tags: [TAGS.blog], revalidate: DAY }
+  )(limit);
 
 /* ============== CATÁLOGO ============== */
 
@@ -164,7 +199,8 @@ export async function getRecords(filters: RecordFilters = {}) {
 }
 
 /** Datos para construir la barra de filtros del catálogo. */
-export async function getFilterFacets() {
+export const getFilterFacets = unstable_cache(
+  async () => {
   const [genres, artists, decadeRows, priceAgg] = await Promise.all([
     db.genre.findMany({
       include: { _count: { select: { records: true } } },
@@ -192,16 +228,19 @@ export async function getFilterFacets() {
     minPrice: priceAgg._min.priceCents ?? 0,
     maxPrice: priceAgg._max.priceCents ?? 10000,
   };
-}
+  },
+  ["filter-facets"],
+  { tags: [TAGS.records, TAGS.genres, TAGS.artists], revalidate: DAY }
+);
 
 /* ============== PRODUCTO ============== */
 
-export function getRecordBySlug(slug: string) {
-  return db.record.findUnique({
-    where: { slug },
-    include: fullInclude,
-  });
-}
+export const getRecordBySlug = (slug: string) =>
+  unstable_cache(
+    (s: string) => db.record.findUnique({ where: { slug: s }, include: fullInclude }),
+    ["record-by-slug"],
+    { tags: [TAGS.records], revalidate: DAY }
+  )(slug);
 
 export function getAllRecordSlugs() {
   return db.record.findMany({ select: { slug: true } });
@@ -234,24 +273,26 @@ export async function getRelatedRecords(
 
 /* ============== ARTISTAS ============== */
 
-export function getArtists() {
-  return db.artist.findMany({
-    include: { _count: { select: { records: true } } },
-    orderBy: { name: "asc" },
-  });
-}
+export const getArtists = unstable_cache(
+  () =>
+    db.artist.findMany({
+      include: { _count: { select: { records: true } } },
+      orderBy: { name: "asc" },
+    }),
+  ["artists-list"],
+  { tags: [TAGS.artists, TAGS.records], revalidate: DAY }
+);
 
-export function getArtistBySlug(slug: string) {
-  return db.artist.findUnique({
-    where: { slug },
-    include: {
-      records: {
-        include: cardInclude,
-        orderBy: { year: "desc" },
-      },
-    },
-  });
-}
+export const getArtistBySlug = (slug: string) =>
+  unstable_cache(
+    (s: string) =>
+      db.artist.findUnique({
+        where: { slug: s },
+        include: { records: { include: cardInclude, orderBy: { year: "desc" } } },
+      }),
+    ["artist-by-slug"],
+    { tags: [TAGS.artists, TAGS.records], revalidate: DAY }
+  )(slug);
 
 export function getAllArtistSlugs() {
   return db.artist.findMany({ select: { slug: true } });
@@ -259,13 +300,18 @@ export function getAllArtistSlugs() {
 
 /* ============== BLOG ============== */
 
-export function getPosts() {
-  return db.blogPost.findMany({ orderBy: { publishedAt: "desc" } });
-}
+export const getPosts = unstable_cache(
+  () => db.blogPost.findMany({ orderBy: { publishedAt: "desc" } }),
+  ["posts-list"],
+  { tags: [TAGS.blog], revalidate: DAY }
+);
 
-export function getPostBySlug(slug: string) {
-  return db.blogPost.findUnique({ where: { slug } });
-}
+export const getPostBySlug = (slug: string) =>
+  unstable_cache(
+    (s: string) => db.blogPost.findUnique({ where: { slug: s } }),
+    ["post-by-slug"],
+    { tags: [TAGS.blog], revalidate: DAY }
+  )(slug);
 
 export function getAllPostSlugs() {
   return db.blogPost.findMany({ select: { slug: true } });

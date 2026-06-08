@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import type Stripe from "stripe";
 
 import { db } from "@/lib/db";
+import { TAGS } from "@/lib/queries";
+import { sendOrderConfirmation } from "@/lib/email";
 import { checkoutSchema } from "@/lib/validators";
 import { calcShipping, SITE } from "@/lib/constants";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -136,6 +139,8 @@ export async function POST(request: Request) {
       return created;
     });
 
+    revalidateTag(TAGS.records); // el stock/ventas han cambiado
+    await sendOrderConfirmation(order.id); // email de confirmación
     return NextResponse.json({ orderId: order.id, token: order.accessToken });
   } catch {
     return NextResponse.json(

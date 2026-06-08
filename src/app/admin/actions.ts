@@ -2,9 +2,10 @@
 
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import { db } from "@/lib/db";
+import { TAGS } from "@/lib/queries";
 import { slugify, decadeOf } from "@/lib/utils";
 import { findCover } from "@/lib/cover-search";
 import {
@@ -71,6 +72,8 @@ function revalidateShop(slug?: string) {
   revalidatePath("/tienda");
   revalidatePath("/admin");
   if (slug) revalidatePath(`/producto/${slug}`);
+  revalidateTag(TAGS.records);
+  revalidateTag(TAGS.genres);
 }
 
 function parseTracks(text: string) {
@@ -309,6 +312,8 @@ export async function createArtistAction(
 
   revalidatePath("/artistas");
   revalidatePath("/admin/artists");
+  revalidateTag(TAGS.artists);
+  revalidateTag(TAGS.records);
   redirect("/admin/artists");
 }
 
@@ -334,6 +339,8 @@ export async function updateArtistAction(
   revalidatePath("/artistas");
   revalidatePath(`/artistas/${existing.slug}`);
   revalidatePath("/admin/artists");
+  revalidateTag(TAGS.artists);
+  revalidateTag(TAGS.records);
   redirect("/admin/artists");
 }
 
@@ -348,6 +355,8 @@ export async function deleteArtistAction(formData: FormData) {
   }
   revalidatePath("/artistas");
   revalidatePath("/admin/artists");
+  revalidateTag(TAGS.artists);
+  revalidateTag(TAGS.records);
   revalidatePath("/admin");
   redirect("/admin/artists");
 }
@@ -402,6 +411,7 @@ export async function createBlogAction(
 
   revalidatePath("/blog");
   revalidatePath("/admin/blog");
+  revalidateTag(TAGS.blog);
   redirect("/admin/blog");
 }
 
@@ -427,6 +437,7 @@ export async function updateBlogAction(
   revalidatePath("/blog");
   revalidatePath(`/blog/${existing.slug}`);
   revalidatePath("/admin/blog");
+  revalidateTag(TAGS.blog);
   redirect("/admin/blog");
 }
 
@@ -441,6 +452,7 @@ export async function deleteBlogAction(formData: FormData) {
   }
   revalidatePath("/blog");
   revalidatePath("/admin/blog");
+  revalidateTag(TAGS.blog);
   redirect("/admin/blog");
 }
 
