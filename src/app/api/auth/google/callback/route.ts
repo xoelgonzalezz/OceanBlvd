@@ -35,6 +35,7 @@ export async function GET(req: NextRequest) {
         name: profile.name || email.split("@")[0],
         image: profile.picture || null,
         provider: "google",
+        verified: true, // Google ya verifica el correo
       },
     });
     await sendWelcomeEmail(user.email, user.name);

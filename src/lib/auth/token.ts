@@ -3,6 +3,7 @@
 
 export const SESSION_COOKIE = "ob_session";
 export const ADMIN_COOKIE = "ob_admin";
+export const PENDING_COOKIE = "ob_pending"; // verificación de email pendiente
 
 function getSecret(): string {
   const s =

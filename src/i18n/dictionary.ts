@@ -292,6 +292,16 @@ const es = {
     stars: (n: number) => `${n} de 5 estrellas`,
     saved: "¡Gracias por tu valoración!",
   },
+  verify: {
+    title: "Verifica tu correo",
+    desc: "Te hemos enviado un código de 6 dígitos a tu correo. Introdúcelo para activar tu cuenta.",
+    codeLabel: "Código de verificación",
+    submit: "Verificar",
+    verifying: "Verificando…",
+    resend: "Reenviar código",
+    resent: "Te hemos enviado un nuevo código.",
+    noCode: "¿No te llega? Revisa la carpeta de spam.",
+  },
 };
 
 const en: typeof es = {
@@ -580,6 +590,16 @@ const en: typeof es = {
     youReviewed: "Your review",
     stars: (n: number) => `${n} of 5 stars`,
     saved: "Thanks for your review!",
+  },
+  verify: {
+    title: "Verify your email",
+    desc: "We've sent a 6-digit code to your email. Enter it to activate your account.",
+    codeLabel: "Verification code",
+    submit: "Verify",
+    verifying: "Verifying…",
+    resend: "Resend code",
+    resent: "We've sent you a new code.",
+    noCode: "Didn't get it? Check your spam folder.",
   },
 };
 
