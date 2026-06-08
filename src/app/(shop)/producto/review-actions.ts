@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth/session";
+import { hasPurchasedRecord } from "@/lib/queries";
 
 export interface ReviewState {
   error?: string;
@@ -25,6 +26,14 @@ export async function submitReviewAction(
   if (!recordId) return { error: "Disco no válido." };
   if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
     return { error: "Selecciona de 1 a 5 estrellas." };
+  }
+
+  // Solo compras verificadas: el usuario debe haber comprado este disco.
+  const purchased = await hasPurchasedRecord(user.id, user.email, recordId);
+  if (!purchased) {
+    return {
+      error: "Solo puedes valorar discos que has comprado en la tienda.",
+    };
   }
 
   try {

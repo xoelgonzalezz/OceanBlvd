@@ -2,7 +2,11 @@ import Link from "next/link";
 import { Trash2 } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/auth/session";
-import { getRecordRating, getRecordReviews } from "@/lib/queries";
+import {
+  getRecordRating,
+  getRecordReviews,
+  hasPurchasedRecord,
+} from "@/lib/queries";
 import { getDict, getLocale } from "@/i18n/server";
 import { formatDate } from "@/lib/utils";
 import { Stars } from "@/components/reviews/stars";
@@ -28,6 +32,11 @@ export async function ReviewSection({
     ? (reviews.find((r) => r.userId === user.id) ?? null)
     : null;
 
+  // Solo compras verificadas pueden valorar.
+  const canReview = user
+    ? await hasPurchasedRecord(user.id, user.email, recordId)
+    : false;
+
   return (
     <section className="mt-16 border-t border-border/60 pt-12">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -50,14 +59,7 @@ export async function ReviewSection({
       <div className="mt-6 grid gap-8 lg:grid-cols-[360px_1fr]">
         {/* Formulario / login */}
         <div>
-          {user ? (
-            <ReviewForm
-              recordId={recordId}
-              slug={slug}
-              initialRating={myReview?.rating ?? 0}
-              initialComment={myReview?.comment ?? ""}
-            />
-          ) : (
+          {!user ? (
             <div className="rounded-lg border bg-card p-5 text-sm text-muted-foreground">
               {t.reviews.loginToReview}{" "}
               <Link
@@ -66,6 +68,17 @@ export async function ReviewSection({
               >
                 {t.reviews.signIn}
               </Link>
+            </div>
+          ) : canReview ? (
+            <ReviewForm
+              recordId={recordId}
+              slug={slug}
+              initialRating={myReview?.rating ?? 0}
+              initialComment={myReview?.comment ?? ""}
+            />
+          ) : (
+            <div className="rounded-lg border bg-card p-5 text-sm text-muted-foreground">
+              {t.reviews.purchasedOnly}
             </div>
           )}
         </div>

@@ -345,6 +345,28 @@ export function getRecordsByIds(ids: string[]) {
   });
 }
 
+/**
+ * ¿El usuario tiene una compra verificada de este disco?
+ * Cuenta como verificada si existe un pedido pagado o enviado (PAID/SHIPPED) que
+ * contiene el disco y pertenece al usuario, ya sea por su userId o por el email
+ * de su cuenta (cubre las compras hechas como invitado con ese mismo correo).
+ */
+export async function hasPurchasedRecord(
+  userId: string,
+  email: string,
+  recordId: string
+): Promise<boolean> {
+  const order = await db.order.findFirst({
+    where: {
+      status: { in: ["PAID", "SHIPPED"] },
+      OR: [{ userId }, { email }],
+      items: { some: { recordId } },
+    },
+    select: { id: true },
+  });
+  return Boolean(order);
+}
+
 /* ============== ADMIN ============== */
 
 export function getAdminRecords() {

@@ -2,16 +2,16 @@
 
 ![Ocean Blvd Vinyl](public/og-default.png)
 
-Tienda de comercio electrónico de **discos de vinilo**, completa y lista para producción. Estética **blanco y negro** de alto contraste (inspirada en tiendas de coleccionista tipo *Vertigo Vinyl*), **modo oscuro por defecto** con toggle, micro-interacciones y dinamismo (filosofía de animación de Emil Kowalski), **imágenes reales** de portadas y artistas, **cuentas de cliente**, **reseñas**, **pago real con Stripe**, **email de confirmación**, **panel de administración** completo y **bilingüe ES/EN**.
+Tienda de comercio electrónico de **discos de vinilo**, completa y lista para producción. Estética **blanco y negro** de alto contraste (inspirada en tiendas de coleccionista tipo *Vertigo Vinyl*), **tema claro por defecto** con toggle a modo oscuro, micro-interacciones y dinamismo (filosofía de animación de Emil Kowalski), **imágenes reales** de portadas y artistas, **cuentas de cliente**, **reseñas de compra verificada**, **pago real con Stripe**, **email de confirmación**, **panel de administración** completo y **bilingüe ES/EN**.
 
-🔗 **En vivo:** **https://ocean-blvd-vinyl.vercel.app**
+🔗 **En vivo:** **https://oceanblvdvinyl.com**
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black) ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue) ![Prisma](https://img.shields.io/badge/Prisma-5-2D3748) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-336791) ![Tailwind](https://img.shields.io/badge/Tailwind-3-38BDF8) ![Stripe](https://img.shields.io/badge/Stripe-Checkout-635BFF)
 
 | | |
 |---|---|
-| 🛍️ Tienda | https://ocean-blvd-vinyl.vercel.app |
-| 🔐 Admin | https://ocean-blvd-vinyl.vercel.app/admin |
+| 🛍️ Tienda | https://oceanblvdvinyl.com |
+| 🔐 Admin | https://oceanblvdvinyl.com/admin |
 | 👤 Cuenta | `/registro` y `/acceso` |
 
 ---
@@ -43,7 +43,7 @@ Tienda de comercio electrónico de **discos de vinilo**, completa y lista para p
 ### Tienda (storefront)
 - **Inicio** con hero (vinilo verde de edición exclusiva girando + portada de Lana Del Rey), marquesina, últimas novedades, géneros, más vendidos, artistas destacados y avance del blog.
 - **Catálogo** con filtros (género, artista, década, rango de precio, estado), ordenación (novedad, más vendidos, precio, A–Z), buscador y paginación — **todo sincronizado con la URL**.
-- **Ficha de producto** con galería, tracklist completo, sello, año, género, estado (Mint, VG+…), descripción, enlace al artista, **valoraciones (1–5 estrellas + reseñas)** y **productos relacionados**.
+- **Ficha de producto** con galería, tracklist completo, sello, año, género, estado (Mint, VG+…), descripción, enlace al artista, **valoraciones (1–5 estrellas + reseñas, solo para compradores verificados)** y **productos relacionados**.
 - **Carrito** persistente (Zustand + `localStorage`) con cajón lateral y **checkout** con cálculo de envío (gratis a partir de 60 €).
 - **Artistas** (listado + ficha con biografía, foto real y discografía).
 - **Blog / Noticias** (listado + artículo) con **fotos reales**.
@@ -55,14 +55,14 @@ Tienda de comercio electrónico de **discos de vinilo**, completa y lista para p
 - **Registro e inicio de sesión** reales: modelo `User`, contraseñas con **bcrypt**, sesión por cookie firmada (HMAC + expiración).
 - **Área de cuenta** (`/cuenta`) con datos del usuario y su **historial de pedidos** (los pedidos se vinculan a la cuenta al hacer checkout con sesión iniciada).
 
-### Reseñas y valoraciones
-- Los usuarios registrados puntúan (1–5 estrellas) y comentan cada disco.
+### Reseñas y valoraciones (solo compra verificada)
+- **Solo quien ha comprado el disco** puede puntuarlo (1–5 estrellas) y comentarlo: se exige un pedido **pagado o enviado** (`PAID`/`SHIPPED`) que contenga ese disco, vinculado por cuenta o por el email de la compra. Quien no lo ha comprado ve un aviso en lugar del formulario.
 - Media con estrellas y listado de reseñas en la ficha; una reseña por usuario y disco (editable/eliminable por su autor).
 
 ### Pagos y pedidos
 - **Pago real con Stripe Checkout** (con *fallback* a pago simulado si no hay claves configuradas).
 - El **webhook** confirma el pago, marca el pedido como `PAID`, **descuenta stock** e incrementa ventas.
-- **Email de confirmación** de pedido con plantilla blanco y negro acorde a la web (vía Resend).
+- **Email de confirmación** de pedido (y de bienvenida y verificación) con **cabecera de collage a color** y cuerpo en blanco y negro acorde a la web (vía Resend o SMTP).
 - Totales recalculados **siempre en el servidor** (no se confía en el cliente).
 
 ### Panel de administración (`/admin`)
@@ -74,7 +74,7 @@ Tienda de comercio electrónico de **discos de vinilo**, completa y lista para p
 
 ### Diseño y calidad
 - **Blanco y negro** monocromo, alto contraste, tipografía *Fraunces* (serif) + *Inter*.
-- **Modo claro/oscuro** (oscuro por defecto), **100% responsive** (móvil, tablet, escritorio).
+- **Modo claro/oscuro** (claro por defecto), **100% responsive** (móvil, tablet, escritorio).
 - **SEO**: metadatos por página, Open Graph (PNG 1200×630), `sitemap.xml`, `robots.txt` y **JSON-LD** (Product, BlogPosting, FAQPage, BreadcrumbList, Organization, WebSite).
 - **Accesibilidad**: HTML semántico, `alt`, `aria-label`, foco visible, `prefers-reduced-motion`, objetivos táctiles y `text-base` en formularios (evita el zoom de iOS).
 
@@ -144,7 +144,7 @@ Modelos Prisma (PostgreSQL):
 | `Track` | Pista del tracklist (posición, título, duración). |
 | `BlogPost` | Artículo (slug, extracto/contenido ES/EN, autor, categoría, portada). |
 | `User` | Cuenta de cliente (email, nombre, `passwordHash`). |
-| `Review` | Valoración (1–5 + comentario) — única por usuario y disco. |
+| `Review` | Valoración (1–5 + comentario) — única por usuario y disco; **solo se permite crear/editar si el usuario tiene una compra verificada del disco** (pedido `PAID`/`SHIPPED`). |
 | `Order` | Pedido (datos de envío, totales en céntimos, estado, `accessToken` para acceso seguro a la confirmación, `userId` opcional). |
 | `OrderItem` | Línea de pedido (cantidad, precio en el momento de la compra). |
 | `NewsletterSubscriber` · `ContactMessage` | Newsletter del pie y formulario de contacto. |
@@ -302,7 +302,7 @@ Hay una **rutina programada** (`ocean-blvd-mejora-semanal`) que, cada **lunes**,
 - [x] Tienda completa (catálogo, ficha, carrito, checkout).
 - [x] Cuentas de cliente y área "Mis pedidos".
 - [x] CRUD completo desde el admin (vinilos, artistas, blog).
-- [x] Reseñas y valoraciones.
+- [x] Reseñas y valoraciones (solo compras verificadas).
 - [x] Pago real con Stripe + webhook + email de confirmación.
 - [x] Bilingüe ES/EN.
 - [x] Desplegado en Vercel + Neon (Postgres), optimizado y endurecido.

@@ -289,6 +289,8 @@ const es = {
     submitting: "Publicando…",
     update: "Actualizar valoración",
     loginToReview: "Inicia sesión para dejar tu valoración.",
+    purchasedOnly:
+      "Solo quienes han comprado este disco pueden dejar una valoración.",
     signIn: "Iniciar sesión",
     delete: "Eliminar",
     youReviewed: "Tu valoración",
@@ -591,6 +593,7 @@ const en: typeof es = {
     submitting: "Posting…",
     update: "Update review",
     loginToReview: "Sign in to leave your review.",
+    purchasedOnly: "Only verified buyers of this record can leave a review.",
     signIn: "Sign in",
     delete: "Delete",
     youReviewed: "Your review",

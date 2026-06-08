@@ -31,6 +31,13 @@ yarn-error.log*
 .env
 .env*.local
 
+# credenciales / secretos (NUNCA subir) — documentación local del proyecto
+CREDENCIALES.local.md
+/.secrets/
+*.secret
+.env.vercel.local
+/.tmp_ref/
+
 # typescript
 *.tsbuildinfo
 
