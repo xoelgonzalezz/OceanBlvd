@@ -13,8 +13,9 @@ Tienda de comercio electrónico de **discos de vinilo**, moderna y muy cuidada. 
 ### Tienda (storefront)
 - **Inicio** con hero (vinilo girando + edición exclusiva de Lana Del Rey), marquesina, últimas novedades, géneros, más vendidos, artistas destacados y avance del blog.
 - **Catálogo** con filtros (género, artista, década, rango de precio, estado), ordenación (novedad, más vendidos, precio, A–Z), buscador y paginación — **todo sincronizado con la URL**.
-- **Ficha de producto** con galería, tracklist completo, sello, año, género, estado (Mint, VG+…), descripción y **productos relacionados**.
-- **Carrito** persistente (Zustand + `localStorage`) con cajón lateral y **checkout** con cálculo de envío y **pago simulado** que crea un pedido real, **descuenta stock** e incrementa ventas.
+- **Ficha de producto** con galería, tracklist completo, sello, año, género, estado (Mint, VG+…), descripción, **valoraciones (1–5 estrellas + reseñas)** y **productos relacionados**.
+- **Carrito** persistente (Zustand + `localStorage`) con cajón lateral y **checkout** con cálculo de envío. **Pago real con Stripe Checkout** (con fallback a pago simulado si no hay claves); crea el pedido, **descuenta stock** e incrementa ventas vía webhook.
+- **Reseñas y valoraciones**: los usuarios registrados puntúan y comentan; media con estrellas en la ficha.
 - **Artistas** (listado + ficha con biografía, foto real y discografía).
 - **Blog / Noticias** (listado + artículo) con **fotos reales**.
 - **Páginas estáticas**: Sobre nosotros, Contacto (formulario), FAQ y Política de envíos.
@@ -113,8 +114,9 @@ La app ya usa **PostgreSQL** (Prisma `provider = "postgresql"`), lista para *ser
 - [x] Autenticación de clientes y área "Mis pedidos".
 - [x] CRUD completo desde el admin (vinilos, artistas, blog).
 - [x] Bilingüe ES/EN.
-- [ ] Pasarela de pago real (Stripe Checkout).
-- [ ] Reseñas y valoraciones de discos.
+- [x] Pasarela de pago real (Stripe Checkout).
+- [x] Reseñas y valoraciones de discos.
+- [x] Desplegado en Vercel + Neon (Postgres).
 - [ ] Subida de imágenes en el admin (Vercel Blob) en vez de URL.
 - [ ] Wishlist y recomendaciones.
 - [ ] Tests (unitarios + e2e) y CI.
