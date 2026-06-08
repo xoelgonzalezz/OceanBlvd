@@ -37,6 +37,14 @@ export function Footer() {
     },
   ];
 
+  const legalLinks = [
+    { label: t.footer.legalNotice, href: "/legal/aviso-legal" },
+    { label: t.footer.privacy, href: "/legal/privacidad" },
+    { label: t.footer.terms, href: "/legal/condiciones" },
+    { label: t.footer.returns, href: "/legal/devoluciones" },
+    { label: t.footer.cookies, href: "/legal/cookies" },
+  ];
+
   return (
     <footer className="mt-24 border-t border-border/60 bg-secondary/30">
       <div className="container py-16">
@@ -84,7 +92,20 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="flex flex-col items-center justify-between gap-4 border-t border-border/60 pt-8 sm:flex-row">
+        <div className="border-t border-border/60 pt-8">
+          <ul className="mb-6 flex flex-wrap justify-center gap-x-5 gap-y-2 sm:justify-start">
+            {legalLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-xs text-muted-foreground">
             © {year} {SITE.name}. {t.footer.rights}{" "}
             <Link
@@ -108,6 +129,7 @@ export function Footer() {
               </li>
             ))}
           </ul>
+          </div>
         </div>
       </div>
     </footer>

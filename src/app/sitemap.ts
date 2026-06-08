@@ -20,6 +20,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/contacto",
     "/faq",
     "/envios",
+    "/legal/aviso-legal",
+    "/legal/privacidad",
+    "/legal/condiciones",
+    "/legal/devoluciones",
+    "/legal/cookies",
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: now,

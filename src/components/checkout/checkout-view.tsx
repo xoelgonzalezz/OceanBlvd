@@ -252,11 +252,37 @@ export function CheckoutView() {
             </div>
           </dl>
 
+          <label className="mt-6 flex items-start gap-2.5">
+            <input
+              type="checkbox"
+              name="acceptTerms"
+              required
+              className="mt-0.5 h-4 w-4 shrink-0 accent-foreground"
+            />
+            <span className="text-xs leading-relaxed text-muted-foreground">
+              {t.checkout.acceptPre}{" "}
+              <Link
+                href="/legal/condiciones"
+                className="underline underline-offset-2 hover:text-foreground"
+              >
+                {t.footer.terms}
+              </Link>{" "}
+              {t.checkout.acceptMid}{" "}
+              <Link
+                href="/legal/devoluciones"
+                className="underline underline-offset-2 hover:text-foreground"
+              >
+                {t.footer.returns}
+              </Link>
+              .
+            </span>
+          </label>
+
           <Button
             type="submit"
             size="lg"
             disabled={loading}
-            className="mt-6 w-full"
+            className="mt-4 w-full"
           >
             {loading ? (
               <>
