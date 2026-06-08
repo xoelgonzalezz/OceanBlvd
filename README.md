@@ -11,7 +11,7 @@ Tienda de comercio electrónico de **discos de vinilo**, completa y lista para p
 | | |
 |---|---|
 | 🛍️ Tienda | https://ocean-blvd-vinyl.vercel.app |
-| 🔐 Admin | https://ocean-blvd-vinyl.vercel.app/admin — contraseña por defecto `oceanblvd` |
+| 🔐 Admin | https://ocean-blvd-vinyl.vercel.app/admin |
 | 👤 Cuenta | `/registro` y `/acceso` |
 
 ---
