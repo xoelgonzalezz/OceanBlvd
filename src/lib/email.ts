@@ -103,6 +103,63 @@ export function orderConfirmationHtml(order: OrderFull): string {
 </body></html>`;
 }
 
+/** Plantilla del email de bienvenida — mismo estilo blanco y negro. */
+export function welcomeHtml(name: string): string {
+  const first = (name || "").split(" ")[0] || "hola";
+  return `<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;background:#f5f1e8;padding:24px 0;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f5f1e8;">
+    <tr><td align="center">
+      <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="width:560px;max-width:92%;background:#ffffff;border:1px solid #e7e5e0;">
+        <tr><td style="background:#0f0f0f;padding:28px 32px;">
+          <div style="font-family:Georgia,'Times New Roman',serif;color:#ffffff;font-size:22px;letter-spacing:0.5px;">Ocean Blvd <span style="color:#bdb8ad;">Vinyl</span></div>
+          <div style="font-family:Helvetica,Arial,sans-serif;color:#bdb8ad;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-top:6px;">Bienvenido</div>
+        </td></tr>
+        <tr><td style="padding:32px;">
+          <h1 style="margin:0 0 10px;font-family:Georgia,serif;font-size:24px;color:#0f0f0f;">Bienvenido, ${first}.</h1>
+          <p style="margin:0 0 16px;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#6b6760;line-height:1.7;">
+            Gracias por crear tu cuenta en Ocean Blvd Vinyl. Aquí encontrarás novedades, ediciones especiales y joyas de segunda mano cuidadosamente seleccionadas.
+          </p>
+          <p style="margin:0 0 24px;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#6b6760;line-height:1.7;">
+            Desde tu cuenta podrás seguir tus pedidos y comprar más rápido. ¿Empezamos?
+          </p>
+          <a href="${SITE.url}/tienda" style="display:inline-block;background:#0f0f0f;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:14px;text-decoration:none;padding:12px 22px;border-radius:4px;">Explorar el catálogo</a>
+        </td></tr>
+        <tr><td style="background:#0f0f0f;padding:24px 32px;">
+          <div style="font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#bdb8ad;line-height:1.6;">
+            Ocean Blvd Vinyl — Hecho con cariño por la música.<br>
+            <a href="${SITE.url}" style="color:#ffffff;text-decoration:underline;">${SITE.url.replace(/^https?:\/\//, "")}</a>
+          </div>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>`;
+}
+
+/** Envía el email de bienvenida al registrarse (no hace nada sin RESEND_API_KEY). */
+export async function sendWelcomeEmail(to: string, name: string): Promise<void> {
+  if (!RESEND_API_KEY || !to) return;
+  try {
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: EMAIL_FROM,
+        to: [to],
+        subject: "Bienvenido a Ocean Blvd Vinyl",
+        html: welcomeHtml(name),
+      }),
+    });
+  } catch {
+    // No bloqueamos el registro si el email falla.
+  }
+}
+
 /** Envía el email de confirmación (no hace nada si RESEND_API_KEY no está configurada). */
 export async function sendOrderConfirmation(orderId: string): Promise<void> {
   if (!RESEND_API_KEY) return;

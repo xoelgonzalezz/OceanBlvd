@@ -393,6 +393,21 @@ export function getAdminPosts() {
   return db.blogPost.findMany({ orderBy: { publishedAt: "desc" } });
 }
 
+export function getAdminUsers() {
+  return db.user.findMany({
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      image: true,
+      provider: true,
+      createdAt: true,
+      _count: { select: { orders: true } },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
 export function getPostForEdit(id: string) {
   return db.blogPost.findUnique({ where: { id } });
 }

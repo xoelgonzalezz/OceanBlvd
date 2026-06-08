@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { RegisterForm } from "@/components/account/register-form";
 import { getDict } from "@/i18n/server";
 import { getCurrentUser } from "@/lib/auth/session";
+import { googleEnabled } from "@/lib/auth/google";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +28,7 @@ export default async function RegistroPage() {
           {t.account.registerDesc}
         </p>
         <div className="mt-6">
-          <RegisterForm />
+          <RegisterForm googleEnabled={googleEnabled} />
         </div>
         <p className="mt-5 text-center text-sm text-muted-foreground">
           {t.account.haveAccount}{" "}

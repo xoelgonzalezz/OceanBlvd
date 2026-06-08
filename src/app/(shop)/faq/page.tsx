@@ -24,7 +24,7 @@ const FAQS_ES = [
   { q: "¿Puedo devolver un disco?", a: "Dispones de 30 días para devolver cualquier disco que no esté precintado, siempre que conserve su estado original. Los gastos de devolución corren por tu cuenta salvo que el error sea nuestro." },
   { q: "¿Cómo embaláis los discos?", a: "Con mucho mimo: fundas internas antiestáticas cuando hace falta y embalaje rígido específico para vinilos, para que lleguen impecables." },
   { q: "¿Compráis colecciones de segunda mano?", a: "¡Sí! Si quieres vender tu colección, escríbenos desde la página de contacto contándonos qué tienes y te haremos una valoración sin compromiso." },
-  { q: "¿El pago es seguro?", a: "En esta versión de demostración la pasarela de pago está simulada y no se realiza ningún cargo real. En producción se integraría una pasarela segura (como Stripe) con cifrado de extremo a extremo." },
+  { q: "¿El pago es seguro?", a: "Sí. Los pagos se procesan de forma segura con tarjeta a través de Stripe, con cifrado de extremo a extremo. Nunca almacenamos los datos de tu tarjeta." },
 ];
 
 const FAQS_EN = [
@@ -34,7 +34,7 @@ const FAQS_EN = [
   { q: "Can I return a record?", a: "You have 30 days to return any unsealed record, provided it keeps its original condition. Return shipping is on you unless the mistake is ours." },
   { q: "How do you pack the records?", a: "With great care: antistatic inner sleeves when needed and rigid vinyl-specific packaging, so they arrive flawless." },
   { q: "Do you buy second-hand collections?", a: "Yes! If you'd like to sell your collection, write to us from the contact page telling us what you have and we'll give you a no-obligation valuation." },
-  { q: "Is payment secure?", a: "In this demo version the payment gateway is simulated and no real charge is made. In production a secure gateway (such as Stripe) with end-to-end encryption would be integrated." },
+  { q: "Is payment secure?", a: "Yes. Payments are processed securely by card through Stripe, with end-to-end encryption. We never store your card details." },
 ];
 
 export default function FaqPage() {

@@ -7,6 +7,7 @@ import { useT } from "@/components/i18n/locale-provider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { GoogleButton } from "@/components/account/google-button";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -18,11 +19,16 @@ function SubmitButton() {
   );
 }
 
-export function RegisterForm() {
+export function RegisterForm({
+  googleEnabled = false,
+}: {
+  googleEnabled?: boolean;
+}) {
   const t = useT();
   const [state, action] = useFormState(registerAction, {} as AuthState);
 
   return (
+    <div className="space-y-4">
     <form action={action} className="space-y-4">
       <div>
         <Label htmlFor="name">{t.account.name}</Label>
@@ -41,5 +47,7 @@ export function RegisterForm() {
       ) : null}
       <SubmitButton />
     </form>
+      {googleEnabled ? <GoogleButton /> : null}
+    </div>
   );
 }

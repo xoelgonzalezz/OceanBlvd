@@ -131,7 +131,9 @@ model User {
   id           String   @id @default(cuid())
   email        String   @unique
   name         String
-  passwordHash String
+  passwordHash String? // opcional: las cuentas de Google no tienen contraseña
+  image        String? // avatar (p. ej. de Google)
+  provider     String? // "google" si se registró con Google
   createdAt    DateTime @default(now())
   orders       Order[]
   reviews      Review[]

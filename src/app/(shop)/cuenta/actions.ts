@@ -8,6 +8,7 @@ import { hashPassword, verifyPassword } from "@/lib/auth/password";
 import { createUserSession, clearUserSession } from "@/lib/auth/session";
 import { loginSchema, registerSchema } from "@/lib/validators";
 import { rateLimit } from "@/lib/rate-limit";
+import { sendWelcomeEmail } from "@/lib/email";
 
 export interface AuthState {
   error?: string;
@@ -48,6 +49,7 @@ export async function registerAction(
     },
   });
 
+  await sendWelcomeEmail(user.email, user.name);
   await createUserSession(user.id);
   redirect("/cuenta");
 }
@@ -69,7 +71,11 @@ export async function loginAction(
 
   const email = parsed.data.email.toLowerCase().trim();
   const user = await db.user.findUnique({ where: { email } });
-  if (!user || !(await verifyPassword(parsed.data.password, user.passwordHash))) {
+  if (!user) return { error: "Correo o contraseña incorrectos." };
+  if (!user.passwordHash) {
+    return { error: "Esta cuenta usa el acceso con Google. Entra con Google." };
+  }
+  if (!(await verifyPassword(parsed.data.password, user.passwordHash))) {
     return { error: "Correo o contraseña incorrectos." };
   }
 

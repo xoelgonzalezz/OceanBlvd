@@ -271,6 +271,8 @@ const es = {
     noOrders: "Todavía no has hecho ningún pedido.",
     order: "Pedido",
     browse: "Explorar el catálogo",
+    continueGoogle: "Continuar con Google",
+    or: "o",
   },
   reviews: {
     title: "Valoraciones",
@@ -558,6 +560,8 @@ const en: typeof es = {
     noOrders: "You haven't placed any orders yet.",
     order: "Order",
     browse: "Browse the catalogue",
+    continueGoogle: "Continue with Google",
+    or: "or",
   },
   reviews: {
     title: "Reviews",

@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { LoginForm } from "@/components/account/login-form";
 import { getDict } from "@/i18n/server";
 import { getCurrentUser } from "@/lib/auth/session";
+import { googleEnabled } from "@/lib/auth/google";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +26,7 @@ export default async function AccesoPage() {
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">{t.account.loginDesc}</p>
         <div className="mt-6">
-          <LoginForm />
+          <LoginForm googleEnabled={googleEnabled} />
         </div>
         <p className="mt-5 text-center text-sm text-muted-foreground">
           {t.account.noAccount}{" "}
