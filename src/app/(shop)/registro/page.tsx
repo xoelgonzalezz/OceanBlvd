@@ -14,8 +14,12 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-export default async function RegistroPage() {
-  if (await getCurrentUser()) redirect("/cuenta");
+export default async function RegistroPage({
+  searchParams,
+}: {
+  searchParams: { next?: string };
+}) {
+  if (await getCurrentUser()) redirect(searchParams.next?.startsWith("/") ? searchParams.next : "/cuenta");
   const t = getDict();
 
   return (
@@ -28,11 +32,18 @@ export default async function RegistroPage() {
           {t.account.registerDesc}
         </p>
         <div className="mt-6">
-          <RegisterForm googleEnabled={googleEnabled} />
+          <RegisterForm googleEnabled={googleEnabled} next={searchParams.next} />
         </div>
         <p className="mt-5 text-center text-sm text-muted-foreground">
           {t.account.haveAccount}{" "}
-          <Link href="/acceso" className="font-medium text-primary hover:underline">
+          <Link
+            href={
+              searchParams.next
+                ? `/acceso?next=${encodeURIComponent(searchParams.next)}`
+                : "/acceso"
+            }
+            className="font-medium text-primary hover:underline"
+          >
             {t.account.signIn}
           </Link>
         </p>

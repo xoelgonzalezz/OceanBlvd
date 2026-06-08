@@ -19,13 +19,20 @@ function SubmitButton() {
   );
 }
 
-export function LoginForm({ googleEnabled = false }: { googleEnabled?: boolean }) {
+export function LoginForm({
+  googleEnabled = false,
+  next,
+}: {
+  googleEnabled?: boolean;
+  next?: string;
+}) {
   const t = useT();
   const [state, action] = useFormState(loginAction, {} as AuthState);
 
   return (
     <div className="space-y-4">
       <form action={action} className="space-y-4">
+        {next ? <input type="hidden" name="next" value={next} /> : null}
         <div>
           <Label htmlFor="email">{t.account.email}</Label>
           <Input id="email" name="email" type="email" required autoFocus autoComplete="email" className="mt-1.5" />

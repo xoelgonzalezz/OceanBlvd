@@ -21,8 +21,10 @@ function SubmitButton() {
 
 export function RegisterForm({
   googleEnabled = false,
+  next,
 }: {
   googleEnabled?: boolean;
+  next?: string;
 }) {
   const t = useT();
   const [state, action] = useFormState(registerAction, {} as AuthState);
@@ -30,6 +32,7 @@ export function RegisterForm({
   return (
     <div className="space-y-4">
     <form action={action} className="space-y-4">
+      {next ? <input type="hidden" name="next" value={next} /> : null}
       <div>
         <Label htmlFor="name">{t.account.name}</Label>
         <Input id="name" name="name" required autoFocus autoComplete="name" className="mt-1.5" />

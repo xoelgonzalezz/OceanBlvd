@@ -24,6 +24,15 @@ function clientIp(): string {
   return h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "local";
 }
 
+/** Destino seguro tras autenticarse (solo rutas internas). */
+function safeNext(formData: FormData): string {
+  const next = formData.get("next");
+  if (typeof next === "string" && next.startsWith("/") && !next.startsWith("//")) {
+    return next;
+  }
+  return "/cuenta";
+}
+
 function genCode(): string {
   return String(randomInt(100000, 1000000)); // 6 dígitos
 }
@@ -96,8 +105,11 @@ export async function registerAction(
     },
   });
 
-  await issueCode(user);
-  redirect("/verificar");
+  // Verificación NO bloqueante (la entrega de email a terceros requiere dominio
+  // verificado en Resend): iniciamos sesión directamente para no atascar a nadie.
+  await sendWelcomeEmail(user.email, user.name);
+  await createUserSession(user.id);
+  redirect(safeNext(formData));
 }
 
 /* ---------- Verificación ---------- */
@@ -179,14 +191,8 @@ export async function loginAction(
     return { error: "Correo o contraseña incorrectos." };
   }
 
-  // Si aún no ha verificado su correo, lo mandamos a verificar.
-  if (!user.verified) {
-    await issueCode(user);
-    redirect("/verificar");
-  }
-
   await createUserSession(user.id);
-  redirect("/cuenta");
+  redirect(safeNext(formData));
 }
 
 export async function logoutAction() {
