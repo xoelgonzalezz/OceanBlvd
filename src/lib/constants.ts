@@ -76,13 +76,8 @@ export function calcShipping(subtotalCents: number): number {
   return subtotalCents >= FREE_SHIPPING_THRESHOLD_CENTS ? 0 : SHIPPING_FLAT_CENTS;
 }
 
-/** Redes sociales del footer. */
-export const SOCIAL_LINKS = [
-  { name: "Instagram", href: "https://instagram.com" },
-  { name: "Spotify", href: "https://spotify.com" },
-  { name: "Bandcamp", href: "https://bandcamp.com" },
-  { name: "YouTube", href: "https://youtube.com" },
-] as const;
+/** Redes sociales del footer. Vacío = no se muestran (todavía no hay perfiles). */
+export const SOCIAL_LINKS: { name: string; href: string }[] = [];
 
 export const SITE = {
   name: "Ocean Blvd Vinyl",

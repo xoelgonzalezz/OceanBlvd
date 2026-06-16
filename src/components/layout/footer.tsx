@@ -115,20 +115,22 @@ export function Footer() {
               {t.footer.admin}
             </Link>
           </p>
-          <ul className="flex items-center gap-5">
-            {SOCIAL_LINKS.map((social) => (
-              <li key={social.name}>
-                <a
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-medium text-muted-foreground transition-colors hover:text-primary"
-                >
-                  {social.name}
-                </a>
-              </li>
-            ))}
-          </ul>
+          {SOCIAL_LINKS.length > 0 && (
+            <ul className="flex items-center gap-5">
+              {SOCIAL_LINKS.map((social) => (
+                <li key={social.name}>
+                  <a
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-medium text-muted-foreground transition-colors hover:text-primary"
+                  >
+                    {social.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
           </div>
         </div>
       </div>
