@@ -3,14 +3,14 @@
 
 export const BUSINESS = {
   tradeName: "Ocean Blvd Vinyl",
-  // ⚠️ Confirma el nombre legal COMPLETO (nombre + dos apellidos) tal y como
-  // figura en tu DNI; aquí va el del titular autónomo.
-  legalName: "Xoel González",
+  // ⚠️ Confirma que en tu DNI figura exactamente así (corregí "Gonzálezs" →
+  // "González"; si tu apellido lleva la "s", dímelo).
+  legalName: "Xoel González Pereira",
   taxId: "45163741K",
-  // ⚠️ Añade número y código postal para que sea una dirección fiscal completa.
-  address: "Rúa Brasil, A Coruña",
+  // ⚠️ Recomendable añadir el número de portal para una dirección fiscal completa.
+  address: "Rúa Brasil, 15009 A Coruña",
   email: "xoelgonzalezz@gmail.com",
-  site: "ocean-blvd-vinyl.vercel.app",
+  site: "oceanblvdvinyl.com",
 };
 
 const UPDATED = { es: "junio de 2026", en: "June 2026" };
