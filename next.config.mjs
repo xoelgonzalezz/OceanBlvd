@@ -46,6 +46,10 @@ const nextConfig = {
       { protocol: "https", hostname: "*.dzcdn.net" }, // Deezer
       { protocol: "https", hostname: "upload.wikimedia.org" }, // Wikipedia
       { protocol: "https", hostname: "*.scdn.co" }, // Spotify (por si acaso)
+      { protocol: "https", hostname: "m.media-amazon.com" }, // Amazon (portadas pegadas a mano)
+      { protocol: "https", hostname: "images-na.ssl-images-amazon.com" }, // Amazon (variante)
+      { protocol: "https", hostname: "i.discogs.com" }, // Discogs
+      { protocol: "https", hostname: "coverartarchive.org" }, // Cover Art Archive (MusicBrainz)
     ],
   },
   async headers() {
