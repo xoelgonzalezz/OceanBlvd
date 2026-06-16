@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
 import { contactSchema } from "@/lib/validators";
+import { sendOwnerContactNotification } from "@/lib/email";
 
 export async function POST(request: Request) {
   try {
@@ -16,6 +17,7 @@ export async function POST(request: Request) {
     }
 
     await db.contactMessage.create({ data: parsed.data });
+    await sendOwnerContactNotification(parsed.data); // aviso al dueño
 
     return NextResponse.json({ ok: true });
   } catch {

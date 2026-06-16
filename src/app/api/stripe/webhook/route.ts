@@ -5,7 +5,7 @@ import type Stripe from "stripe";
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 import { TAGS } from "@/lib/queries";
-import { sendOrderConfirmation } from "@/lib/email";
+import { sendOrderConfirmation, sendOwnerOrderNotification } from "@/lib/email";
 
 export const runtime = "nodejs";
 
@@ -66,7 +66,8 @@ export async function POST(request: Request) {
       try {
         await markOrderPaid(orderId);
         revalidateTag(TAGS.records); // stock/ventas actualizados
-        await sendOrderConfirmation(orderId); // email de confirmación
+        await sendOrderConfirmation(orderId); // email de confirmación al cliente
+        await sendOwnerOrderNotification(orderId); // aviso al dueño
       } catch {
         return NextResponse.json({ error: "Error al actualizar el pedido." }, { status: 500 });
       }

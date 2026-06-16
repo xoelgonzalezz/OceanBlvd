@@ -6,6 +6,8 @@ import { getOrderById } from "@/lib/queries";
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const EMAIL_FROM =
   process.env.EMAIL_FROM || "Ocean Blvd Vinyl <onboarding@resend.dev>";
+// Dirección del DUEÑO: recibe aviso de cada pedido y de cada mensaje de contacto.
+const OWNER_EMAIL = process.env.OWNER_EMAIL;
 
 // SMTP (p. ej. Gmail con contraseña de aplicación): envía a CUALQUIER destinatario.
 const SMTP_USER = process.env.SMTP_USER;
@@ -69,6 +71,13 @@ function abs(url: string): string {
 
 function eur(cents: number): string {
   return `${(cents / 100).toFixed(2).replace(".", ",")} €`;
+}
+
+/** Escapa texto del usuario antes de meterlo en el HTML del correo. */
+function esc(s: string): string {
+  return String(s ?? "").replace(/[<>&"]/g, (c) =>
+    c === "<" ? "&lt;" : c === ">" ? "&gt;" : c === "&" ? "&amp;" : "&quot;"
+  );
 }
 
 /**
@@ -268,4 +277,65 @@ export async function sendShippingNotification(orderId: string): Promise<void> {
     `Tu pedido va de camino — #${order.id.slice(-8).toUpperCase()}`,
     shippingHtml(order)
   );
+}
+
+/* ---------- Avisos al DUEÑO de la tienda ---------- */
+
+/** Avisa al dueño (OWNER_EMAIL) de un pedido nuevo, con todo para gestionarlo. */
+export async function sendOwnerOrderNotification(orderId: string): Promise<void> {
+  if (!OWNER_EMAIL) return;
+  const order = await getOrderById(orderId);
+  if (!order) return;
+  const ref = order.id.slice(-8).toUpperCase();
+  const items = order.items
+    .map(
+      (i) =>
+        `<li style="margin-bottom:4px;">${esc(i.record.title)} — ${esc(
+          i.record.artist.name
+        )} · x${i.quantity}</li>`
+    )
+    .join("");
+  const html = emailShell(
+    "Nuevo pedido",
+    `<h1 style="margin:0 0 6px;font-family:Georgia,serif;font-size:24px;color:#0f0f0f;">Nuevo pedido #${ref}</h1>
+     <p style="margin:0 0 16px;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#6b6760;">Total: <strong style="color:#0f0f0f;">${eur(
+       order.totalCents
+     )}</strong> · Envío: ${order.shippingCents === 0 ? "Gratis" : eur(order.shippingCents)}</p>
+     <ul style="margin:0 0 16px;padding-left:18px;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#0f0f0f;">${items}</ul>
+     <div style="font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#0f0f0f;line-height:1.6;">
+       <strong>Enviar a</strong><br>${esc(order.fullName)}<br>${esc(order.address)}<br>${esc(
+       order.postalCode
+     )} ${esc(order.city)}<br>${esc(order.country)}<br>${esc(order.email)}${
+       order.phone ? ` · ${esc(order.phone)}` : ""
+     }
+     </div>
+     <div style="margin-top:24px;">
+       <a href="${SITE.url}/admin/pedidos" style="display:inline-block;background:#0f0f0f;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:14px;text-decoration:none;padding:12px 22px;border-radius:4px;">Gestionar el pedido</a>
+     </div>`
+  );
+  await sendMail(OWNER_EMAIL, `🛒 Nuevo pedido #${ref} — ${eur(order.totalCents)}`, html);
+}
+
+/** Avisa al dueño (OWNER_EMAIL) de un mensaje del formulario de contacto. */
+export async function sendOwnerContactNotification(msg: {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}): Promise<void> {
+  if (!OWNER_EMAIL) return;
+  const html = emailShell(
+    "Nuevo mensaje de contacto",
+    `<h1 style="margin:0 0 6px;font-family:Georgia,serif;font-size:24px;color:#0f0f0f;">Nuevo mensaje de contacto</h1>
+     <p style="margin:0 0 4px;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#0f0f0f;"><strong>${esc(
+       msg.name
+     )}</strong> &lt;${esc(msg.email)}&gt;</p>
+     <p style="margin:0 0 16px;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#6b6760;">Asunto: ${esc(
+       msg.subject
+     )}</p>
+     <p style="font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#0f0f0f;line-height:1.6;white-space:pre-wrap;">${esc(
+       msg.message
+     )}</p>`
+  );
+  await sendMail(OWNER_EMAIL, `✉️ Contacto: ${esc(msg.subject)}`, html);
 }

@@ -4,7 +4,7 @@ import type Stripe from "stripe";
 
 import { db } from "@/lib/db";
 import { TAGS } from "@/lib/queries";
-import { sendOrderConfirmation } from "@/lib/email";
+import { sendOrderConfirmation, sendOwnerOrderNotification } from "@/lib/email";
 import { checkoutSchema } from "@/lib/validators";
 import { calcShipping, SITE } from "@/lib/constants";
 import { getCurrentUser } from "@/lib/auth/session";
@@ -150,7 +150,8 @@ export async function POST(request: Request) {
     });
 
     revalidateTag(TAGS.records); // el stock/ventas han cambiado
-    await sendOrderConfirmation(order.id); // email de confirmación
+    await sendOrderConfirmation(order.id); // email de confirmación al cliente
+    await sendOwnerOrderNotification(order.id); // aviso al dueño
     return NextResponse.json({ orderId: order.id, token: order.accessToken });
   } catch {
     return NextResponse.json(
