@@ -1,6 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Pencil, Plus, Trash2, Users, LogOut, Newspaper, Contact } from "lucide-react";
+import {
+  Pencil,
+  Plus,
+  Trash2,
+  Users,
+  LogOut,
+  Newspaper,
+  Contact,
+  Package,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,8 +20,22 @@ import { deleteRecordAction, logoutAction } from "@/app/admin/actions";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminDashboard() {
+/** Avisos tras borrar/archivar (?msg=...). */
+const MESSAGES: Record<string, string> = {
+  "record-deleted": "Vinilo eliminado.",
+  "record-archived":
+    "Este vinilo ya tenía ventas, así que lo hemos archivado: desaparece de la tienda y del panel, pero se conserva el historial de pedidos.",
+  "record-error":
+    "No se pudo eliminar el vinilo. Inténtalo de nuevo o revisa si está en algún pedido.",
+};
+
+export default async function AdminDashboard({
+  searchParams,
+}: {
+  searchParams: { msg?: string };
+}) {
   const records = await getAdminRecords();
+  const notice = searchParams.msg ? MESSAGES[searchParams.msg] : null;
 
   return (
     <div className="container py-10">
@@ -26,6 +49,11 @@ export default async function AdminDashboard() {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          <Button asChild variant="outline">
+            <Link href="/admin/pedidos">
+              <Package /> Pedidos
+            </Link>
+          </Button>
           <Button asChild variant="outline">
             <Link href="/admin/artists">
               <Users /> Artistas
@@ -58,6 +86,12 @@ export default async function AdminDashboard() {
           </form>
         </div>
       </div>
+
+      {notice && (
+        <div className="mt-6 rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 text-sm">
+          {notice}
+        </div>
+      )}
 
       <div className="mt-8 overflow-x-auto rounded-lg border">
         <table className="w-full min-w-[600px] text-sm">

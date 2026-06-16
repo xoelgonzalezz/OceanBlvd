@@ -6,6 +6,27 @@ export const CONDITION_LABELS: Record<string, string> = {
   USED: "Segunda mano",
 };
 
+/** Estado de un pedido (panel de admin y cuenta del cliente). */
+export const ORDER_STATUS_LABELS: Record<string, string> = {
+  PENDING: "Pendiente de pago",
+  PAID: "Pagado",
+  SHIPPED: "Enviado",
+  CANCELLED: "Cancelado",
+};
+
+/** Transportista por defecto de los envíos. */
+export const DEFAULT_CARRIER = "Correos";
+
+/**
+ * Enlace público al localizador de Correos con el número de seguimiento.
+ * Si el parámetro cambia, basta con tocar aquí; el número se muestra siempre
+ * aparte para que el cliente pueda copiarlo y pegarlo a mano.
+ */
+export function correosTrackingUrl(trackingNumber: string): string {
+  const base = "https://www.correos.es/es/es/herramientas/localizador/envios";
+  return `${base}?tracking-number=${encodeURIComponent(trackingNumber.trim())}`;
+}
+
 /** Gradación del estado del disco (Goldmine Standard). */
 export const GRADE_LABELS: Record<string, string> = {
   M: "Mint (M)",

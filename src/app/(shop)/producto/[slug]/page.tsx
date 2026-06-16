@@ -17,6 +17,7 @@ import {
   GRADE_DESCRIPTIONS,
   GRADE_DESCRIPTIONS_EN,
   GRADE_LABELS,
+  SHIPPING_FLAT_CENTS,
   SITE,
 } from "@/lib/constants";
 import { jsonLd } from "@/lib/utils";
@@ -43,6 +44,7 @@ export async function generateMetadata({
   return {
     title,
     description: record.description,
+    alternates: { canonical: `/producto/${record.slug}` },
     openGraph: {
       title,
       description: record.description,
@@ -67,19 +69,32 @@ export default async function ProductPage({
   const t = getDict();
   const locale = getLocale();
 
+  const priceValidUntil = `${new Date().getFullYear() + 1}-12-31`;
   const productLd = {
     "@context": "https://schema.org",
     "@type": "Product",
     name: `${record.title} — ${record.artist.name}`,
     image: [new URL(record.images[0]?.url ?? "/og-default.png", SITE.url).toString()],
     description: record.description,
+    sku: record.id,
     brand: { "@type": "Brand", name: record.artist.name },
     category: record.genre.name,
     releaseDate: String(record.year),
+    // Estrellas en los resultados de Google cuando hay reseñas.
+    ...(rating.count > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: rating.avg.toFixed(1),
+            reviewCount: rating.count,
+          },
+        }
+      : {}),
     offers: {
       "@type": "Offer",
       price: (record.priceCents / 100).toFixed(2),
       priceCurrency: "EUR",
+      priceValidUntil,
       availability:
         record.stock > 0
           ? "https://schema.org/InStock"
@@ -89,6 +104,41 @@ export default async function ProductPage({
           ? "https://schema.org/NewCondition"
           : "https://schema.org/UsedCondition",
       url: new URL(`/producto/${record.slug}`, SITE.url).toString(),
+      // Datos recomendados por Google para fichas de Shopping.
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: (SHIPPING_FLAT_CENTS / 100).toFixed(2),
+          currency: "EUR",
+        },
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "ES",
+        },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: {
+            "@type": "QuantitativeValue",
+            minValue: 0,
+            maxValue: 1,
+            unitCode: "DAY",
+          },
+          transitTime: {
+            "@type": "QuantitativeValue",
+            minValue: 1,
+            maxValue: 2,
+            unitCode: "DAY",
+          },
+        },
+      },
+      hasMerchantReturnPolicy: {
+        "@type": "MerchantReturnPolicy",
+        applicableCountry: "ES",
+        returnPolicyCategory:
+          "https://schema.org/MerchantReturnFiniteReturnWindow",
+        merchantReturnDays: 14,
+      },
     },
   };
   const breadcrumbLd = {

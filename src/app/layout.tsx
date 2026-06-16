@@ -69,11 +69,17 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
+              "@type": "OnlineStore",
+              "@id": `${SITE.url}/#store`,
               name: SITE.name,
               url: SITE.url,
               description: SITE.description,
               logo: new URL("/icon.svg", SITE.url).toString(),
+              image: new URL("/og-default.png", SITE.url).toString(),
+              areaServed: "ES",
+              priceRange: "€€",
+              // Cuando tengas perfiles reales, añade aquí sus URLs (ayuda mucho
+              // a que Google asocie la marca): sameAs: ["https://instagram.com/..."]
             }),
           }}
         />

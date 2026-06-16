@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-import { SITE } from "@/lib/constants";
+import { SITE, correosTrackingUrl } from "@/lib/constants";
 import { getOrderById } from "@/lib/queries";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
@@ -224,5 +224,48 @@ export async function sendOrderConfirmation(orderId: string): Promise<void> {
     order.email,
     `Tu pedido en Ocean Blvd Vinyl — #${order.id.slice(-8).toUpperCase()}`,
     orderConfirmationHtml(order)
+  );
+}
+
+/** Email de "pedido enviado" con el localizador y el enlace de Correos. */
+export function shippingHtml(order: OrderFull): string {
+  const ref = order.id.slice(-8).toUpperCase();
+  const first = order.fullName.split(" ")[0];
+  const carrier = order.carrier ?? "Correos";
+  const tracking = order.trackingNumber ?? "";
+  const trackUrl = correosTrackingUrl(tracking);
+
+  return emailShell(
+    "Tu pedido va de camino",
+    `<h1 style="margin:0 0 6px;font-family:Georgia,serif;font-size:24px;color:#0f0f0f;">¡Tu pedido va de camino, ${first}!</h1>
+     <p style="margin:0 0 24px;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#6b6760;line-height:1.6;">
+       Hemos enviado tu pedido <strong style="color:#0f0f0f;">#${ref}</strong> por <strong style="color:#0f0f0f;">${carrier}</strong>. Aquí tienes tu número de seguimiento:
+     </p>
+     <div style="border:1px solid #e7e5e0;border-radius:6px;padding:18px 20px;text-align:center;">
+       <div style="font-family:Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9b958a;">Nº de seguimiento</div>
+       <div style="font-family:'Courier New',monospace;font-size:20px;font-weight:700;color:#0f0f0f;letter-spacing:1px;margin-top:6px;">${tracking}</div>
+     </div>
+     <div style="margin-top:22px;text-align:center;">
+       <a href="${trackUrl}" style="display:inline-block;background:#0f0f0f;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:14px;text-decoration:none;padding:12px 22px;border-radius:4px;">Seguir mi envío</a>
+     </div>
+     <p style="margin:22px 0 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#9b958a;line-height:1.6;">
+       El seguimiento puede tardar unas horas en mostrar el primer movimiento. Si el botón no funciona, entra en <a href="https://www.correos.es/es/es/herramientas/localizador/envios" style="color:#0f0f0f;">correos.es</a> y pega el número de arriba.
+     </p>
+     <div style="margin-top:28px;padding-top:24px;border-top:1px solid #e7e5e0;">
+       <div style="font-family:Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9b958a;margin-bottom:8px;">Envío a</div>
+       <div style="font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#0f0f0f;line-height:1.6;">
+         ${order.fullName}<br>${order.address}<br>${order.postalCode} ${order.city}<br>${order.country}
+       </div>
+     </div>`
+  );
+}
+
+export async function sendShippingNotification(orderId: string): Promise<void> {
+  const order = await getOrderById(orderId);
+  if (!order || !order.trackingNumber) return;
+  await sendMail(
+    order.email,
+    `Tu pedido va de camino — #${order.id.slice(-8).toUpperCase()}`,
+    shippingHtml(order)
   );
 }

@@ -6,6 +6,8 @@ import { revalidatePath, revalidateTag } from "next/cache";
 
 import { db } from "@/lib/db";
 import { TAGS } from "@/lib/queries";
+import { DEFAULT_CARRIER } from "@/lib/constants";
+import { sendShippingNotification } from "@/lib/email";
 import { slugify, decadeOf } from "@/lib/utils";
 import { findCover } from "@/lib/cover-search";
 import {
@@ -257,13 +259,29 @@ export async function deleteRecordAction(formData: FormData) {
   if (!(await isAdminRequest())) return;
   const id = String(formData.get("id") || "");
   if (!id) return;
-  try {
-    await db.record.delete({ where: { id } });
-  } catch {
-    // Puede estar referenciado por un pedido; lo ignoramos en la demo.
+
+  // Si el disco ya se ha vendido alguna vez, borrarlo rompería el historial de
+  // pedidos: lo archivamos (desaparece de la tienda y del panel). Si no tiene
+  // ventas, se borra de verdad.
+  const sold = await db.orderItem.findFirst({
+    where: { recordId: id },
+    select: { id: true },
+  });
+
+  let msg = "record-deleted";
+  if (sold) {
+    await db.record.update({ where: { id }, data: { archived: true } });
+    msg = "record-archived";
+  } else {
+    try {
+      await db.record.delete({ where: { id } });
+    } catch {
+      msg = "record-error";
+    }
   }
+
   revalidateShop();
-  redirect("/admin");
+  redirect(`/admin?msg=${msg}`);
 }
 
 /* ---------- CRUD de artistas ---------- */
@@ -348,17 +366,36 @@ export async function deleteArtistAction(formData: FormData) {
   if (!(await isAdminRequest())) return;
   const id = String(formData.get("id") || "");
   if (!id) return;
-  try {
-    await db.artist.delete({ where: { id } });
-  } catch {
-    // Puede tener discos asociados; en la demo lo ignoramos.
+
+  // ¿Tiene algún disco con ventas? Entonces no se puede borrar sin romper el
+  // historial: archivamos el artista y todos sus discos. Si no hay ventas, se
+  // borra de verdad (sus discos se eliminan en cascada).
+  const sold = await db.orderItem.findFirst({
+    where: { record: { artistId: id } },
+    select: { id: true },
+  });
+
+  let msg = "artist-deleted";
+  if (sold) {
+    await db.$transaction([
+      db.record.updateMany({ where: { artistId: id }, data: { archived: true } }),
+      db.artist.update({ where: { id }, data: { archived: true } }),
+    ]);
+    msg = "artist-archived";
+  } else {
+    try {
+      await db.artist.delete({ where: { id } });
+    } catch {
+      msg = "artist-error";
+    }
   }
+
   revalidatePath("/artistas");
   revalidatePath("/admin/artists");
   revalidateTag(TAGS.artists);
   revalidateTag(TAGS.records);
   revalidatePath("/admin");
-  redirect("/admin/artists");
+  redirect(`/admin/artists?msg=${msg}`);
 }
 
 /* ---------- CRUD del blog ---------- */
@@ -470,6 +507,44 @@ export async function deleteUserAction(formData: FormData) {
   }
   revalidatePath("/admin/usuarios");
   redirect("/admin/usuarios");
+}
+
+/* ---------- Pedidos / envíos ---------- */
+
+/**
+ * Marca un pedido como ENVIADO, guarda el localizador de Correos y avisa al
+ * comprador por email con el enlace de seguimiento.
+ */
+export async function markOrderShippedAction(formData: FormData) {
+  if (!(await isAdminRequest())) return;
+  const id = String(formData.get("id") || "");
+  const trackingNumber = String(formData.get("trackingNumber") || "").trim();
+  if (!id) return;
+  if (!trackingNumber) {
+    redirect("/admin/pedidos?msg=tracking-required");
+  }
+
+  const order = await db.order.findUnique({ where: { id }, select: { id: true } });
+  if (!order) {
+    redirect("/admin/pedidos?msg=order-missing");
+  }
+
+  await db.order.update({
+    where: { id },
+    data: {
+      status: "SHIPPED",
+      carrier: DEFAULT_CARRIER,
+      trackingNumber,
+      shippedAt: new Date(),
+    },
+  });
+
+  // Email al comprador (no bloquea: sendMail nunca lanza).
+  await sendShippingNotification(id);
+
+  revalidatePath("/admin/pedidos");
+  revalidatePath("/cuenta");
+  redirect("/admin/pedidos?msg=order-shipped");
 }
 
 /* ---------- Buscar portada real ---------- */

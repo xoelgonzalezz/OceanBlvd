@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { CheckCircle2, Package } from "lucide-react";
+import { CheckCircle2, Package, Truck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -10,6 +10,7 @@ import { ClearCart } from "@/components/checkout/clear-cart";
 import { getOrderForConfirmation } from "@/lib/queries";
 import { getCurrentUser } from "@/lib/auth/session";
 import { formatPrice } from "@/lib/utils";
+import { correosTrackingUrl } from "@/lib/constants";
 import { getDict } from "@/i18n/server";
 
 export const metadata: Metadata = {
@@ -46,6 +47,13 @@ export default async function CheckoutSuccessPage({
   }
 
   const reference = order.id.slice(-8).toUpperCase();
+  const statusLabel =
+    {
+      PENDING: t.checkout.statusPending,
+      PAID: t.checkout.statusPaid,
+      SHIPPED: t.checkout.statusShipped,
+      CANCELLED: t.checkout.statusCancelled,
+    }[order.status] ?? order.status;
 
   return (
     <div className="container max-w-2xl py-14 md:py-20">
@@ -62,7 +70,38 @@ export default async function CheckoutSuccessPage({
         </p>
       </div>
 
-      <div className="mt-10 rounded-lg border bg-card p-6">
+      <div className="mt-8 rounded-lg border bg-card p-5">
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-sm font-medium text-muted-foreground">
+            {t.checkout.orderStatus}
+          </span>
+          <span className="rounded-full bg-secondary px-3 py-1 text-xs font-medium">
+            {statusLabel}
+          </span>
+        </div>
+        {order.status === "SHIPPED" && order.trackingNumber && (
+          <div className="mt-4 border-t pt-4">
+            <p className="text-xs uppercase tracking-wide text-muted-foreground">
+              {t.checkout.trackingTitle}
+            </p>
+            <p className="mt-1 text-sm">
+              {t.checkout.shippedVia(order.carrier ?? "Correos")} ·{" "}
+              <span className="font-mono font-medium">{order.trackingNumber}</span>
+            </p>
+            <Button asChild className="mt-3">
+              <a
+                href={correosTrackingUrl(order.trackingNumber)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Truck className="h-4 w-4" /> {t.checkout.trackButton}
+              </a>
+            </Button>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-6 rounded-lg border bg-card p-6">
         <h2 className="font-serif text-lg font-semibold">
           {t.checkout.summary}
         </h2>

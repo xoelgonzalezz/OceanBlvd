@@ -12,9 +12,12 @@ import type { SortValue } from "@/lib/constants";
 import { getDict } from "@/i18n/server";
 
 export const metadata: Metadata = {
-  title: "Tienda",
+  title: "Tienda de vinilos online",
   description:
-    "Explora todo el catálogo de Ocean Blvd Vinyl: novedades, ediciones especiales y discos de segunda mano por género, artista, década y precio.",
+    "Compra vinilos online en Ocean Blvd Vinyl: novedades, ediciones especiales y discos de segunda mano por género, artista, década y precio. Envío en 24–48h.",
+  // Canónica fija: las variantes con filtros (?genre, ?sort, ?page…) apuntan
+  // todas a /tienda para no competir entre sí en Google.
+  alternates: { canonical: "/tienda" },
 };
 
 function first(v?: string | string[]) {

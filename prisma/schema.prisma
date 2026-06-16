@@ -17,7 +17,7 @@ datasource db {
 
 /// Género musical (Rock, Jazz, Hip-Hop...)
 model Genre {
-  id          String   @id @default(cuid())
+  id            String   @id @default(cuid())
   name          String   @unique
   slug          String   @unique
   description   String?
@@ -40,6 +40,8 @@ model Artist {
   country     String?
   foundedYear Int?
   featured    Boolean  @default(false)
+  // Archivado: se "borra" de la tienda sin perder historial cuando tiene ventas.
+  archived    Boolean  @default(false)
   records     Record[]
   createdAt   DateTime @default(now())
 
@@ -48,21 +50,24 @@ model Artist {
 
 /// Un disco de vinilo (producto principal de la tienda).
 model Record {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  label       String // sello discográfico
-  year        Int
-  decade      Int // 1970, 1980... (precalculado para filtrar)
-  priceCents  Int // precio en céntimos para evitar errores de coma flotante
-  condition   String   @default("USED") // "NEW" (nuevo) | "USED" (segunda mano)
-  mediaGrade  String? // "M" | "NM" | "VG+" | "VG" ... (estado del disco)
-  description String
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique
+  label         String // sello discográfico
+  year          Int
+  decade        Int // 1970, 1980... (precalculado para filtrar)
+  priceCents    Int // precio en céntimos para evitar errores de coma flotante
+  condition     String   @default("USED") // "NEW" (nuevo) | "USED" (segunda mano)
+  mediaGrade    String? // "M" | "NM" | "VG+" | "VG" ... (estado del disco)
+  description   String
   descriptionEn String?
-  stock       Int      @default(1)
-  salesCount  Int      @default(0) // para "Más vendidos" / popularidad
-  featured    Boolean  @default(false) // destacados del home/hero
-  createdAt   DateTime @default(now()) // para "Últimas novedades"
+  stock         Int      @default(1)
+  salesCount    Int      @default(0) // para "Más vendidos" / popularidad
+  featured      Boolean  @default(false) // destacados del home/hero
+  // Archivado: "borrado" de la tienda. Si el disco ya tiene pedidos no se
+  // elimina (rompería el historial); se archiva y deja de mostrarse.
+  archived      Boolean  @default(false)
+  createdAt     DateTime @default(now()) // para "Últimas novedades"
 
   artistId String
   artist   Artist @relation(fields: [artistId], references: [id], onDelete: Cascade)
@@ -128,18 +133,18 @@ model BlogPost {
 
 /// Cuenta de cliente.
 model User {
-  id           String   @id @default(cuid())
-  email        String   @unique
-  name         String
-  passwordHash String? // opcional: las cuentas de Google no tienen contraseña
-  image        String? // avatar (p. ej. de Google)
-  provider     String? // "google" si se registró con Google
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String
+  passwordHash      String? // opcional: las cuentas de Google no tienen contraseña
+  image             String? // avatar (p. ej. de Google)
+  provider          String? // "google" si se registró con Google
   verified          Boolean   @default(false) // email verificado con código
   verifyCode        String? // código de verificación (OTP de 6 dígitos)
   verifyCodeExpires DateTime?
-  createdAt    DateTime @default(now())
-  orders       Order[]
-  reviews      Review[]
+  createdAt         DateTime  @default(now())
+  orders            Order[]
+  reviews           Review[]
 
   @@index([email])
 }
@@ -162,23 +167,27 @@ model Review {
 
 /// Pedido (la pasarela de pago es simulada por ahora).
 model Order {
-  id            String      @id @default(cuid())
-  email         String
-  fullName      String
-  address       String
-  city          String
-  postalCode    String
-  country       String      @default("España")
-  phone         String?
-  notes         String?
-  subtotalCents Int
-  shippingCents Int
-  totalCents    Int
-  status        String      @default("PENDING") // PENDING | PAID | SHIPPED | CANCELLED
+  id             String      @id @default(cuid())
+  email          String
+  fullName       String
+  address        String
+  city           String
+  postalCode     String
+  country        String      @default("España")
+  phone          String?
+  notes          String?
+  subtotalCents  Int
+  shippingCents  Int
+  totalCents     Int
+  status         String      @default("PENDING") // PENDING | PAID | SHIPPED | CANCELLED
+  // Envío: número de seguimiento (localizador) de Correos y fecha de salida.
+  carrier        String?     @default("Correos")
+  trackingNumber String?
+  shippedAt      DateTime?
   // Token aleatorio para acceder a la confirmación sin sesión (evita IDOR por id).
-  accessToken   String?     @default(cuid())
-  createdAt     DateTime    @default(now())
-  items         OrderItem[]
+  accessToken    String?     @default(cuid())
+  createdAt      DateTime    @default(now())
+  items          OrderItem[]
 
   userId String?
   user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
@@ -188,8 +197,8 @@ model Order {
 
 /// Línea de un pedido.
 model OrderItem {
-  id            String @id @default(cuid())
-  quantity      Int    @default(1)
+  id             String @id @default(cuid())
+  quantity       Int    @default(1)
   unitPriceCents Int // precio en el momento de la compra
 
   orderId  String

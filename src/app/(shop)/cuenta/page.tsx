@@ -76,6 +76,14 @@ export default async function CuentaPage() {
                   <p className="text-xs text-muted-foreground">
                     {formatDate(order.createdAt, locale)}
                   </p>
+                  <span className="mt-1 inline-block rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium">
+                    {{
+                      PENDING: t.checkout.statusPending,
+                      PAID: t.checkout.statusPaid,
+                      SHIPPED: t.checkout.statusShipped,
+                      CANCELLED: t.checkout.statusCancelled,
+                    }[order.status] ?? order.status}
+                  </span>
                 </div>
                 <span className="font-serif font-semibold tabular-nums">
                   {formatPrice(order.totalCents)}

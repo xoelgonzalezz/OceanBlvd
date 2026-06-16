@@ -7,8 +7,22 @@ import { getAdminArtists } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminArtistsPage() {
+/** Avisos tras borrar/archivar (?msg=...). */
+const MESSAGES: Record<string, string> = {
+  "artist-deleted": "Artista eliminado.",
+  "artist-archived":
+    "Este artista tenía discos vendidos, así que lo hemos archivado junto con sus discos: desaparecen de la tienda, pero se conserva el historial de pedidos.",
+  "artist-error":
+    "No se pudo eliminar el artista. Inténtalo de nuevo más tarde.",
+};
+
+export default async function AdminArtistsPage({
+  searchParams,
+}: {
+  searchParams: { msg?: string };
+}) {
   const artists = await getAdminArtists();
+  const notice = searchParams.msg ? MESSAGES[searchParams.msg] : null;
 
   return (
     <div className="container py-10">
@@ -18,6 +32,12 @@ export default async function AdminArtistsPage() {
       >
         <ChevronLeft className="h-4 w-4" /> Volver al panel
       </Link>
+
+      {notice && (
+        <div className="mt-4 rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 text-sm">
+          {notice}
+        </div>
+      )}
 
       <div className="mb-8 mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>

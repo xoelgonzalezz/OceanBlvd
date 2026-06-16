@@ -22,6 +22,7 @@ export async function generateMetadata({
   return {
     title: artist.name,
     description: truncate(artist.bio, 160),
+    alternates: { canonical: `/artistas/${artist.slug}` },
     openGraph: {
       title: artist.name,
       description: truncate(artist.bio, 160),

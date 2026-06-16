@@ -34,7 +34,7 @@ const fullInclude = {
 export const getHeroRecord = unstable_cache(
   async () => {
     const lana = await db.record.findMany({
-      where: { artist: { slug: "lana-del-rey" } },
+      where: { archived: false, artist: { slug: "lana-del-rey" } },
       include: cardInclude,
       orderBy: { salesCount: "desc" },
     });
@@ -42,7 +42,7 @@ export const getHeroRecord = unstable_cache(
     if (ocean) return ocean;
     if (lana.length) return lana[0];
     return db.record.findFirst({
-      where: { featured: true },
+      where: { archived: false, featured: true },
       include: cardInclude,
       orderBy: { salesCount: "desc" },
     });
@@ -55,7 +55,7 @@ export const getFeaturedRecords = (limit = 6) =>
   unstable_cache(
     (l: number) =>
       db.record.findMany({
-        where: { featured: true },
+        where: { archived: false, featured: true },
         include: cardInclude,
         orderBy: { salesCount: "desc" },
         take: l,
@@ -68,6 +68,7 @@ export const getNewReleases = (limit = 8) =>
   unstable_cache(
     (l: number) =>
       db.record.findMany({
+        where: { archived: false },
         include: cardInclude,
         orderBy: { createdAt: "desc" },
         take: l,
@@ -80,6 +81,7 @@ export const getBestSellers = (limit = 8) =>
   unstable_cache(
     (l: number) =>
       db.record.findMany({
+        where: { archived: false },
         include: cardInclude,
         orderBy: { salesCount: "desc" },
         take: l,
@@ -92,8 +94,8 @@ export const getFeaturedArtists = (limit = 6) =>
   unstable_cache(
     (l: number) =>
       db.artist.findMany({
-        where: { featured: true },
-        include: { _count: { select: { records: true } } },
+        where: { archived: false, featured: true },
+        include: { _count: { select: { records: { where: { archived: false } } } } },
         orderBy: { name: "asc" },
         take: l,
       }),
@@ -104,7 +106,7 @@ export const getFeaturedArtists = (limit = 6) =>
 export const getGenresWithCount = unstable_cache(
   () =>
     db.genre.findMany({
-      include: { _count: { select: { records: true } } },
+      include: { _count: { select: { records: { where: { archived: false } } } } },
       orderBy: { name: "asc" },
     }),
   ["genres-with-count"],
@@ -135,7 +137,8 @@ export interface RecordFilters {
 }
 
 function buildWhere(f: RecordFilters): Prisma.RecordWhereInput {
-  const where: Prisma.RecordWhereInput = {};
+  // Los discos archivados nunca aparecen en el catálogo.
+  const where: Prisma.RecordWhereInput = { archived: false };
   if (f.genres?.length) where.genre = { slug: { in: f.genres } };
   if (f.artists?.length) where.artist = { slug: { in: f.artists } };
   if (f.decades?.length) where.decade = { in: f.decades };
@@ -203,19 +206,26 @@ export const getFilterFacets = unstable_cache(
   async () => {
   const [genres, artists, decadeRows, priceAgg] = await Promise.all([
     db.genre.findMany({
-      include: { _count: { select: { records: true } } },
+      include: { _count: { select: { records: { where: { archived: false } } } } },
       orderBy: { name: "asc" },
     }),
     db.artist.findMany({
-      select: { name: true, slug: true, _count: { select: { records: true } } },
+      where: { archived: false },
+      select: {
+        name: true,
+        slug: true,
+        _count: { select: { records: { where: { archived: false } } } },
+      },
       orderBy: { name: "asc" },
     }),
     db.record.findMany({
+      where: { archived: false },
       select: { decade: true },
       distinct: ["decade"],
       orderBy: { decade: "desc" },
     }),
     db.record.aggregate({
+      where: { archived: false },
       _min: { priceCents: true },
       _max: { priceCents: true },
     }),
@@ -237,13 +247,19 @@ export const getFilterFacets = unstable_cache(
 
 export const getRecordBySlug = (slug: string) =>
   unstable_cache(
-    (s: string) => db.record.findUnique({ where: { slug: s }, include: fullInclude }),
+    // findFirst (no findUnique) para poder excluir los archivados: un disco
+    // archivado deja de tener página de producto (404).
+    (s: string) =>
+      db.record.findFirst({
+        where: { slug: s, archived: false },
+        include: fullInclude,
+      }),
     ["record-by-slug"],
     { tags: [TAGS.records], revalidate: DAY }
   )(slug);
 
 export function getAllRecordSlugs() {
-  return db.record.findMany({ select: { slug: true } });
+  return db.record.findMany({ where: { archived: false }, select: { slug: true } });
 }
 
 export async function getRelatedRecords(
@@ -252,7 +268,7 @@ export async function getRelatedRecords(
 ) {
   // Primero discos del mismo artista; si faltan, se completan con el mismo género.
   const sameArtist = await db.record.findMany({
-    where: { id: { not: record.id }, artistId: record.artistId },
+    where: { archived: false, id: { not: record.id }, artistId: record.artistId },
     include: cardInclude,
     orderBy: { salesCount: "desc" },
     take: limit,
@@ -262,7 +278,7 @@ export async function getRelatedRecords(
 
   const excludeIds = [record.id, ...sameArtist.map((r) => r.id)];
   const sameGenre = await db.record.findMany({
-    where: { id: { notIn: excludeIds }, genreId: record.genreId },
+    where: { archived: false, id: { notIn: excludeIds }, genreId: record.genreId },
     include: cardInclude,
     orderBy: { salesCount: "desc" },
     take: limit - sameArtist.length,
@@ -276,7 +292,8 @@ export async function getRelatedRecords(
 export const getArtists = unstable_cache(
   () =>
     db.artist.findMany({
-      include: { _count: { select: { records: true } } },
+      where: { archived: false },
+      include: { _count: { select: { records: { where: { archived: false } } } } },
       orderBy: { name: "asc" },
     }),
   ["artists-list"],
@@ -285,17 +302,25 @@ export const getArtists = unstable_cache(
 
 export const getArtistBySlug = (slug: string) =>
   unstable_cache(
+    // findFirst para excluir artistas archivados; sus discos archivados tampoco
+    // se muestran en la ficha.
     (s: string) =>
-      db.artist.findUnique({
-        where: { slug: s },
-        include: { records: { include: cardInclude, orderBy: { year: "desc" } } },
+      db.artist.findFirst({
+        where: { slug: s, archived: false },
+        include: {
+          records: {
+            where: { archived: false },
+            include: cardInclude,
+            orderBy: { year: "desc" },
+          },
+        },
       }),
     ["artist-by-slug"],
     { tags: [TAGS.artists, TAGS.records], revalidate: DAY }
   )(slug);
 
 export function getAllArtistSlugs() {
-  return db.artist.findMany({ select: { slug: true } });
+  return db.artist.findMany({ where: { archived: false }, select: { slug: true } });
 }
 
 /* ============== BLOG ============== */
@@ -324,6 +349,7 @@ export async function searchRecords(query: string, limit = 8) {
   if (!q) return [];
   return db.record.findMany({
     where: {
+      archived: false,
       OR: [
         { title: { contains: q, mode: "insensitive" } },
         { artist: { name: { contains: q, mode: "insensitive" } } },
@@ -339,8 +365,9 @@ export async function searchRecords(query: string, limit = 8) {
 
 /** Recupera discos por id para validar el carrito y calcular totales en servidor. */
 export function getRecordsByIds(ids: string[]) {
+  // archived:false → un disco "borrado" no se puede comprar aunque siga en un carrito.
   return db.record.findMany({
-    where: { id: { in: ids } },
+    where: { archived: false, id: { in: ids } },
     include: cardInclude,
   });
 }
@@ -370,7 +397,9 @@ export async function hasPurchasedRecord(
 /* ============== ADMIN ============== */
 
 export function getAdminRecords() {
+  // Los archivados quedan fuera del panel: para el admin están "borrados".
   return db.record.findMany({
+    where: { archived: false },
     include: { artist: true, images: { orderBy: { position: "asc" } } },
     orderBy: { createdAt: "desc" },
   });
@@ -388,6 +417,7 @@ export function getRecordForEdit(id: string) {
 
 export function getArtistsBasic() {
   return db.artist.findMany({
+    where: { archived: false },
     select: { id: true, name: true },
     orderBy: { name: "asc" },
   });
@@ -402,7 +432,8 @@ export function getGenresBasic() {
 
 export function getAdminArtists() {
   return db.artist.findMany({
-    include: { _count: { select: { records: true } } },
+    where: { archived: false },
+    include: { _count: { select: { records: { where: { archived: false } } } } },
     orderBy: { name: "asc" },
   });
 }
@@ -425,6 +456,22 @@ export function getAdminUsers() {
       provider: true,
       createdAt: true,
       _count: { select: { orders: true } },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+/** Todos los pedidos para el panel de admin (gestión de envíos). */
+export function getAdminOrders() {
+  return db.order.findMany({
+    include: {
+      items: {
+        include: {
+          record: {
+            include: { artist: true, images: { orderBy: { position: "asc" } } },
+          },
+        },
+      },
     },
     orderBy: { createdAt: "desc" },
   });
