@@ -25,7 +25,8 @@ export async function POST(request: Request) {
     const { items, ...customer } = parsed.data;
     const ids = items.map((i) => i.id);
     const records = await db.record.findMany({
-      where: { id: { in: ids } },
+      // archived:false → un disco "borrado"/archivado no se puede comprar.
+      where: { archived: false, id: { in: ids } },
       include: { images: { orderBy: { position: "asc" }, take: 1 } },
     });
     const byId = new Map(records.map((r) => [r.id, r]));

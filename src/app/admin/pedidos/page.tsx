@@ -26,6 +26,8 @@ const MESSAGES: Record<string, string> = {
   "tracking-required":
     "Escribe el número de seguimiento (localizador) de Correos antes de marcarlo como enviado.",
   "order-missing": "Ese pedido ya no existe.",
+  "order-not-payable":
+    "Solo puedes marcar como enviado un pedido que ya esté pagado.",
 };
 
 export default async function AdminOrdersPage({

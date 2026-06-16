@@ -213,6 +213,8 @@ const es = {
     trackingNumber: "Nº de seguimiento",
     trackButton: "Seguir mi envío en Correos",
     shippedVia: (carrier: string) => `Enviado por ${carrier}`,
+    confirmingPayment:
+      "Estamos confirmando tu pago. En cuanto se confirme te llegará el email con la confirmación del pedido.",
   },
   search: {
     placeholder: "Busca un disco o un artista…",
@@ -526,6 +528,8 @@ const en: typeof es = {
     trackingNumber: "Tracking number",
     trackButton: "Track my shipment on Correos",
     shippedVia: (carrier: string) => `Shipped via ${carrier}`,
+    confirmingPayment:
+      "We're confirming your payment. As soon as it's confirmed you'll get the order confirmation email.",
   },
   search: {
     placeholder: "Search for a record or artist…",

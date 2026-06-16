@@ -524,9 +524,16 @@ export async function markOrderShippedAction(formData: FormData) {
     redirect("/admin/pedidos?msg=tracking-required");
   }
 
-  const order = await db.order.findUnique({ where: { id }, select: { id: true } });
+  const order = await db.order.findUnique({
+    where: { id },
+    select: { id: true, status: true },
+  });
   if (!order) {
     redirect("/admin/pedidos?msg=order-missing");
+  }
+  // Solo se envía lo que está pagado (o ya enviado, para corregir el localizador).
+  if (order.status !== "PAID" && order.status !== "SHIPPED") {
+    redirect("/admin/pedidos?msg=order-not-payable");
   }
 
   await db.order.update({

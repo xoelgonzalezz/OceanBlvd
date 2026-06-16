@@ -27,6 +27,11 @@ function list(v?: string | string[]) {
   const s = first(v);
   return s ? s.split(",").filter(Boolean) : [];
 }
+/** Precio (€) del query a céntimos; descarta no numéricos/Infinity/negativos. */
+function priceParam(v?: string) {
+  const n = Number(v);
+  return v && Number.isFinite(n) && n >= 0 ? Math.round(n * 100) : undefined;
+}
 
 export default async function TiendaPage({
   searchParams,
@@ -51,8 +56,8 @@ export default async function TiendaPage({
       artists,
       decades,
       conditions,
-      minPrice: minE ? Number(minE) * 100 : undefined,
-      maxPrice: maxE ? Number(maxE) * 100 : undefined,
+      minPrice: priceParam(minE),
+      maxPrice: priceParam(maxE),
       search,
       sort,
       page,

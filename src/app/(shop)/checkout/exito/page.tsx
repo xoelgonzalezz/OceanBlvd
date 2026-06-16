@@ -49,7 +49,8 @@ export default async function CheckoutSuccessPage({
   const reference = order.id.slice(-8).toUpperCase();
   const statusLabel =
     {
-      PENDING: t.checkout.statusPending,
+      // En esta página (vuelta del pago) "PENDING" = esperando el webhook de Stripe.
+      PENDING: t.checkout.confirmingPayment,
       PAID: t.checkout.statusPaid,
       SHIPPED: t.checkout.statusShipped,
       CANCELLED: t.checkout.statusCancelled,
