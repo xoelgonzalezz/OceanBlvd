@@ -9,7 +9,7 @@ export const BUSINESS = {
   taxId: "45163741K",
   // ⚠️ Recomendable añadir el número de portal para una dirección fiscal completa.
   address: "Rúa Brasil, 15009 A Coruña",
-  email: "xoelgonzalezz@gmail.com",
+  email: "info@oceanblvdvinyl.com",
   site: "oceanblvdvinyl.com",
 };
 

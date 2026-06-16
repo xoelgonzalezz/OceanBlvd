@@ -38,6 +38,9 @@ CREDENCIALES.local.md
 .env.vercel.local
 /.tmp_ref/
 
+# documentos sueltos (tarjetas, etiquetas de envío, PDFs… no son parte de la app)
+*.pdf
+
 # typescript
 *.tsbuildinfo
 
