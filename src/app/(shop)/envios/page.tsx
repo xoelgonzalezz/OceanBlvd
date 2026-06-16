@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Envíos y devoluciones",
   description:
     "Información sobre plazos, costes de envío y política de devoluciones de Ocean Blvd Vinyl.",
+  alternates: { canonical: "/envios" },
 };
 
 const CONTENT = {

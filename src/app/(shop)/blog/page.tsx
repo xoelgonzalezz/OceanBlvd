@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/shared/reveal";
+import { EmptyState } from "@/components/shared/empty-state";
 import { getPosts } from "@/lib/queries";
 import { formatDate } from "@/lib/utils";
 import { getDict, getLocale, pick } from "@/i18n/server";
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
   title: "Blog",
   description:
     "El surco: noticias, lanzamientos, ediciones especiales y cultura del vinilo desde Ocean Blvd Vinyl.",
+  alternates: { canonical: "/blog" },
 };
 
 export default async function BlogPage() {
@@ -31,6 +33,27 @@ export default async function BlogPage() {
         </h1>
         <p className="mt-3 text-muted-foreground">{t.blogPage.desc}</p>
       </header>
+
+      {posts.length === 0 ? (
+        <div className="mt-10">
+          <EmptyState
+            title={
+              locale === "en"
+                ? "No articles yet"
+                : "Aún no hay artículos"
+            }
+            description={
+              locale === "en"
+                ? "We're cooking up the first stories. Come back soon."
+                : "Estamos preparando las primeras historias. Vuelve pronto."
+            }
+            actionLabel={
+              locale === "en" ? "Browse the catalogue" : "Explorar el catálogo"
+            }
+            actionHref="/tienda"
+          />
+        </div>
+      ) : null}
 
       {/* Artículo destacado */}
       {featured ? (

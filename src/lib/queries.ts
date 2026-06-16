@@ -206,6 +206,9 @@ export const getFilterFacets = unstable_cache(
   async () => {
   const [genres, artists, decadeRows, priceAgg] = await Promise.all([
     db.genre.findMany({
+      // Solo géneros con al menos 1 disco no archivado: el sidebar de filtros no
+      // debe mostrar géneros vacíos.
+      where: { records: { some: { archived: false } } },
       include: { _count: { select: { records: { where: { archived: false } } } } },
       orderBy: { name: "asc" },
     }),
@@ -406,8 +409,10 @@ export function getAdminRecords() {
 }
 
 export function getRecordForEdit(id: string) {
-  return db.record.findUnique({
-    where: { id },
+  // findFirst (no findUnique) para excluir archivados: la página de edición
+  // hace notFound() (404) y así no se edita por error un disco "borrado".
+  return db.record.findFirst({
+    where: { id, archived: false },
     include: {
       tracks: { orderBy: { position: "asc" } },
       images: { orderBy: { position: "asc" } },
@@ -439,7 +444,9 @@ export function getAdminArtists() {
 }
 
 export function getArtistForEdit(id: string) {
-  return db.artist.findUnique({ where: { id } });
+  // findFirst para excluir archivados: la página de edición hace notFound()
+  // (404) y así no se edita por error un artista "borrado".
+  return db.artist.findFirst({ where: { id, archived: false } });
 }
 
 export function getAdminPosts() {

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   title: "Artistas",
   description:
     "Descubre a los artistas de nuestra colección: biografías y todos sus vinilos disponibles en Ocean Blvd Vinyl.",
+  alternates: { canonical: "/artistas" },
 };
 
 export default async function ArtistasPage() {

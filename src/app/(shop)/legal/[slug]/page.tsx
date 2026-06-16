@@ -17,7 +17,10 @@ export function generateMetadata({
 }): Metadata {
   if (!isLegalSlug(params.slug)) return {};
   const doc = getLegalDoc(params.slug, getLocale() as "es" | "en");
-  return { title: doc.title };
+  return {
+    title: doc.title,
+    alternates: { canonical: `/legal/${params.slug}` },
+  };
 }
 
 export default function LegalPage({ params }: { params: { slug: string } }) {

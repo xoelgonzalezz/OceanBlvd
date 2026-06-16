@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Contacto",
   description:
     "¿Tienes alguna duda? Escríbenos. Estaremos encantados de ayudarte a encontrar tu próximo vinilo.",
+  alternates: { canonical: "/contacto" },
 };
 
 export default function ContactoPage() {

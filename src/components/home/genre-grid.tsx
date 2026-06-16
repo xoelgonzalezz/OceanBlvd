@@ -10,6 +10,7 @@ type GenreWithCount = Genre & { _count: { records: number } };
 
 export function GenreGrid({ genres }: { genres: GenreWithCount[] }) {
   const t = getDict();
+  if (!genres.length) return null;
   return (
     <section className="container py-16 md:py-20">
       <SectionHeading

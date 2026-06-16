@@ -17,11 +17,15 @@ export const metadata: Metadata = {
 export default function VerificarPage({
   searchParams,
 }: {
-  searchParams: { resent?: string };
+  searchParams: { resent?: string; error?: string };
 }) {
   // Sin verificación pendiente, no hay nada que hacer aquí.
   if (!cookies().get(PENDING_COOKIE)?.value) redirect("/acceso");
   const t = getDict();
+  const errorMsg =
+    searchParams.error === "wait"
+      ? "Has pedido códigos demasiado rápido. Espera un minuto antes de volver a intentarlo."
+      : null;
 
   return (
     <div className="container flex min-h-[60vh] items-center justify-center py-12">
@@ -31,6 +35,14 @@ export default function VerificarPage({
           {t.verify.title}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">{t.verify.desc}</p>
+        {errorMsg ? (
+          <p
+            role="alert"
+            className="mt-4 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive"
+          >
+            {errorMsg}
+          </p>
+        ) : null}
         <div className="mt-6 text-left">
           <VerifyForm resent={searchParams.resent === "1"} />
         </div>

@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { headers, cookies } from "next/headers";
-import { randomInt } from "node:crypto";
+import { randomInt, timingSafeEqual } from "node:crypto";
 
 import { db } from "@/lib/db";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
@@ -34,6 +34,16 @@ function rawNext(formData: FormData): string | undefined {
 
 function genCode(): string {
   return String(randomInt(100000, 1000000)); // 6 dígitos
+}
+
+/** Compara dos códigos en tiempo constante (evita ataques de temporización). */
+function codesMatch(a: string, b: string): boolean {
+  const bufA = Buffer.from(a, "utf8");
+  const bufB = Buffer.from(b, "utf8");
+  // timingSafeEqual exige longitudes iguales; comprobarlas antes no filtra el
+  // contenido del código, solo su longitud (siempre 6 dígitos).
+  if (bufA.length !== bufB.length) return false;
+  return timingSafeEqual(bufA, bufB);
 }
 
 async function setPending(uid: string, next?: string) {
@@ -142,7 +152,7 @@ export async function verifyAction(
     !user.verifyCode ||
     !user.verifyCodeExpires ||
     user.verifyCodeExpires < new Date() ||
-    user.verifyCode !== code
+    !codesMatch(user.verifyCode, code)
   ) {
     return { error: "Código incorrecto o caducado." };
   }

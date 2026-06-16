@@ -21,13 +21,14 @@ export async function generateMetadata({
   const post = await getPostBySlug(params.slug);
   if (!post) return { title: "Artículo no encontrado" };
 
+  const description = pick(getLocale(), post.excerpt, post.excerptEn);
   return {
     title: post.title,
-    description: post.excerpt,
+    description,
     openGraph: {
       type: "article",
       title: post.title,
-      description: post.excerpt,
+      description,
       publishedTime: post.publishedAt.toISOString(),
       images: [{ url: post.coverImage ?? "/placeholders/og-default.svg" }],
     },
@@ -56,7 +57,7 @@ export default async function BlogPostPage({
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
-    description: post.excerpt,
+    description: pick(locale, post.excerpt, post.excerptEn),
     image: [new URL(post.coverImage ?? "/og-default.png", SITE.url).toString()],
     author: { "@type": "Person", name: post.author },
     publisher: { "@type": "Organization", name: SITE.name },

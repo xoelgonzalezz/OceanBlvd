@@ -41,13 +41,14 @@ export async function generateMetadata({
   if (!record) return { title: "Disco no encontrado" };
 
   const title = `${record.title} — ${record.artist.name}`;
+  const description = pick(getLocale(), record.description, record.descriptionEn);
   return {
     title,
-    description: record.description,
+    description,
     alternates: { canonical: `/producto/${record.slug}` },
     openGraph: {
       title,
-      description: record.description,
+      description,
       images: [
         { url: record.images[0]?.url ?? "/placeholders/og-default.svg" },
       ],
@@ -75,7 +76,7 @@ export default async function ProductPage({
     "@type": "Product",
     name: `${record.title} — ${record.artist.name}`,
     image: [new URL(record.images[0]?.url ?? "/og-default.png", SITE.url).toString()],
-    description: record.description,
+    description: pick(locale, record.description, record.descriptionEn),
     sku: record.id,
     brand: { "@type": "Brand", name: record.artist.name },
     category: record.genre.name,

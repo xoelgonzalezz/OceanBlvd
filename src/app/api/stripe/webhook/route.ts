@@ -19,13 +19,22 @@ async function markOrderPaid(orderId: string) {
     if (!order || order.status === "PAID") return; // ya procesado
     await tx.order.update({ where: { id: orderId }, data: { status: "PAID" } });
     for (const oi of order.items) {
-      await tx.record.update({
-        where: { id: oi.recordId },
+      // Descuento seguro: solo aplica el decremento si hay stock suficiente
+      // (where stock >= quantity), evitando stock negativo por concurrencia.
+      const { count } = await tx.record.updateMany({
+        where: { id: oi.recordId, stock: { gte: oi.quantity } },
         data: {
           stock: { decrement: oi.quantity },
           salesCount: { increment: oi.quantity },
         },
       });
+      // Sin stock suficiente: registramos la venta y dejamos el stock a 0 (clamp).
+      if (count === 0) {
+        await tx.record.update({
+          where: { id: oi.recordId },
+          data: { stock: 0, salesCount: { increment: oi.quantity } },
+        });
+      }
     }
   });
 }

@@ -93,7 +93,12 @@ const es = {
     linkContact: "Contacto",
   },
   product: { records: "discos", record: "disco" },
-  card: { soldOut: "Agotado", new: "Nuevo", used: "Segunda mano" },
+  card: {
+    soldOut: "Agotado",
+    new: "Nuevo",
+    used: "Segunda mano",
+    addToCartAria: (title: string) => `Añadir ${title} al carrito`,
+  },
   shop: {
     eyebrow: "Catálogo",
     title: "La tienda",
@@ -318,6 +323,12 @@ const es = {
     resent: "Te hemos enviado un nuevo código.",
     noCode: "¿No te llega? Revisa la carpeta de spam.",
   },
+  notFound: {
+    title: "Esta cara está rayada",
+    desc: "No hemos encontrado la página que buscas. Puede que se haya descatalogado o que el enlace sea incorrecto.",
+    home: "Volver al inicio",
+    shop: "Explorar el catálogo",
+  },
 };
 
 const en: typeof es = {
@@ -408,7 +419,12 @@ const en: typeof es = {
     linkContact: "Contact",
   },
   product: { records: "records", record: "record" },
-  card: { soldOut: "Sold out", new: "New", used: "Second-hand" },
+  card: {
+    soldOut: "Sold out",
+    new: "New",
+    used: "Second-hand",
+    addToCartAria: (title: string) => `Add ${title} to cart`,
+  },
   shop: {
     eyebrow: "Catalogue",
     title: "The shop",
@@ -631,6 +647,12 @@ const en: typeof es = {
     resend: "Resend code",
     resent: "We've sent you a new code.",
     noCode: "Didn't get it? Check your spam folder.",
+  },
+  notFound: {
+    title: "This side is scratched",
+    desc: "We couldn't find the page you're looking for. It may have been discontinued or the link might be wrong.",
+    home: "Back to home",
+    shop: "Browse the catalogue",
   },
 };
 

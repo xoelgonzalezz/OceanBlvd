@@ -38,7 +38,7 @@ export function QuickAddButton({
       type="button"
       onClick={handleClick}
       disabled={soldOut}
-      aria-label={`Añadir ${item.title} al carrito`}
+      aria-label={t.card.addToCartAria(item.title)}
       className={cn(
         "inline-flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md backdrop-blur-sm transition-all duration-200 ease-out-quint hover:bg-primary hover:text-primary-foreground active:scale-90 disabled:cursor-not-allowed disabled:opacity-40",
         className

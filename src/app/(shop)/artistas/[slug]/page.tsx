@@ -19,13 +19,14 @@ export async function generateMetadata({
   const artist = await getArtistBySlug(params.slug);
   if (!artist) return { title: "Artista no encontrado" };
 
+  const description = truncate(pick(getLocale(), artist.bio, artist.bioEn), 160);
   return {
     title: artist.name,
-    description: truncate(artist.bio, 160),
+    description,
     alternates: { canonical: `/artistas/${artist.slug}` },
     openGraph: {
       title: artist.name,
-      description: truncate(artist.bio, 160),
+      description,
       images: [{ url: artist.image ?? "/placeholders/og-default.svg" }],
     },
   };

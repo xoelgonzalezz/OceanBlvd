@@ -8,6 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { getLocale } from "@/i18n/server";
+import { jsonLd } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
   title: "Preguntas frecuentes",
   description:
     "Resolvemos las dudas más habituales sobre pedidos, envíos, estado de los discos y devoluciones en Ocean Blvd Vinyl.",
+  alternates: { canonical: "/faq" },
 };
 
 const FAQS_ES = [
@@ -73,7 +75,7 @@ export default function FaqPage() {
     <div className="container max-w-3xl py-10 md:py-12">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(faqLd) }}
       />
       <header className="max-w-2xl">
         <span className="section-eyebrow">{tx.eyebrow}</span>

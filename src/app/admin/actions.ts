@@ -41,6 +41,38 @@ export interface ActionState {
 
 /* ---------- Autenticación ---------- */
 
+/** Destino interno seguro dentro del panel: empieza por "/admin", sin "//", "://" ni "\". */
+function safeAdminFrom(raw: string | null | undefined): string {
+  const v = (raw || "").trim();
+  if (
+    v.startsWith("/admin") &&
+    !v.startsWith("//") &&
+    !v.includes("://") &&
+    !v.includes("\\")
+  ) {
+    return v;
+  }
+  return "/admin";
+}
+
+/**
+ * Lee el `from` con el que el middleware redirigió a /admin/login. El formulario
+ * lo incluye como campo oculto; si no llega, se intenta deducir del Referer.
+ */
+function loginFrom(formData: FormData): string {
+  const field = formData.get("from");
+  if (typeof field === "string" && field) return safeAdminFrom(field);
+  const ref = headers().get("referer");
+  if (ref) {
+    try {
+      return safeAdminFrom(new URL(ref).searchParams.get("from"));
+    } catch {
+      /* referer no parseable */
+    }
+  }
+  return "/admin";
+}
+
 export async function loginAction(
   _prev: ActionState,
   formData: FormData
@@ -52,6 +84,7 @@ export async function loginAction(
   if (!checkAdminPassword(password)) {
     return { error: "Contraseña incorrecta." };
   }
+  const dest = loginFrom(formData);
   cookies().set(ADMIN_COOKIE, await createAdminToken(), {
     httpOnly: true,
     sameSite: "lax",
@@ -59,7 +92,7 @@ export async function loginAction(
     maxAge: 60 * 60 * 8,
     secure: process.env.NODE_ENV === "production",
   });
-  redirect("/admin");
+  redirect(dest);
 }
 
 export async function logoutAction() {

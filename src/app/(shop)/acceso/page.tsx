@@ -14,13 +14,36 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
+/** Destino interno seguro: una sola "/" inicial, sin "//", "://" ni "\". */
+function isSafeNext(n: string | undefined): n is string {
+  return (
+    !!n &&
+    n.startsWith("/") &&
+    !n.startsWith("//") &&
+    !n.includes("://") &&
+    !n.includes("\\")
+  );
+}
+
+function googleError(code: string | undefined): string | null {
+  if (code === "google") {
+    return "No se pudo completar el acceso con Google. Inténtalo de nuevo.";
+  }
+  if (code === "google_off") {
+    return "El acceso con Google no está disponible ahora mismo.";
+  }
+  return null;
+}
+
 export default async function AccesoPage({
   searchParams,
 }: {
-  searchParams: { next?: string };
+  searchParams: { next?: string; error?: string };
 }) {
-  if (await getCurrentUser()) redirect(searchParams.next?.startsWith("/") ? searchParams.next : "/cuenta");
+  if (await getCurrentUser())
+    redirect(isSafeNext(searchParams.next) ? searchParams.next : "/cuenta");
   const t = getDict();
+  const errorMsg = googleError(searchParams.error);
 
   return (
     <div className="container flex min-h-[60vh] items-center justify-center py-12">
@@ -29,14 +52,25 @@ export default async function AccesoPage({
           {t.account.loginTitle}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">{t.account.loginDesc}</p>
+        {errorMsg ? (
+          <p
+            role="alert"
+            className="mt-4 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive"
+          >
+            {errorMsg}
+          </p>
+        ) : null}
         <div className="mt-6">
-          <LoginForm googleEnabled={googleEnabled} next={searchParams.next} />
+          <LoginForm
+            googleEnabled={googleEnabled}
+            next={isSafeNext(searchParams.next) ? searchParams.next : undefined}
+          />
         </div>
         <p className="mt-5 text-center text-sm text-muted-foreground">
           {t.account.noAccount}{" "}
           <Link
             href={
-              searchParams.next
+              isSafeNext(searchParams.next)
                 ? `/registro?next=${encodeURIComponent(searchParams.next)}`
                 : "/registro"
             }

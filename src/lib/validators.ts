@@ -19,11 +19,33 @@ export const loginSchema = z.object({
 });
 
 export const contactSchema = z.object({
-  name: z.string().min(2, "Indica tu nombre.").max(100),
-  email: z.string().email("Introduce un correo válido.").max(200),
-  subject: z.string().min(2, "Indica un asunto.").max(150),
+  name: z
+    .string({
+      required_error: "Este campo es obligatorio.",
+      invalid_type_error: "Este campo es obligatorio.",
+    })
+    .min(2, "Indica tu nombre.")
+    .max(100),
+  email: z
+    .string({
+      required_error: "Este campo es obligatorio.",
+      invalid_type_error: "Este campo es obligatorio.",
+    })
+    .min(1, "Este campo es obligatorio.")
+    .email("Correo no válido.")
+    .max(200),
+  subject: z
+    .string({
+      required_error: "Este campo es obligatorio.",
+      invalid_type_error: "Este campo es obligatorio.",
+    })
+    .min(2, "Indica un asunto.")
+    .max(150),
   message: z
-    .string()
+    .string({
+      required_error: "Este campo es obligatorio.",
+      invalid_type_error: "Este campo es obligatorio.",
+    })
     .min(10, "Cuéntanos un poco más (mínimo 10 caracteres).")
     .max(5000),
 });

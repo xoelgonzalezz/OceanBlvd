@@ -63,7 +63,7 @@ export async function ReviewSection({
             <div className="rounded-lg border bg-card p-5 text-sm text-muted-foreground">
               {t.reviews.loginToReview}{" "}
               <Link
-                href="/acceso"
+                href={`/acceso?next=${encodeURIComponent(`/producto/${slug}`)}`}
                 className="font-medium text-primary hover:underline"
               >
                 {t.reviews.signIn}

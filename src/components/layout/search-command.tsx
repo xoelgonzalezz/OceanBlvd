@@ -54,7 +54,7 @@ export function SearchCommand() {
       return;
     }
     setLoading(true);
-    const t = window.setTimeout(async () => {
+    const timer = window.setTimeout(async () => {
       try {
         const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
         const data = await res.json();
@@ -65,7 +65,7 @@ export function SearchCommand() {
         setLoading(false);
       }
     }, 220);
-    return () => window.clearTimeout(t);
+    return () => window.clearTimeout(timer);
   }, [query]);
 
   function go(href: string) {

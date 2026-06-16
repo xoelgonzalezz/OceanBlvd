@@ -3,6 +3,7 @@ import { Fraunces, Inter } from "next/font/google";
 
 import { SITE } from "@/lib/constants";
 import { Providers } from "@/components/providers";
+import { getLocale } from "@/i18n/server";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -17,7 +18,10 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata: Metadata = {
+export function generateMetadata(): Metadata {
+  const locale = getLocale();
+  const ogLocale = locale === "en" ? "en_US" : "es_ES";
+  return {
   metadataBase: new URL(SITE.url),
   title: {
     default: `${SITE.name} — Discos de vinilo`,
@@ -36,7 +40,7 @@ export const metadata: Metadata = {
   authors: [{ name: SITE.name }],
   openGraph: {
     type: "website",
-    locale: "es_ES",
+    locale: ogLocale,
     url: SITE.url,
     siteName: SITE.name,
     title: `${SITE.name} — Discos de vinilo`,
@@ -52,14 +56,16 @@ export const metadata: Metadata = {
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
   },
-};
+  };
+}
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const locale = getLocale();
   return (
     <html
-      lang="es"
+      lang={locale === "en" ? "en" : "es"}
       className={`${fraunces.variable} ${inter.variable}`}
       suppressHydrationWarning
     >

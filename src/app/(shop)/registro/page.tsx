@@ -14,12 +14,24 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
+/** Destino interno seguro: una sola "/" inicial, sin "//", "://" ni "\". */
+function isSafeNext(n: string | undefined): n is string {
+  return (
+    !!n &&
+    n.startsWith("/") &&
+    !n.startsWith("//") &&
+    !n.includes("://") &&
+    !n.includes("\\")
+  );
+}
+
 export default async function RegistroPage({
   searchParams,
 }: {
   searchParams: { next?: string };
 }) {
-  if (await getCurrentUser()) redirect(searchParams.next?.startsWith("/") ? searchParams.next : "/cuenta");
+  if (await getCurrentUser())
+    redirect(isSafeNext(searchParams.next) ? searchParams.next : "/cuenta");
   const t = getDict();
 
   return (
@@ -32,13 +44,16 @@ export default async function RegistroPage({
           {t.account.registerDesc}
         </p>
         <div className="mt-6">
-          <RegisterForm googleEnabled={googleEnabled} next={searchParams.next} />
+          <RegisterForm
+            googleEnabled={googleEnabled}
+            next={isSafeNext(searchParams.next) ? searchParams.next : undefined}
+          />
         </div>
         <p className="mt-5 text-center text-sm text-muted-foreground">
           {t.account.haveAccount}{" "}
           <Link
             href={
-              searchParams.next
+              isSafeNext(searchParams.next)
                 ? `/acceso?next=${encodeURIComponent(searchParams.next)}`
                 : "/acceso"
             }

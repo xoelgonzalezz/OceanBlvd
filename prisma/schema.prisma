@@ -1,6 +1,6 @@
 // Ocean Blvd Vinyl — esquema de base de datos
-// SQLite en desarrollo. Para migrar a PostgreSQL: cambia `provider` a "postgresql"
-// y `DATABASE_URL` (los modelos son compatibles, no usamos tipos exclusivos de SQLite).
+// PostgreSQL (el `provider` es "postgresql"). La conexión es "pooled" (PgBouncer)
+// para la app y directa para las migraciones (ver bloque `datasource db`).
 
 generator client {
   provider      = "prisma-client-js"

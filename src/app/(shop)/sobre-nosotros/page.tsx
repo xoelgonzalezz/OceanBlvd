@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Sobre nosotros",
   description:
     "Ocean Blvd Vinyl es una tienda independiente de discos de vinilo. Conoce nuestra historia y nuestra forma de entender la música.",
+  alternates: { canonical: "/sobre-nosotros" },
 };
 
 const CONTENT = {
