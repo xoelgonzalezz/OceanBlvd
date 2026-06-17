@@ -134,6 +134,7 @@ type ParsedRecord =
         priceCents: number;
         condition: string;
         mediaGrade: string | null;
+        color: string | null;
         stock: number;
         description: string;
         descriptionEn: string | null;
@@ -154,6 +155,7 @@ function parseRecordForm(formData: FormData): ParsedRecord {
   );
   const condition = String(formData.get("condition") || "USED");
   const mediaGrade = String(formData.get("mediaGrade") || "").trim();
+  const color = String(formData.get("color") || "").trim();
   const stock = Number(formData.get("stock")) || 1;
   const description = String(formData.get("description") || "").trim();
   const descriptionEn = String(formData.get("descriptionEn") || "").trim();
@@ -181,6 +183,7 @@ function parseRecordForm(formData: FormData): ParsedRecord {
       priceCents: Math.round(priceEuros * 100),
       condition: condition === "NEW" ? "NEW" : "USED",
       mediaGrade: mediaGrade || null,
+      color: color || null,
       stock: Math.max(0, stock),
       description,
       descriptionEn: descriptionEn || null,

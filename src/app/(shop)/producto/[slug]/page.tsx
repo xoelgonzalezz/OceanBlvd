@@ -182,6 +182,9 @@ export default async function ProductPage({
       label: t.detail.condition,
       value: record.condition === "NEW" ? t.card.new : t.card.used,
     },
+    ...(record.color
+      ? [{ label: t.detail.color, value: record.color }]
+      : []),
     ...(record.mediaGrade
       ? [
           {

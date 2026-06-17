@@ -39,6 +39,7 @@ export default async function EditRecordPage({
     priceEuros: (record.priceCents / 100).toFixed(2),
     condition: record.condition,
     mediaGrade: record.mediaGrade ?? "",
+    color: record.color ?? "",
     stock: record.stock,
     description: record.description,
     descriptionEn: record.descriptionEn ?? "",

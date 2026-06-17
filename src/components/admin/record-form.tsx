@@ -30,6 +30,7 @@ export interface RecordInitial {
   priceEuros: string;
   condition: string;
   mediaGrade: string;
+  color: string;
   stock: number;
   description: string;
   descriptionEn: string;
@@ -201,6 +202,17 @@ export function RecordForm({
               <option value="G+">Good Plus (G+)</option>
             </select>
           </div>
+        </div>
+
+        <div>
+          <Label htmlFor="color">Color del vinilo</Label>
+          <Input
+            id="color"
+            name="color"
+            defaultValue={initial?.color}
+            placeholder="p. ej. Negro, Transparente, Rojo…"
+            className="mt-1.5"
+          />
         </div>
 
         <div>
