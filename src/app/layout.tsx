@@ -58,7 +58,8 @@ export function generateMetadata(): Metadata {
     images: ["/og-default.png"],
   },
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    icon: [{ url: "/icon.png", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png" }],
   },
   };
 }
@@ -84,7 +85,7 @@ export default function RootLayout({
               name: SITE.name,
               url: SITE.url,
               description: SITE.description,
-              logo: new URL("/icon.svg", SITE.url).toString(),
+              logo: new URL("/icon.png", SITE.url).toString(),
               image: new URL("/og-default.png", SITE.url).toString(),
               areaServed: "ES",
               priceRange: "€€",
