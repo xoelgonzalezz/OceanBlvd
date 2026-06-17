@@ -22,15 +22,23 @@ export async function generateMetadata({
   if (!post) return { title: "Artículo no encontrado" };
 
   const description = pick(getLocale(), post.excerpt, post.excerptEn);
+  const ogImage = post.coverImage ?? "/og-default.png";
   return {
     title: post.title,
     description,
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       type: "article",
       title: post.title,
       description,
       publishedTime: post.publishedAt.toISOString(),
-      images: [{ url: post.coverImage ?? "/placeholders/og-default.svg" }],
+      images: [{ url: ogImage }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description,
+      images: [ogImage],
     },
   };
 }

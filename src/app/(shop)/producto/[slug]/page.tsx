@@ -20,7 +20,7 @@ import {
   SHIPPING_FLAT_CENTS,
   SITE,
 } from "@/lib/constants";
-import { jsonLd } from "@/lib/utils";
+import { jsonLd, truncate } from "@/lib/utils";
 import { Stars } from "@/components/reviews/stars";
 import { ReviewSection } from "@/components/reviews/review-section";
 import { getDict, getLocale, pick } from "@/i18n/server";
@@ -40,18 +40,40 @@ export async function generateMetadata({
   const record = await getRecordBySlug(params.slug);
   if (!record) return { title: "Disco no encontrado" };
 
-  const title = `${record.title} — ${record.artist.name}`;
-  const description = pick(getLocale(), record.description, record.descriptionEn);
+  const locale = getLocale();
+  const artist = record.artist.name;
+  // Para el <title>: quita la edición entre paréntesis (queda corto y limpio).
+  const album = record.title.replace(/\s*\([^)]*\)\s*$/, "").trim();
+  const colorVal = locale === "en" ? record.colorEn ?? record.color : record.color;
+  const color = colorVal ? ` ${colorVal}` : "";
+  const onVinyl = locale === "en" ? "on vinyl" : "en vinilo";
+
+  // Keyword de intención de compra al principio: "[Artista] – [Álbum] vinilo".
+  const title = `${artist} – ${album} ${onVinyl}${color}`;
+  const description = truncate(
+    `${album} de ${artist} ${onVinyl}${color}. ${pick(locale, record.description, record.descriptionEn)}`,
+    155
+  );
+  const ogImage = record.images[0]?.url ?? "/og-default.png";
+
   return {
     title,
     description,
     alternates: { canonical: `/producto/${record.slug}` },
     openGraph: {
+      // "music.album" es el og:type válido y más preciso para un vinilo (Next no
+      // tipa "product"; Google Shopping usa el JSON-LD Product, ya presente).
+      type: "music.album",
       title,
       description,
-      images: [
-        { url: record.images[0]?.url ?? "/placeholders/og-default.svg" },
-      ],
+      url: `/producto/${record.slug}`,
+      images: [{ url: ogImage }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
     },
   };
 }

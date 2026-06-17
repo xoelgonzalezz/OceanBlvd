@@ -19,16 +19,24 @@ export async function generateMetadata({
   const artist = await getArtistBySlug(params.slug);
   if (!artist) return { title: "Artista no encontrado" };
 
-  const description = truncate(pick(getLocale(), artist.bio, artist.bioEn), 160);
+  const locale = getLocale();
+  const title =
+    locale === "en" ? `${artist.name} vinyl records` : `Vinilos de ${artist.name}`;
+  const lead =
+    locale === "en"
+      ? `Buy ${artist.name} vinyl records at Ocean Blvd Vinyl.`
+      : `Compra vinilos de ${artist.name} en Ocean Blvd Vinyl.`;
+  const description = truncate(
+    `${lead} ${pick(locale, artist.bio, artist.bioEn)}`,
+    155
+  );
+  const ogImage = artist.image ?? "/og-default.png";
   return {
-    title: artist.name,
+    title,
     description,
     alternates: { canonical: `/artistas/${artist.slug}` },
-    openGraph: {
-      title: artist.name,
-      description,
-      images: [{ url: artist.image ?? "/placeholders/og-default.svg" }],
-    },
+    openGraph: { title, description, images: [{ url: ogImage }] },
+    twitter: { card: "summary_large_image", title, description, images: [ogImage] },
   };
 }
 
