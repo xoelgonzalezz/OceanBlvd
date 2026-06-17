@@ -14,7 +14,7 @@ import { getDict } from "@/i18n/server";
 export const metadata: Metadata = {
   title: "Tienda de vinilos online",
   description:
-    "Compra vinilos online en Ocean Blvd Vinyl: novedades, ediciones especiales y discos de segunda mano por género, artista, década y precio. Envío en 24–48h.",
+    "Compra vinilos online en Ocean Blvd Vinyl: novedades, ediciones especiales y discos de segunda mano por género, artista, década y precio. Envío en 5 días laborables.",
   // Canónica fija: las variantes con filtros (?genre, ?sort, ?page…) apuntan
   // todas a /tienda para no competir entre sí en Google.
   alternates: { canonical: "/tienda" },
