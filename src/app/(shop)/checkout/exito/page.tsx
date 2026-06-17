@@ -140,14 +140,6 @@ export default async function CheckoutSuccessPage({
             <dt className="text-muted-foreground">{t.cart.subtotal}</dt>
             <dd className="tabular-nums">{formatPrice(order.subtotalCents)}</dd>
           </div>
-          {order.discountCents > 0 ? (
-            <div className="flex justify-between text-primary">
-              <dt>{t.checkout.discount}</dt>
-              <dd className="tabular-nums">
-                −{formatPrice(order.discountCents)}
-              </dd>
-            </div>
-          ) : null}
           <div className="flex justify-between">
             <dt className="text-muted-foreground">{t.cart.shipping}</dt>
             <dd className="tabular-nums">

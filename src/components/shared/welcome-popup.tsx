@@ -1,13 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { Loader2, X, Gift } from "lucide-react";
+import { Loader2, X, Disc3 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useT } from "@/components/i18n/locale-provider";
-import { WELCOME_CODE } from "@/lib/constants";
 
 // Marca en localStorage: una vez suscrito o descartado, no se vuelve a mostrar.
 const SEEN_KEY = "ob_welcome";
@@ -79,15 +78,6 @@ export function WelcomePopup() {
     }
   }
 
-  function copyCode() {
-    try {
-      void navigator.clipboard?.writeText(WELCOME_CODE);
-      toast.success("Código copiado.");
-    } catch {
-      /* navegador sin clipboard: el usuario lo copia a mano */
-    }
-  }
-
   if (!open) return null;
 
   return (
@@ -115,7 +105,7 @@ export function WelcomePopup() {
 
         <div className="flex flex-col items-center text-center">
           <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-foreground text-background">
-            <Gift className="h-6 w-6" />
+            <Disc3 className="h-6 w-6" />
           </span>
           <h2 className="mt-4 font-serif text-2xl font-semibold tracking-tight">
             {t.promo.title}
@@ -126,14 +116,7 @@ export function WelcomePopup() {
               <p className="mt-2 text-sm text-muted-foreground">
                 {t.promo.success}
               </p>
-              <button
-                type="button"
-                onClick={copyCode}
-                className="mt-4 w-full rounded-md border border-dashed border-foreground/40 bg-muted/60 py-3 font-mono text-lg font-semibold tracking-widest transition-colors hover:bg-muted"
-              >
-                {WELCOME_CODE}
-              </button>
-              <Button onClick={dismiss} size="lg" className="mt-4 w-full">
+              <Button onClick={dismiss} size="lg" className="mt-5 w-full">
                 {t.promo.close}
               </Button>
             </>

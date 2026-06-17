@@ -7,12 +7,12 @@ export const DEFAULT_LOCALE: Locale = "es";
 
 const es = {
   promo: {
-    title: "10 % en tu primera compra",
+    title: "Únete a Ocean Blvd",
     subtitle:
-      "Suscríbete y recibe un −10 % de bienvenida. Novedades, ediciones limitadas y rebajas antes que nadie.",
+      "Suscríbete y entérate de novedades, ediciones limitadas y ofertas antes que nadie.",
     placeholder: "tu@email.com",
-    cta: "Quiero mi −10 %",
-    success: "¡Listo! Usa este código en el carrito:",
+    cta: "Suscribirme",
+    success: "¡Gracias! Ya estás dentro. Te escribiremos con las novedades.",
     dismiss: "No, gracias",
     close: "Cerrar",
   },
@@ -210,11 +210,6 @@ const es = {
     pay: "Pagar",
     processing: "Procesando…",
     backToCart: "Volver al carrito",
-    discountCode: "Código de descuento",
-    discountPlaceholder: "Ej. BIENVENIDO10",
-    discountApplied: "¡Código aplicado! −10 % en tu pedido.",
-    discountInvalid: "Ese código no es válido.",
-    discount: "Descuento",
     errorGeneric: "No se pudo procesar el pedido.",
     successTitle: "¡Gracias por tu pedido!",
     successDesc: (ref: string, email: string) =>
@@ -349,12 +344,12 @@ const es = {
 
 const en: typeof es = {
   promo: {
-    title: "10% off your first order",
+    title: "Join Ocean Blvd",
     subtitle:
-      "Subscribe and get a −10% welcome discount. New arrivals, limited editions and sales before anyone else.",
+      "Subscribe for new arrivals, limited editions and sales before anyone else.",
     placeholder: "you@email.com",
-    cta: "Get my −10%",
-    success: "Done! Use this code at checkout:",
+    cta: "Subscribe",
+    success: "Thanks! You're in. We'll email you with the latest.",
     dismiss: "No, thanks",
     close: "Close",
   },
@@ -552,11 +547,6 @@ const en: typeof es = {
     pay: "Pay",
     processing: "Processing…",
     backToCart: "Back to cart",
-    discountCode: "Discount code",
-    discountPlaceholder: "e.g. BIENVENIDO10",
-    discountApplied: "Code applied! −10% off your order.",
-    discountInvalid: "That code isn't valid.",
-    discount: "Discount",
     errorGeneric: "The order could not be processed.",
     successTitle: "Thank you for your order!",
     successDesc: (ref: string, email: string) =>

@@ -180,7 +180,7 @@ model Order {
   notes          String?
   subtotalCents  Int
   shippingCents  Int
-  discountCents  Int         @default(0) // descuento aplicado (p. ej. código de bienvenida)
+  discountCents  Int         @default(0) // reservado (sin uso por ahora); se mantiene para no borrar la columna
   totalCents     Int
   status         String      @default("PENDING") // PENDING | PAID | SHIPPED | CANCELLED
   // Envío: número de seguimiento (localizador) de Correos y fecha de salida.

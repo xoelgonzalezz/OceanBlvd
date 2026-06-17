@@ -59,7 +59,6 @@ export const checkoutSchema = z.object({
   country: z.string().min(2, "Indica tu país.").max(60),
   phone: z.string().max(30).optional(),
   notes: z.string().max(500).optional(),
-  discountCode: z.string().max(40).optional(),
   items: z
     .array(
       z.object({

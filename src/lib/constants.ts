@@ -76,26 +76,6 @@ export function calcShipping(subtotalCents: number): number {
   return subtotalCents >= FREE_SHIPPING_THRESHOLD_CENTS ? 0 : SHIPPING_FLAT_CENTS;
 }
 
-/* ---- Descuentos ---- */
-// Código de bienvenida que se entrega al suscribirse a la newsletter (popup).
-export const WELCOME_CODE = "BIENVENIDO10";
-export const WELCOME_DISCOUNT_PCT = 0.1; // 10 %
-
-/**
- * Descuento en céntimos para un código sobre un subtotal. Devuelve 0 si el
- * código no es válido. Se evalúa en cliente (vista previa) y en servidor (real).
- */
-export function discountForCode(
-  code: string | null | undefined,
-  subtotalCents: number
-): number {
-  if (!code) return 0;
-  if (code.trim().toUpperCase() === WELCOME_CODE) {
-    return Math.round(subtotalCents * WELCOME_DISCOUNT_PCT);
-  }
-  return 0;
-}
-
 /** Redes sociales del footer. Vacío = no se muestran (todavía no hay perfiles). */
 export const SOCIAL_LINKS: { name: string; href: string }[] = [];
 
