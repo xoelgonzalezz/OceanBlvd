@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, MapPin, Clock } from "lucide-react";
+import { Mail } from "lucide-react";
 
 import { ContactForm } from "@/components/contact/contact-form";
 import { getDict } from "@/i18n/server";
@@ -36,19 +36,6 @@ export default function ContactoPage() {
             >
               hola@oceanblvdvinyl.com
             </a>
-          </InfoItem>
-          <InfoItem icon={MapPin} title={t.contact.infoStore}>
-            Calle del Vinilo, 33
-            <br />
-            28004 Madrid, España
-          </InfoItem>
-          <InfoItem icon={Clock} title={t.contact.infoHours}>
-            {t.contact.hours.split("\n").map((line, i) => (
-              <span key={i}>
-                {line}
-                <br />
-              </span>
-            ))}
           </InfoItem>
         </aside>
       </div>

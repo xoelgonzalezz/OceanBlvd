@@ -275,9 +275,6 @@ const es = {
     success: "¡Mensaje enviado!",
     successDesc: "Te responderemos lo antes posible.",
     infoEmail: "Email",
-    infoStore: "Tienda física",
-    infoHours: "Horario",
-    hours: "Lun–Sáb: 10:00–20:30\nDom: cerrado",
   },
   account: {
     account: "Cuenta",
@@ -613,9 +610,6 @@ const en: typeof es = {
     success: "Message sent!",
     successDesc: "We'll get back to you as soon as possible.",
     infoEmail: "Email",
-    infoStore: "Physical store",
-    infoHours: "Opening hours",
-    hours: "Mon–Sat: 10:00–20:30\nSun: closed",
   },
   account: {
     account: "Account",
