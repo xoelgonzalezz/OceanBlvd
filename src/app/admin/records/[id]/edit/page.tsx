@@ -40,6 +40,7 @@ export default async function EditRecordPage({
     condition: record.condition,
     mediaGrade: record.mediaGrade ?? "",
     color: record.color ?? "",
+    colorEn: record.colorEn ?? "",
     stock: record.stock,
     description: record.description,
     descriptionEn: record.descriptionEn ?? "",

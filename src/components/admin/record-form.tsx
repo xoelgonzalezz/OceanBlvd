@@ -31,6 +31,7 @@ export interface RecordInitial {
   condition: string;
   mediaGrade: string;
   color: string;
+  colorEn: string;
   stock: number;
   description: string;
   descriptionEn: string;
@@ -204,15 +205,27 @@ export function RecordForm({
           </div>
         </div>
 
-        <div>
-          <Label htmlFor="color">Color del vinilo</Label>
-          <Input
-            id="color"
-            name="color"
-            defaultValue={initial?.color}
-            placeholder="p. ej. Negro, Transparente, Rojo…"
-            className="mt-1.5"
-          />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <Label htmlFor="color">Color del vinilo (español)</Label>
+            <Input
+              id="color"
+              name="color"
+              defaultValue={initial?.color}
+              placeholder="p. ej. Negro, Transparente, Rojo…"
+              className="mt-1.5"
+            />
+          </div>
+          <div>
+            <Label htmlFor="colorEn">Color del vinilo (inglés, opcional)</Label>
+            <Input
+              id="colorEn"
+              name="colorEn"
+              defaultValue={initial?.colorEn}
+              placeholder="e.g. Black, Translucent, Red…"
+              className="mt-1.5"
+            />
+          </div>
         </div>
 
         <div>

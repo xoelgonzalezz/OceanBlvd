@@ -59,7 +59,8 @@ model Record {
   priceCents    Int // precio en céntimos para evitar errores de coma flotante
   condition     String   @default("USED") // "NEW" (nuevo) | "USED" (segunda mano)
   mediaGrade    String? // "M" | "NM" | "VG+" | "VG" ... (estado del disco)
-  color         String? // color del vinilo: "Negro", "Transparente", "Rojo"... (opcional)
+  color         String? // color del vinilo en español: "Negro", "Rojo"... (opcional)
+  colorEn       String? // color del vinilo en inglés: "Black", "Red"... (opcional)
   description   String
   descriptionEn String?
   stock         Int      @default(1)
