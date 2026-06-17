@@ -2,6 +2,12 @@ import nodemailer from "nodemailer";
 
 import { SITE, correosTrackingUrl } from "@/lib/constants";
 import { getOrderById } from "@/lib/queries";
+import { generateReceiptPdf } from "@/lib/receipt";
+
+interface MailAttachment {
+  filename: string;
+  content: Buffer;
+}
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const EMAIL_FROM =
@@ -36,13 +42,18 @@ function getTransporter(): nodemailer.Transporter | null {
  * Envía un correo. Prioridad: SMTP (Gmail) -> Resend -> nada.
  * No lanza: nunca bloquea el flujo de la app.
  */
-async function sendMail(to: string, subject: string, html: string): Promise<void> {
+async function sendMail(
+  to: string,
+  subject: string,
+  html: string,
+  attachments?: MailAttachment[]
+): Promise<void> {
   if (!to) return;
 
   const tx = getTransporter();
   if (tx) {
     try {
-      await tx.sendMail({ from: EMAIL_FROM, to, subject, html });
+      await tx.sendMail({ from: EMAIL_FROM, to, subject, html, attachments });
     } catch {
       /* no bloquea */
     }
@@ -57,7 +68,16 @@ async function sendMail(to: string, subject: string, html: string): Promise<void
           Authorization: `Bearer ${RESEND_API_KEY}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ from: EMAIL_FROM, to: [to], subject, html }),
+        body: JSON.stringify({
+          from: EMAIL_FROM,
+          to: [to],
+          subject,
+          html,
+          attachments: attachments?.map((a) => ({
+            filename: a.filename,
+            content: a.content.toString("base64"),
+          })),
+        }),
       });
     } catch {
       /* no bloquea */
@@ -229,10 +249,23 @@ export async function sendVerificationCode(
 export async function sendOrderConfirmation(orderId: string): Promise<void> {
   const order = await getOrderById(orderId);
   if (!order) return;
+
+  // Adjunta el recibo en PDF. Si fallara su generación, el correo sale igual.
+  let attachments: MailAttachment[] | undefined;
+  try {
+    const pdf = await generateReceiptPdf(order);
+    attachments = [
+      { filename: `recibo-OBV-${order.id.slice(-8).toUpperCase()}.pdf`, content: pdf },
+    ];
+  } catch {
+    attachments = undefined;
+  }
+
   await sendMail(
     order.email,
     `Tu pedido en Ocean Blvd Vinyl — #${order.id.slice(-8).toUpperCase()}`,
-    orderConfirmationHtml(order)
+    orderConfirmationHtml(order),
+    attachments
   );
 }
 

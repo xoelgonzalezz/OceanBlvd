@@ -210,6 +210,7 @@ const es = {
     pay: "Pagar",
     processing: "Procesando…",
     backToCart: "Volver al carrito",
+    downloadReceipt: "Descargar recibo (PDF)",
     errorGeneric: "No se pudo procesar el pedido.",
     successTitle: "¡Gracias por tu pedido!",
     successDesc: (ref: string, email: string) =>
@@ -547,6 +548,7 @@ const en: typeof es = {
     pay: "Pay",
     processing: "Processing…",
     backToCart: "Back to cart",
+    downloadReceipt: "Download receipt (PDF)",
     errorGeneric: "The order could not be processed.",
     successTitle: "Thank you for your order!",
     successDesc: (ref: string, email: string) =>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { CheckCircle2, Package, Truck } from "lucide-react";
+import { CheckCircle2, Download, Package, Truck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -169,9 +169,18 @@ export default async function CheckoutSuccessPage({
         </div>
       </div>
 
-      <div className="mt-8 text-center">
+      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <Button asChild size="lg">
           <Link href="/tienda">{t.checkout.keepShopping}</Link>
+        </Button>
+        <Button asChild size="lg" variant="outline">
+          <a
+            href={`/recibo/${order.id}?t=${searchParams.t ?? order.accessToken ?? ""}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Download /> {t.checkout.downloadReceipt}
+          </a>
         </Button>
       </div>
     </div>
