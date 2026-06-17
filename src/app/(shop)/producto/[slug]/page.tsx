@@ -138,7 +138,7 @@ export default async function ProductPage({
         applicableCountry: "ES",
         returnPolicyCategory:
           "https://schema.org/MerchantReturnFiniteReturnWindow",
-        merchantReturnDays: 14,
+        merchantReturnDays: 15,
       },
     },
   };
