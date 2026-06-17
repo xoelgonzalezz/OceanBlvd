@@ -564,3 +564,47 @@ export async function getOrderForConfirmation(
   const byOwner = Boolean(userId && order.userId === userId);
   return byToken || byOwner ? order : null;
 }
+
+/* ---------- Analítica del panel ---------- */
+
+function dayKey(d: Date): string {
+  return d.toISOString().slice(0, 10); // YYYY-MM-DD (UTC)
+}
+
+/**
+ * Visitas (page views) por día de los últimos `days` días. Rellena con 0 los
+ * días sin visitas y devuelve el array en orden cronológico (antiguo → hoy).
+ * Sin caché: el panel es dinámico. Si la tabla aún no existe (antes de migrar)
+ * devuelve un array vacío en vez de romper el panel.
+ */
+export async function getVisitsByDay(
+  days = 30
+): Promise<{ date: string; count: number }[]> {
+  const since = new Date();
+  since.setUTCHours(0, 0, 0, 0);
+  since.setUTCDate(since.getUTCDate() - (days - 1));
+
+  try {
+    const rows = await db.$queryRaw<{ day: Date; count: bigint }[]>`
+      SELECT date_trunc('day', "createdAt") AS day, COUNT(*)::bigint AS count
+      FROM "PageView"
+      WHERE "createdAt" >= ${since}
+      GROUP BY day
+      ORDER BY day ASC
+    `;
+
+    const counts = new Map<string, number>();
+    for (const r of rows) counts.set(dayKey(new Date(r.day)), Number(r.count));
+
+    const out: { date: string; count: number }[] = [];
+    for (let i = 0; i < days; i++) {
+      const d = new Date(since);
+      d.setUTCDate(since.getUTCDate() + i);
+      const key = dayKey(d);
+      out.push({ date: key, count: counts.get(key) ?? 0 });
+    }
+    return out;
+  } catch {
+    return [];
+  }
+}

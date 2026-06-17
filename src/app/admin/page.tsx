@@ -13,7 +13,8 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { getAdminRecords } from "@/lib/queries";
+import { VisitsChart } from "@/components/admin/visits-chart";
+import { getAdminRecords, getVisitsByDay } from "@/lib/queries";
 import { formatPrice } from "@/lib/utils";
 import { CONDITION_LABELS } from "@/lib/constants";
 import { deleteRecordAction, logoutAction } from "@/app/admin/actions";
@@ -34,7 +35,10 @@ export default async function AdminDashboard({
 }: {
   searchParams: { msg?: string };
 }) {
-  const records = await getAdminRecords();
+  const [records, visits] = await Promise.all([
+    getAdminRecords(),
+    getVisitsByDay(30),
+  ]);
   const notice = searchParams.msg ? MESSAGES[searchParams.msg] : null;
 
   return (
@@ -92,6 +96,8 @@ export default async function AdminDashboard({
           {notice}
         </div>
       )}
+
+      <VisitsChart data={visits} />
 
       <div className="mt-8 overflow-x-auto rounded-lg border">
         <table className="w-full min-w-[600px] text-sm">

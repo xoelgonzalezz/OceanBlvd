@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { CartSheet } from "@/components/cart/cart-sheet";
 import { LocaleProvider } from "@/components/i18n/locale-provider";
+import { PageViewTracker } from "@/components/analytics/page-view-tracker";
 import { getDict, getLocale } from "@/i18n/server";
 
 export default function ShopLayout({
@@ -27,6 +28,7 @@ export default function ShopLayout({
         </main>
         <Footer />
         <CartSheet />
+        <PageViewTracker />
       </div>
     </LocaleProvider>
   );
