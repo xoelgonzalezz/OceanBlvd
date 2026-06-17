@@ -11,9 +11,52 @@ export const runtime = "nodejs";
  * IP a partir de las cabeceras de geolocalización de Vercel. Nunca guardamos la
  * IP ni datos personales.
  */
+// Dominios conocidos → nombre de canal bonito.
+const SOURCE_MAP: { match: string; name: string }[] = [
+  { match: "tiktok", name: "TikTok" },
+  { match: "instagram", name: "Instagram" },
+  { match: "facebook", name: "Facebook" },
+  { match: "youtube", name: "YouTube" },
+  { match: "google", name: "Google" },
+  { match: "bing", name: "Bing" },
+  { match: "duckduckgo", name: "DuckDuckGo" },
+  { match: "reddit", name: "Reddit" },
+  { match: "twitter", name: "Twitter/X" },
+  { match: "t.co", name: "Twitter/X" },
+  { match: "x.com", name: "Twitter/X" },
+  { match: "t.me", name: "Telegram" },
+  { match: "whatsapp", name: "WhatsApp" },
+  { match: "discogs", name: "Discogs" },
+];
+
+/** Normaliza un nombre de utm_source a un canal bonito si lo reconocemos. */
+function nameFromKeyword(value: string): string {
+  const v = value.toLowerCase();
+  for (const s of SOURCE_MAP) if (v.includes(s.match)) return s.name;
+  // Capitaliza la primera letra como respaldo.
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+/** Deriva el canal de origen a partir del referrer y los parámetros UTM. */
+function deriveSource(
+  referrerHost: string | null,
+  utmSource: string | null,
+  ownHost: string | null
+): string {
+  if (utmSource) return nameFromKeyword(utmSource);
+  if (!referrerHost) return "Directo";
+  if (ownHost && referrerHost === ownHost) return "Directo";
+  for (const s of SOURCE_MAP) if (referrerHost.includes(s.match)) return s.name;
+  return referrerHost.replace(/^www\./, "");
+}
+
 export async function POST(req: Request) {
   try {
-    const body = (await req.json()) as { path?: unknown };
+    const body = (await req.json()) as {
+      path?: unknown;
+      referrer?: unknown;
+      query?: unknown;
+    };
     let path = typeof body.path === "string" ? body.path.trim() : "";
 
     // Quitamos query/hash y validamos que sea una ruta interna razonable.
@@ -39,7 +82,32 @@ export async function POST(req: Request) {
       }
       const country = req.headers.get("x-vercel-ip-country") || null;
 
-      await db.pageView.create({ data: { path, city, country } });
+      // Origen del tráfico: dominio del referrer + utm_source si viene.
+      let referrerHost: string | null = null;
+      if (typeof body.referrer === "string" && body.referrer) {
+        try {
+          referrerHost = new URL(body.referrer).hostname || null;
+        } catch {
+          referrerHost = null;
+        }
+      }
+      let utmSource: string | null = null;
+      if (typeof body.query === "string" && body.query) {
+        try {
+          utmSource = new URLSearchParams(body.query).get("utm_source");
+        } catch {
+          utmSource = null;
+        }
+      }
+      const source = deriveSource(
+        referrerHost,
+        utmSource,
+        req.headers.get("host")
+      );
+
+      await db.pageView.create({
+        data: { path, city, country, referrer: referrerHost, source },
+      });
     }
   } catch {
     // Nunca rompemos la navegación del usuario por un fallo de analítica.

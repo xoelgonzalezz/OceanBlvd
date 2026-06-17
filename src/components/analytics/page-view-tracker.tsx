@@ -26,7 +26,11 @@ export function PageViewTracker() {
       // Si no hay sessionStorage disponible, seguimos y contamos igualmente.
     }
 
-    const body = JSON.stringify({ path: pathname });
+    const body = JSON.stringify({
+      path: pathname,
+      referrer: document.referrer || undefined,
+      query: window.location.search || undefined,
+    });
     try {
       if (typeof navigator !== "undefined" && navigator.sendBeacon) {
         navigator.sendBeacon(

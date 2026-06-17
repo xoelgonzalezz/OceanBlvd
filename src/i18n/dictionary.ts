@@ -6,6 +6,16 @@ export const LOCALES: Locale[] = ["es", "en"];
 export const DEFAULT_LOCALE: Locale = "es";
 
 const es = {
+  promo: {
+    title: "10 % en tu primera compra",
+    subtitle:
+      "Suscríbete y recibe un −10 % de bienvenida. Novedades, ediciones limitadas y rebajas antes que nadie.",
+    placeholder: "tu@email.com",
+    cta: "Quiero mi −10 %",
+    success: "¡Listo! Usa este código en el carrito:",
+    dismiss: "No, gracias",
+    close: "Cerrar",
+  },
   nav: { shop: "Tienda", artists: "Artistas", blog: "Blog", about: "Nosotros", home: "Inicio" },
   header: {
     search: "Buscar discos, artistas…",
@@ -200,6 +210,11 @@ const es = {
     pay: "Pagar",
     processing: "Procesando…",
     backToCart: "Volver al carrito",
+    discountCode: "Código de descuento",
+    discountPlaceholder: "Ej. BIENVENIDO10",
+    discountApplied: "¡Código aplicado! −10 % en tu pedido.",
+    discountInvalid: "Ese código no es válido.",
+    discount: "Descuento",
     errorGeneric: "No se pudo procesar el pedido.",
     successTitle: "¡Gracias por tu pedido!",
     successDesc: (ref: string, email: string) =>
@@ -333,6 +348,16 @@ const es = {
 };
 
 const en: typeof es = {
+  promo: {
+    title: "10% off your first order",
+    subtitle:
+      "Subscribe and get a −10% welcome discount. New arrivals, limited editions and sales before anyone else.",
+    placeholder: "you@email.com",
+    cta: "Get my −10%",
+    success: "Done! Use this code at checkout:",
+    dismiss: "No, thanks",
+    close: "Close",
+  },
   nav: { shop: "Shop", artists: "Artists", blog: "Blog", about: "About", home: "Home" },
   header: {
     search: "Search records, artists…",
@@ -527,6 +552,11 @@ const en: typeof es = {
     pay: "Pay",
     processing: "Processing…",
     backToCart: "Back to cart",
+    discountCode: "Discount code",
+    discountPlaceholder: "e.g. BIENVENIDO10",
+    discountApplied: "Code applied! −10% off your order.",
+    discountInvalid: "That code isn't valid.",
+    discount: "Discount",
     errorGeneric: "The order could not be processed.",
     successTitle: "Thank you for your order!",
     successDesc: (ref: string, email: string) =>

@@ -158,6 +158,7 @@ export function orderConfirmationHtml(order: OrderFull): string {
      <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>
      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;">
        ${totalRow("Subtotal", eur(order.subtotalCents))}
+       ${order.discountCents > 0 ? totalRow("Descuento", "−" + eur(order.discountCents)) : ""}
        ${totalRow("Envío", order.shippingCents === 0 ? "Gratis" : eur(order.shippingCents))}
        ${totalRow("Total", eur(order.totalCents), true)}
      </table>

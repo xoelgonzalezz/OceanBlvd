@@ -15,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { EmptyState } from "@/components/shared/empty-state";
 import { useCart, useCartHydrated, useCartSubtotal } from "@/store/cart";
 import { formatPrice } from "@/lib/utils";
-import { calcShipping } from "@/lib/constants";
+import { calcShipping, discountForCode } from "@/lib/constants";
 import { useT } from "@/components/i18n/locale-provider";
 
 const initialForm = {
@@ -27,6 +27,7 @@ const initialForm = {
   country: "España",
   phone: "",
   notes: "",
+  discountCode: "",
 };
 
 export function CheckoutView() {
@@ -38,11 +39,13 @@ export function CheckoutView() {
   const hydrated = useCartHydrated();
 
   const shipping = calcShipping(subtotal);
-  const total = subtotal + shipping;
 
   const [form, setForm] = React.useState(initialForm);
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [loading, setLoading] = React.useState(false);
+
+  const discount = discountForCode(form.discountCode, subtotal);
+  const total = subtotal - discount + shipping;
 
   if (!hydrated) return <div className="h-64" aria-hidden />;
 
@@ -68,6 +71,7 @@ export function CheckoutView() {
     try {
       const payload = {
         ...form,
+        discountCode: form.discountCode || undefined,
         items: items.map((i) => ({ id: i.id, quantity: i.quantity })),
       };
       const res = await fetch("/api/checkout", {
@@ -232,11 +236,43 @@ export function CheckoutView() {
 
           <Separator className="my-4" />
 
+          <div className="mb-4">
+            <Label
+              htmlFor="discountCode"
+              className="text-xs text-muted-foreground"
+            >
+              {t.checkout.discountCode}
+            </Label>
+            <Input
+              id="discountCode"
+              value={form.discountCode}
+              onChange={(e) => set("discountCode", e.target.value)}
+              placeholder={t.checkout.discountPlaceholder}
+              className="mt-1.5 uppercase"
+            />
+            {form.discountCode && discount === 0 ? (
+              <p className="mt-1 text-xs text-destructive">
+                {t.checkout.discountInvalid}
+              </p>
+            ) : null}
+            {discount > 0 ? (
+              <p className="mt-1 text-xs font-medium text-primary">
+                {t.checkout.discountApplied}
+              </p>
+            ) : null}
+          </div>
+
           <dl className="space-y-2 text-sm">
             <div className="flex justify-between">
               <dt className="text-muted-foreground">{t.cart.subtotal}</dt>
               <dd className="tabular-nums">{formatPrice(subtotal)}</dd>
             </div>
+            {discount > 0 ? (
+              <div className="flex justify-between text-primary">
+                <dt>{t.checkout.discount}</dt>
+                <dd className="tabular-nums">−{formatPrice(discount)}</dd>
+              </div>
+            ) : null}
             <div className="flex justify-between">
               <dt className="text-muted-foreground">{t.cart.shipping}</dt>
               <dd className="tabular-nums">

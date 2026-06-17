@@ -180,6 +180,7 @@ model Order {
   notes          String?
   subtotalCents  Int
   shippingCents  Int
+  discountCents  Int         @default(0) // descuento aplicado (p. ej. código de bienvenida)
   totalCents     Int
   status         String      @default("PENDING") // PENDING | PAID | SHIPPED | CANCELLED
   // Envío: número de seguimiento (localizador) de Correos y fecha de salida.
@@ -237,6 +238,8 @@ model PageView {
   path      String // ruta de entrada, p. ej. "/tienda"
   city      String? // ciudad estimada por IP (puede faltar)
   country   String? // código ISO de país, p. ej. "ES"
+  referrer  String? // referer de origen (dominio), si lo hay
+  source    String? // canal normalizado: "TikTok", "Google", "Directo"...
   createdAt DateTime @default(now())
 
   @@index([createdAt])

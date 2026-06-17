@@ -1,4 +1,4 @@
-import { BarChart3, MapPin } from "lucide-react";
+import { BarChart3, MapPin, Radio } from "lucide-react";
 
 interface Day {
   date: string; // YYYY-MM-DD
@@ -11,6 +11,11 @@ interface City {
   count: number;
 }
 
+interface Source {
+  source: string;
+  count: number;
+}
+
 function label(date: string): string {
   const [, m, d] = date.split("-");
   return `${d}/${m}`;
@@ -20,12 +25,21 @@ function label(date: string): string {
  * Gráfico de visitas (una por sesión) para el panel. Barras en CSS puro, una
  * por día, con totales de referencia y un ranking de ciudades estimadas por IP.
  */
-export function VisitsChart({ data, cities }: { data: Day[]; cities: City[] }) {
+export function VisitsChart({
+  data,
+  cities,
+  sources,
+}: {
+  data: Day[];
+  cities: City[];
+  sources: Source[];
+}) {
   const total = data.reduce((s, d) => s + d.count, 0);
   const last7 = data.slice(-7).reduce((s, d) => s + d.count, 0);
   const today = data.at(-1)?.count ?? 0;
   const max = Math.max(1, ...data.map((d) => d.count));
   const topCity = Math.max(1, ...cities.map((c) => c.count));
+  const topSource = Math.max(1, ...sources.map((s) => s.count));
 
   return (
     <section className="mt-8 rounded-lg border p-5">
@@ -87,7 +101,8 @@ export function VisitsChart({ data, cities }: { data: Day[]; cities: City[] }) {
         </div>
       )}
 
-      <div className="mt-6 border-t pt-5">
+      <div className="mt-6 grid gap-8 border-t pt-5 sm:grid-cols-2">
+        <div>
         <h3 className="flex items-center gap-2 text-sm font-medium">
           <MapPin className="h-4 w-4 text-muted-foreground" /> Ciudades estimadas
         </h3>
@@ -121,6 +136,38 @@ export function VisitsChart({ data, cities }: { data: Day[]; cities: City[] }) {
             ))}
           </ul>
         )}
+        </div>
+
+        <div>
+          <h3 className="flex items-center gap-2 text-sm font-medium">
+            <Radio className="h-4 w-4 text-muted-foreground" /> De dónde llegan
+          </h3>
+          {sources.length === 0 ? (
+            <p className="mt-2 text-sm text-muted-foreground">
+              Todavía sin datos de origen. Aquí verás de qué canal viene cada
+              visita (TikTok, Google, Directo…).
+            </p>
+          ) : (
+            <ul className="mt-3 space-y-2.5">
+              {sources.map((s) => (
+                <li key={s.source} className="text-sm">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="truncate">{s.source}</span>
+                    <span className="shrink-0 tabular-nums text-muted-foreground">
+                      {s.count}
+                    </span>
+                  </div>
+                  <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full bg-foreground/70"
+                      style={{ width: `${(s.count / topSource) * 100}%` }}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </section>
   );

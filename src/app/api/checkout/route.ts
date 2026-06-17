@@ -6,7 +6,7 @@ import { db } from "@/lib/db";
 import { TAGS } from "@/lib/queries";
 import { sendOrderConfirmation, sendOwnerOrderNotification } from "@/lib/email";
 import { checkoutSchema } from "@/lib/validators";
-import { calcShipping, SITE } from "@/lib/constants";
+import { calcShipping, discountForCode, SITE } from "@/lib/constants";
 import { getCurrentUser } from "@/lib/auth/session";
 import { stripe, stripeEnabled } from "@/lib/stripe";
 
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { items, ...customer } = parsed.data;
+    const { items, discountCode, ...customer } = parsed.data;
     const ids = items.map((i) => i.id);
     const records = await db.record.findMany({
       // archived:false → un disco "borrado"/archivado no se puede comprar.
@@ -50,8 +50,10 @@ export async function POST(request: Request) {
       );
     }
 
+    // Descuento (p. ej. código de bienvenida). Siempre validado en servidor.
+    const discountCents = discountForCode(discountCode, subtotalCents);
     const shippingCents = calcShipping(subtotalCents);
-    const totalCents = subtotalCents + shippingCents;
+    const totalCents = subtotalCents - discountCents + shippingCents;
     const user = await getCurrentUser();
 
     /* ---------- Pago REAL con Stripe ---------- */
@@ -62,6 +64,7 @@ export async function POST(request: Request) {
           ...customer,
           subtotalCents,
           shippingCents,
+          discountCents,
           totalCents,
           status: "PENDING",
           userId: user?.id ?? null,
@@ -103,9 +106,25 @@ export async function POST(request: Request) {
         });
       }
 
+      // Descuento: cupón puntual por importe exacto (en céntimos) para que el
+      // total de Stripe coincida con el calculado en servidor.
+      let discounts:
+        | Stripe.Checkout.SessionCreateParams.Discount[]
+        | undefined;
+      if (discountCents > 0) {
+        const coupon = await stripe.coupons.create({
+          amount_off: discountCents,
+          currency: "eur",
+          duration: "once",
+          name: "Descuento de bienvenida",
+        });
+        discounts = [{ coupon: coupon.id }];
+      }
+
       const session = await stripe.checkout.sessions.create({
         mode: "payment",
         line_items: lineItems,
+        discounts,
         customer_email: customer.email,
         success_url: `${SITE.url}/checkout/exito?order=${order.id}&t=${order.accessToken ?? ""}`,
         cancel_url: `${SITE.url}/checkout?cancelado=1`,
@@ -122,6 +141,7 @@ export async function POST(request: Request) {
           ...customer,
           subtotalCents,
           shippingCents,
+          discountCents,
           totalCents,
           status: "PAID",
           userId: user?.id ?? null,

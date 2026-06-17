@@ -645,3 +645,28 @@ export async function getTopCities(
     return [];
   }
 }
+
+/**
+ * Canales de origen con más visitas en los últimos `days` días (TikTok, Google,
+ * Directo...). Agrupa por `source` y devuelve el top `limit`.
+ */
+export async function getTopSources(
+  days = 30,
+  limit = 8
+): Promise<{ source: string; count: number }[]> {
+  const since = sinceUTC(days);
+
+  try {
+    const rows = await db.$queryRaw<{ source: string; count: bigint }[]>`
+      SELECT COALESCE(source, 'Directo') AS source, COUNT(*)::bigint AS count
+      FROM "PageView"
+      WHERE "createdAt" >= ${since}
+      GROUP BY COALESCE(source, 'Directo')
+      ORDER BY count DESC
+      LIMIT ${limit}
+    `;
+    return rows.map((r) => ({ source: r.source, count: Number(r.count) }));
+  } catch {
+    return [];
+  }
+}
