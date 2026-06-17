@@ -6,9 +6,10 @@ import { db } from "@/lib/db";
 export const runtime = "nodejs";
 
 /**
- * Registra una visita a una página pública. Analítica propia y anónima:
- * solo se guarda la ruta (sin query) y la fecha, nunca cookies, IP ni datos
- * personales. Pensado para llamarse vía `navigator.sendBeacon` desde el cliente.
+ * Registra una visita (una por sesión, enviada al entrar). Analítica propia y
+ * anónima: guardamos la ruta de entrada, la fecha y la ciudad/país estimados por
+ * IP a partir de las cabeceras de geolocalización de Vercel. Nunca guardamos la
+ * IP ni datos personales.
  */
 export async function POST(req: Request) {
   try {
@@ -25,7 +26,20 @@ export async function POST(req: Request) {
       !path.startsWith("/_next");
 
     if (valid) {
-      await db.pageView.create({ data: { path } });
+      // Geolocalización aproximada por IP (la pone Vercel en producción; en
+      // local no llega y se guarda como null). La ciudad viene URL-encoded.
+      const rawCity = req.headers.get("x-vercel-ip-city");
+      let city: string | null = null;
+      if (rawCity) {
+        try {
+          city = decodeURIComponent(rawCity);
+        } catch {
+          city = rawCity;
+        }
+      }
+      const country = req.headers.get("x-vercel-ip-country") || null;
+
+      await db.pageView.create({ data: { path, city, country } });
     }
   } catch {
     // Nunca rompemos la navegación del usuario por un fallo de analítica.

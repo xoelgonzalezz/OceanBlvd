@@ -229,11 +229,14 @@ model ContactMessage {
   createdAt DateTime @default(now())
 }
 
-/// Visita a una página pública. Analítica propia y anónima: solo guardamos la
-/// ruta y la fecha (sin cookies, IP ni datos personales) para medir el tráfico.
+/// Visita a una página pública. Analítica propia y anónima: guardamos la ruta
+/// de entrada, la fecha y la ciudad/país estimados por IP (nunca la IP ni datos
+/// personales). Se cuenta una vez por sesión (al entrar), no por cada página.
 model PageView {
   id        String   @id @default(cuid())
-  path      String // ruta visitada, p. ej. "/tienda"
+  path      String // ruta de entrada, p. ej. "/tienda"
+  city      String? // ciudad estimada por IP (puede faltar)
+  country   String? // código ISO de país, p. ej. "ES"
   createdAt DateTime @default(now())
 
   @@index([createdAt])

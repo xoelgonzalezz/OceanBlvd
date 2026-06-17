@@ -1,7 +1,13 @@
-import { BarChart3 } from "lucide-react";
+import { BarChart3, MapPin } from "lucide-react";
 
 interface Day {
   date: string; // YYYY-MM-DD
+  count: number;
+}
+
+interface City {
+  city: string;
+  country: string | null;
   count: number;
 }
 
@@ -11,15 +17,15 @@ function label(date: string): string {
 }
 
 /**
- * Gráfico de visitas a la web para el panel. Barras en CSS puro (sin
- * dependencias), una por día. Muestra totales de referencia y un estado vacío
- * cuando todavía no hay tráfico registrado.
+ * Gráfico de visitas (una por sesión) para el panel. Barras en CSS puro, una
+ * por día, con totales de referencia y un ranking de ciudades estimadas por IP.
  */
-export function VisitsChart({ data }: { data: Day[] }) {
+export function VisitsChart({ data, cities }: { data: Day[]; cities: City[] }) {
   const total = data.reduce((s, d) => s + d.count, 0);
   const last7 = data.slice(-7).reduce((s, d) => s + d.count, 0);
   const today = data.at(-1)?.count ?? 0;
   const max = Math.max(1, ...data.map((d) => d.count));
+  const topCity = Math.max(1, ...cities.map((c) => c.count));
 
   return (
     <section className="mt-8 rounded-lg border p-5">
@@ -31,7 +37,7 @@ export function VisitsChart({ data }: { data: Day[] }) {
               Visitas a la web
             </h2>
             <p className="mt-0.5 text-sm text-muted-foreground">
-              Páginas vistas en los últimos {data.length} días.
+              Visitas (una por sesión) en los últimos {data.length} días.
             </p>
           </div>
         </div>
@@ -80,6 +86,42 @@ export function VisitsChart({ data }: { data: Day[] }) {
           </div>
         </div>
       )}
+
+      <div className="mt-6 border-t pt-5">
+        <h3 className="flex items-center gap-2 text-sm font-medium">
+          <MapPin className="h-4 w-4 text-muted-foreground" /> Ciudades estimadas
+        </h3>
+        {cities.length === 0 ? (
+          <p className="mt-2 text-sm text-muted-foreground">
+            Todavía sin datos de ciudad. Se estima por IP cuando entra alguien
+            (solo en la web desplegada, no en local).
+          </p>
+        ) : (
+          <ul className="mt-3 space-y-2.5">
+            {cities.map((c) => (
+              <li key={`${c.city}-${c.country ?? ""}`} className="text-sm">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="truncate">
+                    {c.city}
+                    {c.country ? (
+                      <span className="text-muted-foreground"> · {c.country}</span>
+                    ) : null}
+                  </span>
+                  <span className="shrink-0 tabular-nums text-muted-foreground">
+                    {c.count}
+                  </span>
+                </div>
+                <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                  <div
+                    className="h-full rounded-full bg-foreground/70"
+                    style={{ width: `${(c.count / topCity) * 100}%` }}
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </section>
   );
 }

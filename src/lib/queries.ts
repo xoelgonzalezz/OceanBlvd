@@ -571,8 +571,16 @@ function dayKey(d: Date): string {
   return d.toISOString().slice(0, 10); // YYYY-MM-DD (UTC)
 }
 
+/** Inicio (00:00 UTC) del rango de los últimos `days` días, incluido hoy. */
+function sinceUTC(days: number): Date {
+  const since = new Date();
+  since.setUTCHours(0, 0, 0, 0);
+  since.setUTCDate(since.getUTCDate() - (days - 1));
+  return since;
+}
+
 /**
- * Visitas (page views) por día de los últimos `days` días. Rellena con 0 los
+ * Visitas (una por sesión) por día de los últimos `days` días. Rellena con 0 los
  * días sin visitas y devuelve el array en orden cronológico (antiguo → hoy).
  * Sin caché: el panel es dinámico. Si la tabla aún no existe (antes de migrar)
  * devuelve un array vacío en vez de romper el panel.
@@ -580,9 +588,7 @@ function dayKey(d: Date): string {
 export async function getVisitsByDay(
   days = 30
 ): Promise<{ date: string; count: number }[]> {
-  const since = new Date();
-  since.setUTCHours(0, 0, 0, 0);
-  since.setUTCDate(since.getUTCDate() - (days - 1));
+  const since = sinceUTC(days);
 
   try {
     const rows = await db.$queryRaw<{ day: Date; count: bigint }[]>`
@@ -604,6 +610,37 @@ export async function getVisitsByDay(
       out.push({ date: key, count: counts.get(key) ?? 0 });
     }
     return out;
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Ciudades estimadas con más visitas en los últimos `days` días. Agrupa por
+ * ciudad + país (ignorando las visitas sin ciudad) y devuelve el top `limit`.
+ */
+export async function getTopCities(
+  days = 30,
+  limit = 8
+): Promise<{ city: string; country: string | null; count: number }[]> {
+  const since = sinceUTC(days);
+
+  try {
+    const rows = await db.$queryRaw<
+      { city: string; country: string | null; count: bigint }[]
+    >`
+      SELECT city, country, COUNT(*)::bigint AS count
+      FROM "PageView"
+      WHERE "createdAt" >= ${since} AND city IS NOT NULL AND city <> ''
+      GROUP BY city, country
+      ORDER BY count DESC
+      LIMIT ${limit}
+    `;
+    return rows.map((r) => ({
+      city: r.city,
+      country: r.country,
+      count: Number(r.count),
+    }));
   } catch {
     return [];
   }
