@@ -3,12 +3,16 @@ import Link from "next/link";
 import { ArrowRight, Sparkles, Truck, ShieldCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { safeImg } from "@/lib/utils";
 import { getDict } from "@/i18n/server";
 import type { RecordCard } from "@/types";
 
 export function Hero({ record }: { record: RecordCard | null }) {
   const t = getDict();
   const cover = record?.images[0];
+  // Foto del vinilo real (si el admin la ha puesto y el host está permitido).
+  // Si no, caemos en el disco genérico generado por CSS.
+  const vinyl = record?.vinylImage ? safeImg(record.vinylImage, "") : "";
 
   return (
     <section className="relative overflow-hidden border-b border-border/60">
@@ -65,27 +69,40 @@ export function Hero({ record }: { record: RecordCard | null }) {
 
         {/* Visual: portada exclusiva + vinilo girando */}
         <div className="relative mx-auto aspect-square w-full max-w-[20rem] animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-md">
-          {/* Vinilo verde de la edición exclusiva, girando, con la portada en la etiqueta */}
-          <div
-            className="absolute right-0 top-1/2 aspect-square w-[74%] -translate-y-1/2 rounded-full shadow-2xl ring-1 ring-black/20 motion-safe:animate-spin-slow sm:right-[-8%] sm:w-[82%]"
-            style={{
-              background:
-                "repeating-radial-gradient(circle at center, #6cb873 0px, #6cb873 1.5px, #a9dcab 3px, #a9dcab 4.5px)",
-            }}
-          >
-            {cover ? (
-              <div className="absolute left-1/2 top-1/2 h-[36%] w-[36%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full ring-2 ring-black/15">
-                <Image
-                  src={cover.url}
-                  alt=""
-                  fill
-                  sizes="160px"
-                  className="object-cover"
-                />
-              </div>
-            ) : null}
-            <div className="absolute left-1/2 top-1/2 h-[3.5%] w-[3.5%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-background ring-1 ring-black/30" />
-          </div>
+          {vinyl ? (
+            /* Foto del vinilo real (gestionada desde el admin), girando. */
+            <div className="absolute right-0 top-1/2 aspect-square w-[74%] -translate-y-1/2 overflow-hidden rounded-full shadow-2xl ring-1 ring-black/20 motion-safe:animate-spin-slow sm:right-[-8%] sm:w-[82%]">
+              <Image
+                src={vinyl}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 60vw, 30vw"
+                className="object-cover"
+              />
+            </div>
+          ) : (
+            /* Vinilo genérico (CSS), girando, con la portada en la etiqueta. */
+            <div
+              className="absolute right-0 top-1/2 aspect-square w-[74%] -translate-y-1/2 rounded-full shadow-2xl ring-1 ring-black/20 motion-safe:animate-spin-slow sm:right-[-8%] sm:w-[82%]"
+              style={{
+                background:
+                  "repeating-radial-gradient(circle at center, #1c1c1c 0px, #1c1c1c 1.5px, #2e2e2e 3px, #2e2e2e 4.5px)",
+              }}
+            >
+              {cover ? (
+                <div className="absolute left-1/2 top-1/2 h-[36%] w-[36%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full ring-2 ring-black/15">
+                  <Image
+                    src={cover.url}
+                    alt=""
+                    fill
+                    sizes="160px"
+                    className="object-cover"
+                  />
+                </div>
+              ) : null}
+              <div className="absolute left-1/2 top-1/2 h-[3.5%] w-[3.5%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-background ring-1 ring-black/30" />
+            </div>
+          )}
 
           {/* Portada exclusiva (Lana Del Rey) */}
           {cover && record ? (

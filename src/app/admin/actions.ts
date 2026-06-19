@@ -136,6 +136,7 @@ type ParsedRecord =
         mediaGrade: string | null;
         color: string | null;
         colorEn: string | null;
+        vinylImage: string | null;
         stock: number;
         description: string;
         descriptionEn: string | null;
@@ -158,6 +159,7 @@ function parseRecordForm(formData: FormData): ParsedRecord {
   const mediaGrade = String(formData.get("mediaGrade") || "").trim();
   const color = String(formData.get("color") || "").trim();
   const colorEn = String(formData.get("colorEn") || "").trim();
+  const vinylImage = safeImageUrl(String(formData.get("vinylImage") || ""));
   const stock = Number(formData.get("stock")) || 1;
   const description = String(formData.get("description") || "").trim();
   const descriptionEn = String(formData.get("descriptionEn") || "").trim();
@@ -187,6 +189,7 @@ function parseRecordForm(formData: FormData): ParsedRecord {
       mediaGrade: mediaGrade || null,
       color: color || null,
       colorEn: colorEn || null,
+      vinylImage: vinylImage || null,
       stock: Math.max(0, stock),
       description,
       descriptionEn: descriptionEn || null,

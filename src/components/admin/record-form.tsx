@@ -37,6 +37,7 @@ export interface RecordInitial {
   descriptionEn: string;
   featured: boolean;
   coverUrl: string;
+  vinylUrl: string;
   tracksText: string;
 }
 
@@ -76,6 +77,7 @@ export function RecordForm({
   const [title, setTitle] = React.useState(initial?.title ?? "");
   const [artistId, setArtistId] = React.useState(initial?.artistId ?? "");
   const [coverUrl, setCoverUrl] = React.useState(initial?.coverUrl ?? "");
+  const [vinylUrl, setVinylUrl] = React.useState(initial?.vinylUrl ?? "");
   const [searching, setSearching] = React.useState(false);
 
   async function handleSearchCover() {
@@ -316,6 +318,36 @@ export function RecordForm({
         <p className="text-xs text-muted-foreground">
           Pega una URL de imagen o búscala automáticamente por artista y título.
         </p>
+
+        {/* Imagen del vinilo real (opcional) — se muestra girando en el hero */}
+        <div className="pt-4">
+          <Label htmlFor="vinylImage">Imagen del vinilo (opcional)</Label>
+          <div className="relative mt-1.5 flex aspect-square items-center justify-center overflow-hidden rounded-full border bg-muted">
+            {vinylUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={vinylUrl}
+                alt="Vista previa del vinilo"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <ImageIcon className="h-8 w-8 text-muted-foreground" />
+            )}
+          </div>
+          <Input
+            id="vinylImage"
+            name="vinylImage"
+            value={vinylUrl}
+            onChange={(e) => setVinylUrl(e.target.value)}
+            placeholder="https://…/vinilo.jpg"
+            className="mt-3"
+          />
+          <p className="mt-2 text-xs text-muted-foreground">
+            Foto del disco real (p. ej. de Discogs). Si lo dejas vacío, se
+            muestra un vinilo genérico. Solo aparece en los discos destacados
+            del inicio.
+          </p>
+        </div>
       </aside>
     </form>
   );

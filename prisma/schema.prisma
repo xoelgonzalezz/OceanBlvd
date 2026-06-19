@@ -61,6 +61,7 @@ model Record {
   mediaGrade    String? // "M" | "NM" | "VG+" | "VG" ... (estado del disco)
   color         String? // color del vinilo en español: "Negro", "Rojo"... (opcional)
   colorEn       String? // color del vinilo en inglés: "Black", "Red"... (opcional)
+  vinylImage    String? // foto del vinilo real (opcional); se muestra girando en el hero
   description   String
   descriptionEn String?
   stock         Int      @default(1)
