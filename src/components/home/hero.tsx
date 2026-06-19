@@ -81,25 +81,18 @@ export function Hero({ record }: { record: RecordCard | null }) {
               />
             </div>
           ) : (
-            /* Vinilo genérico (CSS), girando, con la portada en la etiqueta. */
+            /* Vinilo genérico (CSS): negro liso con etiqueta neutra. NO lleva la
+               portada del álbum (un vinilo real no la lleva en la etiqueta), así
+               no mostramos nada que no sea cierto. Es solo decorativo. */
             <div
               className="absolute right-0 top-1/2 aspect-square w-[74%] -translate-y-1/2 rounded-full shadow-2xl ring-1 ring-black/20 motion-safe:animate-spin-slow sm:right-[-8%] sm:w-[82%]"
               style={{
                 background:
-                  "repeating-radial-gradient(circle at center, #1c1c1c 0px, #1c1c1c 1.5px, #2e2e2e 3px, #2e2e2e 4.5px)",
+                  "repeating-radial-gradient(circle at center, #131313 0px, #131313 1.5px, #242424 3px, #242424 4.5px)",
               }}
             >
-              {cover ? (
-                <div className="absolute left-1/2 top-1/2 h-[36%] w-[36%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full ring-2 ring-black/15">
-                  <Image
-                    src={cover.url}
-                    alt=""
-                    fill
-                    sizes="160px"
-                    className="object-cover"
-                  />
-                </div>
-              ) : null}
+              {/* Etiqueta central lisa (color neutro), no la carátula. */}
+              <div className="absolute left-1/2 top-1/2 h-[34%] w-[34%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-neutral-800 ring-1 ring-black/40" />
               <div className="absolute left-1/2 top-1/2 h-[3.5%] w-[3.5%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-background ring-1 ring-black/30" />
             </div>
           )}
