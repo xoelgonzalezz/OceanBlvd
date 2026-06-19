@@ -31,7 +31,7 @@ export async function generateMetadata({
       type: "article",
       title: post.title,
       description,
-      publishedTime: post.publishedAt.toISOString(),
+      publishedTime: new Date(post.publishedAt).toISOString(),
       images: [{ url: ogImage }],
     },
     twitter: {
@@ -69,7 +69,7 @@ export default async function BlogPostPage({
     image: [new URL(post.coverImage ?? "/og-default.png", SITE.url).toString()],
     author: { "@type": "Person", name: post.author },
     publisher: { "@type": "Organization", name: SITE.name },
-    datePublished: post.publishedAt.toISOString(),
+    datePublished: new Date(post.publishedAt).toISOString(),
   };
 
   return (
