@@ -20,6 +20,7 @@ export default async function EditBlogPage({
   const initial: BlogInitial = {
     id: post.id,
     title: post.title,
+    titleEn: post.titleEn ?? "",
     excerpt: post.excerpt,
     content: post.content,
     author: post.author,

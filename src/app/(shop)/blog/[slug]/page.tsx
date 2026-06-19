@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { getPostBySlug, getPosts } from "@/lib/queries";
 import { formatDate, truncate, jsonLd, safeImg } from "@/lib/utils";
-import { SITE } from "@/lib/constants";
+import { SITE, blogTag } from "@/lib/constants";
 import { getDict, getLocale, pick } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
@@ -21,22 +21,24 @@ export async function generateMetadata({
   const post = await getPostBySlug(params.slug);
   if (!post) return { title: "Artículo no encontrado" };
 
-  const description = pick(getLocale(), post.excerpt, post.excerptEn);
+  const locale = getLocale();
+  const title = pick(locale, post.title, post.titleEn);
+  const description = pick(locale, post.excerpt, post.excerptEn);
   const ogImage = post.coverImage ?? "/og-default.png";
   return {
-    title: post.title,
+    title,
     description,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       type: "article",
-      title: post.title,
+      title,
       description,
       publishedTime: new Date(post.publishedAt).toISOString(),
       images: [{ url: ogImage }],
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
+      title,
       description,
       images: [ogImage],
     },
@@ -64,7 +66,7 @@ export default async function BlogPostPage({
   const articleLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    headline: post.title,
+    headline: pick(locale, post.title, post.titleEn),
     description: pick(locale, post.excerpt, post.excerptEn),
     image: [new URL(post.coverImage ?? "/og-default.png", SITE.url).toString()],
     author: { "@type": "Person", name: post.author },
@@ -88,9 +90,11 @@ export default async function BlogPostPage({
         </Link>
 
         <header className="mt-6">
-          {post.tag ? <Badge variant="muted">{post.tag}</Badge> : null}
+          {post.tag ? (
+            <Badge variant="muted">{blogTag(post.tag, locale)}</Badge>
+          ) : null}
           <h1 className="mt-3 text-balance font-serif text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
-            {post.title}
+            {pick(locale, post.title, post.titleEn)}
           </h1>
           <p className="mt-4 text-sm text-muted-foreground">
             {t.blogPage.by} {post.author} · {formatDate(post.publishedAt, locale)}
@@ -102,7 +106,7 @@ export default async function BlogPostPage({
         <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-muted">
           <Image
             src={safeImg(post.coverImage, "/placeholders/blog-01.svg")}
-            alt={post.title}
+            alt={pick(locale, post.title, post.titleEn)}
             fill
             priority
             sizes="(max-width: 1024px) 100vw, 960px"
@@ -135,14 +139,14 @@ export default async function BlogPostPage({
                 <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-muted">
                   <Image
                     src={safeImg(p.coverImage, "/placeholders/blog-01.svg")}
-                    alt={p.title}
+                    alt={pick(locale, p.title, p.titleEn)}
                     fill
                     sizes="(max-width: 640px) 100vw, 33vw"
                     className="object-cover transition-transform duration-500 ease-out-quint group-hover:scale-105"
                   />
                 </div>
                 <h3 className="mt-3 font-serif text-base font-medium leading-snug transition-colors group-hover:text-primary">
-                  {p.title}
+                  {pick(locale, p.title, p.titleEn)}
                 </h3>
                 <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
                   {truncate(pick(locale, p.excerpt, p.excerptEn), 90)}

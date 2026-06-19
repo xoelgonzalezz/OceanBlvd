@@ -119,6 +119,7 @@ model Track {
 model BlogPost {
   id          String   @id @default(cuid())
   title       String
+  titleEn     String?
   slug        String   @unique
   excerpt     String
   excerptEn   String?

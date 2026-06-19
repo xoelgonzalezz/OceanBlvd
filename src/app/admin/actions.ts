@@ -441,6 +441,7 @@ export async function deleteArtistAction(formData: FormData) {
 
 function parseBlogForm(formData: FormData) {
   const title = String(formData.get("title") || "").trim();
+  const titleEn = String(formData.get("titleEn") || "").trim();
   const excerpt = String(formData.get("excerpt") || "").trim();
   const content = String(formData.get("content") || "").trim();
   const author = String(formData.get("author") || "").trim();
@@ -455,6 +456,7 @@ function parseBlogForm(formData: FormData) {
   return {
     data: {
       title,
+      titleEn: titleEn || null,
       excerpt,
       content,
       author,

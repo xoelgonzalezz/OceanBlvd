@@ -24,6 +24,7 @@ const selectClass =
 export interface BlogInitial {
   id: string;
   title: string;
+  titleEn: string;
   excerpt: string;
   content: string;
   author: string;
@@ -63,8 +64,12 @@ export function BlogForm({
     <form action={formAction} className="max-w-2xl space-y-5">
       {initial ? <input type="hidden" name="id" value={initial.id} /> : null}
       <div>
-        <Label htmlFor="title">Título</Label>
+        <Label htmlFor="title">Título (español)</Label>
         <Input id="title" name="title" defaultValue={initial?.title} required className="mt-1.5" />
+      </div>
+      <div>
+        <Label htmlFor="titleEn">Título (inglés, opcional)</Label>
+        <Input id="titleEn" name="titleEn" defaultValue={initial?.titleEn} className="mt-1.5" />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>

@@ -7,6 +7,7 @@ import { Reveal } from "@/components/shared/reveal";
 import { EmptyState } from "@/components/shared/empty-state";
 import { getPosts } from "@/lib/queries";
 import { formatDate, safeImg } from "@/lib/utils";
+import { blogTag } from "@/lib/constants";
 import { getDict, getLocale, pick } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
@@ -65,7 +66,7 @@ export default async function BlogPage() {
             <div className="relative aspect-[16/10] overflow-hidden bg-muted md:aspect-auto">
               <Image
                 src={safeImg(featured.coverImage, "/placeholders/blog-01.svg")}
-                alt={featured.title}
+                alt={pick(locale, featured.title, featured.titleEn)}
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -73,9 +74,11 @@ export default async function BlogPage() {
               />
             </div>
             <div className="flex flex-col justify-center p-8 md:p-10">
-              {featured.tag ? <Badge variant="muted">{featured.tag}</Badge> : null}
+              {featured.tag ? (
+                <Badge variant="muted">{blogTag(featured.tag, locale)}</Badge>
+              ) : null}
               <h2 className="mt-3 font-serif text-2xl font-semibold leading-tight transition-colors group-hover:text-primary sm:text-3xl">
-                {featured.title}
+                {pick(locale, featured.title, featured.titleEn)}
               </h2>
               <p className="mt-3 text-muted-foreground">
                 {pick(locale, featured.excerpt, featured.excerptEn)}
@@ -96,16 +99,18 @@ export default async function BlogPage() {
               <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-muted">
                 <Image
                   src={safeImg(post.coverImage, "/placeholders/blog-01.svg")}
-                  alt={post.title}
+                  alt={pick(locale, post.title, post.titleEn)}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover transition-transform duration-500 ease-out-quint group-hover:scale-105"
                 />
               </div>
               <div className="mt-4">
-                {post.tag ? <Badge variant="muted">{post.tag}</Badge> : null}
+                {post.tag ? (
+                  <Badge variant="muted">{blogTag(post.tag, locale)}</Badge>
+                ) : null}
                 <h2 className="mt-2 font-serif text-xl font-medium leading-snug transition-colors group-hover:text-primary">
-                  {post.title}
+                  {pick(locale, post.title, post.titleEn)}
                 </h2>
                 <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
                   {pick(locale, post.excerpt, post.excerptEn)}

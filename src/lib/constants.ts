@@ -76,6 +76,22 @@ export function calcShipping(subtotalCents: number): number {
   return subtotalCents >= FREE_SHIPPING_THRESHOLD_CENTS ? 0 : SHIPPING_FLAT_CENTS;
 }
 
+/* ---- Blog ---- */
+// Traducción al inglés de las categorías (conjunto fijo) del blog.
+export const BLOG_TAG_EN: Record<string, string> = {
+  Lanzamientos: "New releases",
+  "Ediciones especiales": "Special editions",
+  Cultura: "Culture",
+  "Guías": "Guides",
+  Eventos: "Events",
+  Artistas: "Artists",
+};
+
+/** Etiqueta de categoría del blog según el idioma. */
+export function blogTag(tag: string, locale: string): string {
+  return locale === "en" ? BLOG_TAG_EN[tag] ?? tag : tag;
+}
+
 /** Redes sociales del footer. Vacío = no se muestran (todavía no hay perfiles). */
 export const SOCIAL_LINKS: { name: string; href: string }[] = [];
 
