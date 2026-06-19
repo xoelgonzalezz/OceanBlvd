@@ -107,13 +107,7 @@ export function Footer() {
           </ul>
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-xs text-muted-foreground">
-            © {year} {SITE.name}. {t.footer.rights}{" "}
-            <Link
-              href="/admin"
-              className="underline-offset-2 transition-colors hover:text-foreground hover:underline"
-            >
-              {t.footer.admin}
-            </Link>
+            © {year} {SITE.name}. {t.footer.rights}
           </p>
           {SOCIAL_LINKS.length > 0 && (
             <ul className="flex items-center gap-5">

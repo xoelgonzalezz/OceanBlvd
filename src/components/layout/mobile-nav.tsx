@@ -33,7 +33,6 @@ export function MobileNav() {
     { label: t.footer.linkContact, href: "/contacto" },
     { label: t.footer.linkFaq, href: "/faq" },
     { label: t.footer.linkShipping, href: "/envios" },
-    { label: t.footer.admin, href: "/admin" },
   ];
 
   function MobileLink({ href, label }: { href: string; label: string }) {
