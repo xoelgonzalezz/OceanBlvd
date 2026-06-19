@@ -106,6 +106,9 @@ export const getFeaturedArtists = (limit = 6) =>
 export const getGenresWithCount = unstable_cache(
   () =>
     db.genre.findMany({
+      // Solo géneros con al menos 1 disco disponible (no archivado): la rejilla
+      // del home no debe mostrar géneros vacíos.
+      where: { records: { some: { archived: false } } },
       include: { _count: { select: { records: { where: { archived: false } } } } },
       orderBy: { name: "asc" },
     }),
