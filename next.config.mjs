@@ -55,6 +55,20 @@ const nextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+  // Redirección www → dominio raíz (canónico). OJO: esto SOLO actúa una vez que
+  // el subdominio www tiene certificado SSL válido (se añade en Vercel). Si el
+  // certificado de www no existe, el navegador falla antes y ninguna redirección
+  // de código puede ejecutarse: primero hay que añadir www en Vercel.
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.oceanblvdvinyl.com" }],
+        destination: "https://oceanblvdvinyl.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
