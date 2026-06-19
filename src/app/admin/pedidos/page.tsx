@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getAdminOrders } from "@/lib/queries";
 import { markOrderShippedAction } from "@/app/admin/actions";
+import { DeleteOrderButton } from "@/components/admin/delete-order-button";
 import { formatPrice } from "@/lib/utils";
 import { ORDER_STATUS_LABELS, correosTrackingUrl } from "@/lib/constants";
 
@@ -28,6 +29,11 @@ const MESSAGES: Record<string, string> = {
   "order-missing": "Ese pedido ya no existe.",
   "order-not-payable":
     "Solo puedes marcar como enviado un pedido que ya esté pagado.",
+  "order-deleted": "Pedido borrado definitivamente.",
+  "order-delete-badpass":
+    "Contraseña incorrecta. El pedido no se ha borrado.",
+  "order-delete-throttled":
+    "Demasiados intentos. Espera un minuto e inténtalo de nuevo.",
 };
 
 export default async function AdminOrdersPage({
@@ -204,6 +210,11 @@ export default async function AdminOrdersPage({
                     </p>
                   </div>
                 )}
+
+                {/* Borrado del pedido (pide la contraseña de admin otra vez) */}
+                <div className="mt-4 flex justify-end border-t pt-3">
+                  <DeleteOrderButton orderId={order.id} />
+                </div>
               </div>
             );
           })}

@@ -598,6 +598,36 @@ export async function markOrderShippedAction(formData: FormData) {
   redirect("/admin/pedidos?msg=order-shipped");
 }
 
+/**
+ * Borra un pedido de forma definitiva. Por ser una acción irreversible, exige
+ * volver a escribir la contraseña de admin (re-autenticación), además de la
+ * sesión ya activa. Las líneas del pedido se borran en cascada.
+ */
+export async function deleteOrderAction(formData: FormData) {
+  if (!(await isAdminRequest())) return;
+  const id = String(formData.get("id") || "");
+  const password = String(formData.get("password") || "");
+  if (!id) return;
+
+  // Límite de intentos por IP para que el campo de contraseña no sea un oráculo.
+  if (!rateLimit(`order-delete:${clientIp()}`, 10, 60_000)) {
+    redirect("/admin/pedidos?msg=order-delete-throttled");
+  }
+  if (!checkAdminPassword(password)) {
+    redirect("/admin/pedidos?msg=order-delete-badpass");
+  }
+
+  try {
+    await db.order.delete({ where: { id } });
+  } catch {
+    redirect("/admin/pedidos?msg=order-missing");
+  }
+
+  revalidatePath("/admin/pedidos");
+  revalidatePath("/cuenta");
+  redirect("/admin/pedidos?msg=order-deleted");
+}
+
 /* ---------- Buscar portada real ---------- */
 
 export async function searchCoverAction(
