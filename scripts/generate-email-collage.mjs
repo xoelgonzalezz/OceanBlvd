@@ -73,21 +73,24 @@ async function main() {
   }
   bg.sort((a, b) => a.z - b.z);
 
-  // --- PRIMER PLANO: las HERO, grandes, enteras y centradas ---
-  const heroH = 470;
-  const slots = [ // x-centro, y-centro, rotación (fila central)
-    { cx: 250, cy: 540, rot: -7 }, { cx: 510, cy: 560, rot: 4 }, { cx: 765, cy: 535, rot: -5 },
-  ];
+  // --- PRIMER PLANO: las HERO, grandes y enteras, REPARTIDAS (no en fila) y
+  // mezcladas con el resto. Posiciones distintas para que se vea natural. ---
+  const slots = {
+    "charli-xcx": { cx: 245, cy: 385, rot: -9, h: 470 },     // izquierda, media-alta
+    "olivia-rodrigo": { cx: 715, cy: 330, rot: 7, h: 455 },  // arriba-derecha, despejada
+    "lana-del-rey": { cx: 515, cy: 705, rot: -3, h: 470 },   // centro-baja
+  };
   const hero = [];
-  for (let i = 0; i < HERO.length; i++) {
-    let buf = await whole(`${ARTISTS}/${HERO[i]}.jpg`, heroH);
-    buf = await rotate(buf, slots[i].rot);
+  for (const name of HERO) {
+    const s = slots[name];
+    let buf = await whole(`${ARTISTS}/${name}.jpg`, s.h);
+    buf = await rotate(buf, s.rot);
     const m = await sharp(buf).metadata();
-    hero.push({ input: buf, left: Math.round(M + slots[i].cx - m.width / 2), top: Math.round(M + slots[i].cy - m.height / 2) });
+    hero.push({ input: buf, left: Math.round(M + s.cx - m.width / 2), top: Math.round(M + s.cy - m.height / 2) });
   }
 
-  // --- Sello, debajo de las hero ---
-  const bw = 520, bh = 180, bx = M + OUT_W / 2 - bw / 2, by = M + 980 - bh / 2;
+  // --- Sello, ABAJO del todo (no tapa a ninguna hero) ---
+  const bw = 500, bh = 170, bx = M + OUT_W / 2 - bw / 2, by = M + 1090 - bh / 2;
   const layers = [...bg.map(({ input, left, top }) => ({ input, left, top })), ...hero, { input: badge(bw, bh), left: Math.round(bx), top: Math.round(by) }];
   const composed = await sharp({ create: { width: W, height: H, channels: 4, background: "#15110e" } }).composite(layers).png().toBuffer();
   const final = await sharp(composed).extract({ left: M, top: M, width: OUT_W, height: OUT_H }).jpeg({ quality: 88, mozjpeg: true }).toBuffer();
