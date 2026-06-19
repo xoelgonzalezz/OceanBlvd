@@ -7,7 +7,7 @@ import { ChevronLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { getPostBySlug, getPosts } from "@/lib/queries";
-import { formatDate, truncate, jsonLd } from "@/lib/utils";
+import { formatDate, truncate, jsonLd, safeImg } from "@/lib/utils";
 import { SITE } from "@/lib/constants";
 import { getDict, getLocale, pick } from "@/i18n/server";
 
@@ -101,7 +101,7 @@ export default async function BlogPostPage({
       <div className="container mt-8 max-w-4xl">
         <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-muted">
           <Image
-            src={post.coverImage ?? "/placeholders/blog-01.svg"}
+            src={safeImg(post.coverImage, "/placeholders/blog-01.svg")}
             alt={post.title}
             fill
             priority
@@ -134,7 +134,7 @@ export default async function BlogPostPage({
               <Link key={p.id} href={`/blog/${p.slug}`} className="group flex flex-col">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-muted">
                   <Image
-                    src={p.coverImage ?? "/placeholders/blog-01.svg"}
+                    src={safeImg(p.coverImage, "/placeholders/blog-01.svg")}
                     alt={p.title}
                     fill
                     sizes="(max-width: 640px) 100vw, 33vw"

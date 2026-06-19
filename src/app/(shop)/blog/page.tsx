@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/shared/reveal";
 import { EmptyState } from "@/components/shared/empty-state";
 import { getPosts } from "@/lib/queries";
-import { formatDate } from "@/lib/utils";
+import { formatDate, safeImg } from "@/lib/utils";
 import { getDict, getLocale, pick } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
@@ -64,7 +64,7 @@ export default async function BlogPage() {
           >
             <div className="relative aspect-[16/10] overflow-hidden bg-muted md:aspect-auto">
               <Image
-                src={featured.coverImage ?? "/placeholders/blog-01.svg"}
+                src={safeImg(featured.coverImage, "/placeholders/blog-01.svg")}
                 alt={featured.title}
                 fill
                 priority
@@ -95,7 +95,7 @@ export default async function BlogPage() {
             <Link href={`/blog/${post.slug}`} className="group flex flex-col">
               <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-muted">
                 <Image
-                  src={post.coverImage ?? "/placeholders/blog-01.svg"}
+                  src={safeImg(post.coverImage, "/placeholders/blog-01.svg")}
                   alt={post.title}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
