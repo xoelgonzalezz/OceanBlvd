@@ -22,7 +22,9 @@ const between = (a, b) => a + (b - a) * rnd();
 const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
 const BLOCK = new Set(["aphex-twin.jpg", "aphex-twin-richard-d-james-album.jpg"]);
-const PRIORITY = ["charli-xcx", "olivia-rodrigo", "lana-del-rey"];
+// Charli XCX se coloca aparte (grande y destacada); el resto, prioridad normal.
+const PRIORITY = ["olivia-rodrigo", "lana-del-rey"];
+const CHARLI = `${ARTISTS}/charli-xcx.jpg`;
 
 const ARTIST_SLUGS = fs.readdirSync(ARTISTS).filter(f => /\.(jpe?g|png|webp)$/i.test(f)).map(f => f.replace(/\.[^.]+$/, ""));
 const allCovers = fs.readdirSync(COVERS).filter(f => /\.(jpe?g|png|webp)$/i.test(f) && !BLOCK.has(f));
@@ -40,6 +42,8 @@ function artistImage(slug, i) {
 let pool = shuffle(ARTIST_SLUGS.map((s, i) => artistImage(s, i)).filter(Boolean));
 const isPrio = (p) => PRIORITY.some(n => p.includes(n));
 pool = [...pool.filter(isPrio), ...pool.filter(p => !isPrio(p))];
+// Charli va aparte como pieza grande → la quitamos de la rejilla normal.
+pool = pool.filter(p => !p.includes("charli-xcx"));
 
 function vinyl(size, { disc, groove, label }) { const c = size / 2, g = []; for (let r = size * 0.46; r > size * 0.22; r -= size * 0.028) g.push(`<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${groove}" stroke-width="1.2" stroke-opacity="0.6"/>`); return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><circle cx="${c}" cy="${c}" r="${c}" fill="${disc}"/>${g.join("")}<circle cx="${c}" cy="${c}" r="${size * 0.2}" fill="${label}"/><circle cx="${c}" cy="${c}" r="${size * 0.025}" fill="#0e0d0c"/></svg>`); }
 const VINYLS = [{ disc: "#16130f", groove: "#5a5550", label: "#E8612C" }, { disc: "#D8472A", groove: "#9c2e18", label: "#F2E9D8" }, { disc: "#16130f", groove: "#5a5550", label: "#F2E9D8" }, { disc: "#E89A2C", groove: "#a86a14", label: "#16130f" }, { disc: "#16130f", groove: "#5a5550", label: "#C44569" }];
@@ -88,9 +92,18 @@ async function main() {
     items.push({ input: buf, left, top, z: rnd() }); k++;
   }
   items.sort((a, b) => a.z - b.z);
+
+  // Charli XCX: grande y destacada, por delante de la rejilla (arriba-izquierda,
+  // fuera del sello). Totalmente dentro del lienzo (no se corta).
+  let cBuf = await rotate(await frame(CHARLI, 460), -5);
+  const cM = await sharp(cBuf).metadata();
+  let cLeft = Math.max(M, Math.min(M + OUT_W - cM.width, Math.round(M + 285 - cM.width / 2)));
+  let cTop = Math.max(M, Math.min(M + OUT_H - cM.height, Math.round(M + 350 - cM.height / 2)));
+  const charli = { input: cBuf, left: cLeft, top: cTop };
+
   const bw = 540, bh = 190, bx = M + OUT_W / 2 - bw / 2, by = M + OUT_H / 2 - bh / 2; // sello CENTRADO
   const composed = await sharp({ create: { width: W, height: H, channels: 4, background: "#15110e" } })
-    .composite([...items.map(({ input, left, top }) => ({ input, left, top })), { input: badge(bw, bh), left: Math.round(bx), top: Math.round(by) }]).png().toBuffer();
+    .composite([...items.map(({ input, left, top }) => ({ input, left, top })), charli, { input: badge(bw, bh), left: Math.round(bx), top: Math.round(by) }]).png().toBuffer();
   const final = await sharp(composed).extract({ left: M, top: M, width: OUT_W, height: OUT_H }).jpeg({ quality: 88, mozjpeg: true }).toBuffer();
   fs.writeFileSync("public/email/collage.jpg", final);
   fs.writeFileSync("/home/user/collage_vertical.jpg", final);
