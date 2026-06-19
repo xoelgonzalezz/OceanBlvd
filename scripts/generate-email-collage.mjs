@@ -72,15 +72,19 @@ async function main() {
   const vinylCells = spreadVinylCells(5);
   let pidx = 0, vi = 0; const items = []; let k = 0;
   for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
-    const size = Math.round(between(250, 330));
+    // Piezas grandes (más solape → menos fondo negro) y poca rotación.
+    const size = Math.round(between(310, 385));
     let buf;
     if (vinylCells.has(k) || pidx >= pool.length) buf = vinyl(size, VINYLS[vi++ % VINYLS.length]);
     else buf = await frame(pool[pidx++], size);
-    buf = await rotate(buf, Math.round(between(-13, 13)));
+    buf = await rotate(buf, Math.round(between(-6, 6)));
     const m = await sharp(buf).metadata();
-    const cx = M + c * cw + cw / 2 + between(-cw * 0.28, cw * 0.28), cy = M + r * ch + ch / 2 + between(-ch * 0.28, ch * 0.28);
+    const cx = M + c * cw + cw / 2 + between(-cw * 0.15, cw * 0.15), cy = M + r * ch + ch / 2 + between(-ch * 0.15, ch * 0.15);
     let left = Math.round(cx - m.width / 2), top = Math.round(cy - m.height / 2);
-    left = Math.max(-80, Math.min(W - m.width + 80, left)); top = Math.max(-80, Math.min(H - m.height + 80, top));
+    // Solo sobresalen un poco por el borde (evita fotos muy cortadas) pero
+    // cubriendo el filo para que no quede negro.
+    left = Math.max(M - 36, Math.min(M + OUT_W - m.width + 36, left));
+    top = Math.max(M - 36, Math.min(M + OUT_H - m.height + 36, top));
     items.push({ input: buf, left, top, z: rnd() }); k++;
   }
   items.sort((a, b) => a.z - b.z);
