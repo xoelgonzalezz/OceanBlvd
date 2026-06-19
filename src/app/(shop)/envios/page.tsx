@@ -21,7 +21,7 @@ const CONTENT = {
       { icon: Truck, title: "5 días laborables", text: "Entrega estimada en la península." },
       { icon: Package, title: "Gratis desde 60 €", text: "Por debajo, 4,99 € de envío estándar." },
       { icon: RotateCcw, title: "15 días", text: "Para devoluciones de discos sin precintar." },
-      { icon: Globe, title: "Envío internacional", text: "Consúltanos para envíos fuera de España." },
+      { icon: Globe, title: "Solo España", text: "De momento enviamos únicamente dentro de España." },
     ],
     sections: [
       { h: "Plazos y costes de envío", p: ["El tiempo de entrega habitual es de unos 5 días laborables en la península. Para Baleares, Canarias, Ceuta y Melilla los plazos pueden variar ligeramente.", "El envío es gratuito a partir de 60 €. Para importes inferiores, aplicamos una tarifa plana de 4,99 € que verás siempre claramente antes de confirmar el pedido."] },
@@ -38,7 +38,7 @@ const CONTENT = {
       { icon: Truck, title: "5 working days", text: "Estimated delivery in mainland Spain." },
       { icon: Package, title: "Free over €60", text: "Below that, €4.99 standard shipping." },
       { icon: RotateCcw, title: "15 days", text: "To return unsealed records." },
-      { icon: Globe, title: "International shipping", text: "Ask us about shipping outside Spain." },
+      { icon: Globe, title: "Spain only", text: "For now we ship within Spain only." },
     ],
     sections: [
       { h: "Delivery times and costs", p: ["Typical delivery time is around 5 working days within mainland Spain. For the Balearic and Canary Islands, Ceuta and Melilla, times may vary slightly.", "Shipping is free over €60. Below that, we apply a flat €4.99 fee that you'll always see clearly before confirming your order."] },

@@ -5,7 +5,8 @@ import type { BlogPost } from "@prisma/client";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Reveal } from "@/components/shared/reveal";
 import { Badge } from "@/components/ui/badge";
-import { formatDate } from "@/lib/utils";
+import { formatDate, safeImg } from "@/lib/utils";
+import { blogTag } from "@/lib/constants";
 import { getDict, getLocale, pick } from "@/i18n/server";
 
 export function BlogPreview({ posts }: { posts: BlogPost[] }) {
@@ -28,17 +29,19 @@ export function BlogPreview({ posts }: { posts: BlogPost[] }) {
             <Link href={`/blog/${post.slug}`} className="group flex flex-col">
               <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-muted">
                 <Image
-                  src={post.coverImage ?? "/placeholders/blog-01.svg"}
-                  alt={post.title}
+                  src={safeImg(post.coverImage, "/placeholders/blog-01.svg")}
+                  alt={pick(locale, post.title, post.titleEn)}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover transition-transform duration-500 ease-out-quint group-hover:scale-105"
                 />
               </div>
               <div className="mt-4">
-                {post.tag ? <Badge variant="muted">{post.tag}</Badge> : null}
+                {post.tag ? (
+                  <Badge variant="muted">{blogTag(post.tag, locale)}</Badge>
+                ) : null}
                 <h3 className="mt-2 font-serif text-xl font-medium leading-snug transition-colors group-hover:text-primary">
-                  {post.title}
+                  {pick(locale, post.title, post.titleEn)}
                 </h3>
                 <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
                   {pick(locale, post.excerpt, post.excerptEn)}

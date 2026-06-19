@@ -70,6 +70,13 @@ export const PAGE_SIZE = 12;
 export const FREE_SHIPPING_THRESHOLD_CENTS = 6000; // envío gratis a partir de 60 €
 export const SHIPPING_FLAT_CENTS = 499; // 4,99 € de envío estándar
 
+// Países a los que enviamos (de momento, solo España).
+const SHIPPING_COUNTRIES = ["españa", "spain", "es"];
+/** ¿Enviamos a este país? (de momento solo España). */
+export function shipsTo(country: string): boolean {
+  return SHIPPING_COUNTRIES.includes((country || "").trim().toLowerCase());
+}
+
 /** Calcula el coste de envío en céntimos según el subtotal. */
 export function calcShipping(subtotalCents: number): number {
   if (subtotalCents <= 0) return 0;

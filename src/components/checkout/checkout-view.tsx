@@ -167,6 +167,8 @@ export function CheckoutView() {
             onChange={(v) => set("country", v)}
             error={errors.country}
             autoComplete="country-name"
+            readOnly
+            note={t.checkout.countryNote}
           />
           <Field
             id="phone"
@@ -316,6 +318,8 @@ function Field({
   className,
   autoComplete,
   required = true,
+  readOnly = false,
+  note,
 }: {
   id: string;
   label: string;
@@ -326,6 +330,8 @@ function Field({
   className?: string;
   autoComplete?: string;
   required?: boolean;
+  readOnly?: boolean;
+  note?: string;
 }) {
   return (
     <div className={className}>
@@ -337,10 +343,15 @@ function Field({
         onChange={(e) => onChange(e.target.value)}
         autoComplete={autoComplete}
         required={required}
+        readOnly={readOnly}
         aria-invalid={!!error}
-        className="mt-1.5"
+        className={readOnly ? "mt-1.5 bg-muted/50" : "mt-1.5"}
       />
-      {error ? <p className="mt-1 text-xs text-destructive">{error}</p> : null}
+      {error ? (
+        <p className="mt-1 text-xs text-destructive">{error}</p>
+      ) : note ? (
+        <p className="mt-1 text-xs text-muted-foreground">{note}</p>
+      ) : null}
     </div>
   );
 }

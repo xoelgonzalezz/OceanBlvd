@@ -6,7 +6,7 @@ import { db } from "@/lib/db";
 import { TAGS } from "@/lib/queries";
 import { sendOrderConfirmation, sendOwnerOrderNotification } from "@/lib/email";
 import { checkoutSchema } from "@/lib/validators";
-import { calcShipping, SITE } from "@/lib/constants";
+import { calcShipping, shipsTo, SITE } from "@/lib/constants";
 import { getCurrentUser } from "@/lib/auth/session";
 import { stripe, stripeEnabled } from "@/lib/stripe";
 
@@ -23,6 +23,15 @@ export async function POST(request: Request) {
     }
 
     const { items, ...customer } = parsed.data;
+
+    // De momento solo enviamos a España: rechazamos cualquier otro destino.
+    if (!shipsTo(customer.country)) {
+      return NextResponse.json(
+        { error: "De momento solo realizamos envíos a España." },
+        { status: 400 }
+      );
+    }
+
     const ids = items.map((i) => i.id);
     const records = await db.record.findMany({
       // archived:false → un disco "borrado"/archivado no se puede comprar.
