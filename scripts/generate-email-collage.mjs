@@ -1,8 +1,10 @@
 // Genera la imagen de cabecera de los emails: public/email/collage.jpg
 //
-// Collage en capas (estilo "record wall"): FONDO de fotos de artista + portadas
-// + vinilos de colores (recortados, pequeños), y en PRIMER PLANO y CENTRADAS,
-// enteras, las artistas destacadas (HERO). Sello "Ocean Blvd Vinyl" en Fraunces.
+// Collage en capas (estilo "record wall"): fotos de artista + portadas + vinilos
+// de colores superpuestos, con el sello "Ocean Blvd Vinyl" en Fraunces.
+// Reglas: UNA imagen por artista (nunca el mismo dos veces), sin imágenes
+// bloqueadas (BLOCK), los artistas de PRIORITY siempre salen, y los vinilos
+// quedan REPARTIDOS (nunca pegados unos a otros).
 //
 // Requiere (solo para regenerar, no en el build): sharp + dos paquetes de dev:
 //   npm i -D @resvg/resvg-js @expo-google-fonts/fraunces
@@ -14,20 +16,18 @@ import { Resvg } from "@resvg/resvg-js";
 
 const COVERS = "public/covers", ARTISTS = "public/artists";
 const F = "node_modules/@expo-google-fonts/fraunces";
-let _s = 0x2c9f6ad3;
+let _s = 0x4d8e1f27;
 const rnd = () => { _s |= 0; _s = (_s + 0x6D2B79F5) | 0; let t = Math.imul(_s ^ (_s >>> 15), 1 | _s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 const between = (a, b) => a + (b - a) * rnd();
 const shuffle = (a) => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
 const BLOCK = new Set(["aphex-twin.jpg", "aphex-twin-richard-d-james-album.jpg"]);
-// HERO: van centradas, grandes, enteras y por delante de todo.
-const HERO = ["charli-xcx", "olivia-rodrigo", "lana-del-rey"];
+const PRIORITY = ["charli-xcx", "olivia-rodrigo", "lana-del-rey"];
 
 const ARTIST_SLUGS = fs.readdirSync(ARTISTS).filter(f => /\.(jpe?g|png|webp)$/i.test(f)).map(f => f.replace(/\.[^.]+$/, ""));
 const allCovers = fs.readdirSync(COVERS).filter(f => /\.(jpe?g|png|webp)$/i.test(f) && !BLOCK.has(f));
 
-// Fondo: una imagen por artista (NO hero), recortada cuadrada.
-function bgImage(slug, i) {
+function artistImage(slug, i) {
   const photo = `${ARTISTS}/${slug}.jpg`;
   const hasPhoto = fs.existsSync(photo) && !BLOCK.has(`${slug}.jpg`);
   const covers = allCovers.filter(f => f.startsWith(slug + "-"));
@@ -37,16 +37,14 @@ function bgImage(slug, i) {
   if (covers.length) return path.join(COVERS, covers[0]);
   return null;
 }
-const bgSlugs = ARTIST_SLUGS.filter(s => !HERO.includes(s));
-const bgPool = shuffle(bgSlugs.map((s, i) => bgImage(s, i)).filter(Boolean));
+let pool = shuffle(ARTIST_SLUGS.map((s, i) => artistImage(s, i)).filter(Boolean));
+const isPrio = (p) => PRIORITY.some(n => p.includes(n));
+pool = [...pool.filter(isPrio), ...pool.filter(p => !isPrio(p))];
 
 function vinyl(size, { disc, groove, label }) { const c = size / 2, g = []; for (let r = size * 0.46; r > size * 0.22; r -= size * 0.028) g.push(`<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${groove}" stroke-width="1.2" stroke-opacity="0.6"/>`); return Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><circle cx="${c}" cy="${c}" r="${c}" fill="${disc}"/>${g.join("")}<circle cx="${c}" cy="${c}" r="${size * 0.2}" fill="${label}"/><circle cx="${c}" cy="${c}" r="${size * 0.025}" fill="#0e0d0c"/></svg>`); }
 const VINYLS = [{ disc: "#16130f", groove: "#5a5550", label: "#E8612C" }, { disc: "#D8472A", groove: "#9c2e18", label: "#F2E9D8" }, { disc: "#16130f", groove: "#5a5550", label: "#F2E9D8" }, { disc: "#E89A2C", groove: "#a86a14", label: "#16130f" }, { disc: "#16130f", groove: "#5a5550", label: "#C44569" }];
 
-// Cuadrada con recorte (fondo).
-async function square(file, size) { const inner = await sharp(file).resize(size, size, { fit: "cover", position: "attention" }).toBuffer(); const b = Math.round(size * 0.03) + 4; return sharp(inner).extend({ top: b, bottom: b, left: b, right: b, background: "#FBF8F1" }).png().toBuffer(); }
-// Entera (sin recorte), tipo polaroid con borde inferior más grueso.
-async function whole(file, h) { const img = await sharp(file).resize({ height: h, fit: "inside" }).toBuffer(); const bx = Math.round(h * 0.03) + 6, bb = Math.round(h * 0.11) + 10; return sharp(img).extend({ top: bx, left: bx, right: bx, bottom: bb, background: "#FBF8F1" }).png().toBuffer(); }
+async function frame(file, size) { const inner = await sharp(file).resize(size, size, { fit: "cover", position: "attention" }).toBuffer(); const b = Math.round(size * 0.03) + 4; return sharp(inner).extend({ top: b, bottom: b, left: b, right: b, background: "#FBF8F1" }).png().toBuffer(); }
 const rotate = (buf, deg) => sharp(buf).rotate(deg, { background: "#00000000" }).png().toBuffer();
 
 function badge(bw, bh) {
@@ -55,47 +53,43 @@ function badge(bw, bh) {
 }
 
 const OUT_W = 1000, OUT_H = 1250, M = 240, W = OUT_W + 2 * M, H = OUT_H + 2 * M;
+const COLS = 4, ROWS = 5;
+// Celdas de vinilo REPARTIDAS: nunca dos en celdas vecinas (ni en diagonal),
+// así no quedan "pegados".
+function spreadVinylCells(count) {
+  const rc = (k) => [Math.floor(k / COLS), k % COLS];
+  const picked = [];
+  for (const k of shuffle([...Array(COLS * ROWS).keys()])) {
+    if (picked.length >= count) break;
+    const [r, c] = rc(k);
+    if (picked.every((p) => { const [pr, pc] = rc(p); return Math.abs(pr - r) > 1 || Math.abs(pc - c) > 1; })) picked.push(k);
+  }
+  return new Set(picked);
+}
+
 async function main() {
-  // --- FONDO: rejilla de cuadradas (otros artistas) + vinilos ---
-  const cols = 4, rows = 5, total = cols * rows, cw = OUT_W / cols, ch = OUT_H / rows;
-  const vinylCells = new Set(shuffle([...Array(total).keys()]).slice(0, 6));
-  const bg = []; let pidx = 0, vi = 0, k = 0;
-  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
-    const size = Math.round(between(240, 320)); let buf;
-    if (vinylCells.has(k) || pidx >= bgPool.length) buf = vinyl(size, VINYLS[vi++ % VINYLS.length]);
-    else buf = await square(bgPool[pidx++], size);
+  const cw = OUT_W / COLS, ch = OUT_H / ROWS;
+  const vinylCells = spreadVinylCells(5);
+  let pidx = 0, vi = 0; const items = []; let k = 0;
+  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+    const size = Math.round(between(250, 330));
+    let buf;
+    if (vinylCells.has(k) || pidx >= pool.length) buf = vinyl(size, VINYLS[vi++ % VINYLS.length]);
+    else buf = await frame(pool[pidx++], size);
     buf = await rotate(buf, Math.round(between(-13, 13)));
     const m = await sharp(buf).metadata();
-    const cx = M + c * cw + cw / 2 + between(-cw * 0.30, cw * 0.30), cy = M + r * ch + ch / 2 + between(-ch * 0.30, ch * 0.30);
+    const cx = M + c * cw + cw / 2 + between(-cw * 0.28, cw * 0.28), cy = M + r * ch + ch / 2 + between(-ch * 0.28, ch * 0.28);
     let left = Math.round(cx - m.width / 2), top = Math.round(cy - m.height / 2);
     left = Math.max(-80, Math.min(W - m.width + 80, left)); top = Math.max(-80, Math.min(H - m.height + 80, top));
-    bg.push({ input: buf, left, top, z: rnd() }); k++;
+    items.push({ input: buf, left, top, z: rnd() }); k++;
   }
-  bg.sort((a, b) => a.z - b.z);
-
-  // --- PRIMER PLANO: las HERO, grandes y enteras, REPARTIDAS (no en fila) y
-  // mezcladas con el resto. Posiciones distintas para que se vea natural. ---
-  const slots = {
-    "charli-xcx": { cx: 245, cy: 385, rot: -9, h: 470 },     // izquierda, media-alta
-    "olivia-rodrigo": { cx: 715, cy: 330, rot: 7, h: 455 },  // arriba-derecha, despejada
-    "lana-del-rey": { cx: 515, cy: 705, rot: -3, h: 470 },   // centro-baja
-  };
-  const hero = [];
-  for (const name of HERO) {
-    const s = slots[name];
-    let buf = await whole(`${ARTISTS}/${name}.jpg`, s.h);
-    buf = await rotate(buf, s.rot);
-    const m = await sharp(buf).metadata();
-    hero.push({ input: buf, left: Math.round(M + s.cx - m.width / 2), top: Math.round(M + s.cy - m.height / 2) });
-  }
-
-  // --- Sello, ABAJO del todo (no tapa a ninguna hero) ---
-  const bw = 500, bh = 170, bx = M + OUT_W / 2 - bw / 2, by = M + 1090 - bh / 2;
-  const layers = [...bg.map(({ input, left, top }) => ({ input, left, top })), ...hero, { input: badge(bw, bh), left: Math.round(bx), top: Math.round(by) }];
-  const composed = await sharp({ create: { width: W, height: H, channels: 4, background: "#15110e" } }).composite(layers).png().toBuffer();
+  items.sort((a, b) => a.z - b.z);
+  const bw = 540, bh = 190, bx = M + OUT_W / 2 - bw / 2, by = M + OUT_H / 2 - bh / 2; // sello CENTRADO
+  const composed = await sharp({ create: { width: W, height: H, channels: 4, background: "#15110e" } })
+    .composite([...items.map(({ input, left, top }) => ({ input, left, top })), { input: badge(bw, bh), left: Math.round(bx), top: Math.round(by) }]).png().toBuffer();
   const final = await sharp(composed).extract({ left: M, top: M, width: OUT_W, height: OUT_H }).jpeg({ quality: 88, mozjpeg: true }).toBuffer();
   fs.writeFileSync("public/email/collage.jpg", final);
   fs.writeFileSync("/home/user/collage_vertical.jpg", final);
-  console.log("OK collage.jpg | hero:", HERO.join(", "), "| fondo:", pidx, "vinilos:", vi);
+  console.log("OK | artistas:", pidx, "| vinilos:", vi, "| celdas vinilo:", [...vinylCells].sort((a, b) => a - b).join(","));
 }
 main().catch(e => { console.error(e); process.exit(1); });
