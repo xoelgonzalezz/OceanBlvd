@@ -23,6 +23,8 @@ const ALLOWED_IMG_HOSTS = [
   /^images-na\.ssl-images-amazon\.com$/,
   /^i\.discogs\.com$/,
   /^coverartarchive\.org$/,
+  /^i\.ibb\.co$/,
+  /^i\.imgur\.com$/,
 ];
 
 /**

@@ -50,6 +50,8 @@ const nextConfig = {
       { protocol: "https", hostname: "images-na.ssl-images-amazon.com" }, // Amazon (variante)
       { protocol: "https", hostname: "i.discogs.com" }, // Discogs
       { protocol: "https", hostname: "coverartarchive.org" }, // Cover Art Archive (MusicBrainz)
+      { protocol: "https", hostname: "i.ibb.co" }, // ImgBB (subidas propias: vinilos, etc.)
+      { protocol: "https", hostname: "i.imgur.com" }, // Imgur (subidas propias)
     ],
   },
   async headers() {
