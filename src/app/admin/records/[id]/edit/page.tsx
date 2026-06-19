@@ -47,6 +47,7 @@ export default async function EditRecordPage({
     featured: record.featured,
     coverUrl: record.images[0]?.url ?? "",
     vinylUrl: record.vinylImage ?? "",
+    vinylSpin: record.vinylSpin,
     tracksText: record.tracks
       .map((t) => `${t.title}${t.duration ? ` | ${t.duration}` : ""}`)
       .join("\n"),

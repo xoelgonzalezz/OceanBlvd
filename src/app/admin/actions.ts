@@ -137,6 +137,7 @@ type ParsedRecord =
         color: string | null;
         colorEn: string | null;
         vinylImage: string | null;
+        vinylSpin: boolean;
         stock: number;
         description: string;
         descriptionEn: string | null;
@@ -160,6 +161,8 @@ function parseRecordForm(formData: FormData): ParsedRecord {
   const color = String(formData.get("color") || "").trim();
   const colorEn = String(formData.get("colorEn") || "").trim();
   const vinylImage = safeImageUrl(String(formData.get("vinylImage") || ""));
+  // Modo de visualización del vinilo: "still" = imagen normal; cualquier otro = gira.
+  const vinylSpin = String(formData.get("vinylSpin") || "spin") !== "still";
   const stock = Number(formData.get("stock")) || 1;
   const description = String(formData.get("description") || "").trim();
   const descriptionEn = String(formData.get("descriptionEn") || "").trim();
@@ -190,6 +193,7 @@ function parseRecordForm(formData: FormData): ParsedRecord {
       color: color || null,
       colorEn: colorEn || null,
       vinylImage: vinylImage || null,
+      vinylSpin,
       stock: Math.max(0, stock),
       description,
       descriptionEn: descriptionEn || null,

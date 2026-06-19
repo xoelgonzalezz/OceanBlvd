@@ -38,6 +38,7 @@ export interface RecordInitial {
   featured: boolean;
   coverUrl: string;
   vinylUrl: string;
+  vinylSpin: boolean;
   tracksText: string;
 }
 
@@ -342,10 +343,24 @@ export function RecordForm({
             placeholder="https://…/vinilo.jpg"
             className="mt-3"
           />
+          <div className="mt-3">
+            <Label htmlFor="vinylSpin">Cómo mostrarla en el inicio</Label>
+            <select
+              id="vinylSpin"
+              name="vinylSpin"
+              defaultValue={initial?.vinylSpin === false ? "still" : "spin"}
+              className={selectClass}
+            >
+              <option value="spin">Disco girando (foto del disco de frente)</option>
+              <option value="still">Imagen normal, sin girar (foto de producto)</option>
+            </select>
+          </div>
           <p className="mt-2 text-xs text-muted-foreground">
-            Foto del disco real (p. ej. de Discogs). Si lo dejas vacío, se
-            muestra un vinilo genérico. Solo aparece en los discos destacados
-            del inicio.
+            «Disco girando»: usa una foto del vinilo <strong>de frente</strong>
+            {" "}(círculo). «Imagen normal»: una foto de producto (en diagonal,
+            con funda…) que se muestra quieta y completa. Si lo dejas vacío, se
+            muestra un vinilo genérico. Solo afecta a los discos destacados del
+            inicio.
           </p>
         </div>
       </aside>
