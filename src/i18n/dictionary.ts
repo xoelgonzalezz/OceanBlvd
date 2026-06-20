@@ -26,7 +26,7 @@ const es = {
     toDark: "Activar modo oscuro",
     toEs: "Cambiar a español",
     toEn: "Cambiar a inglés",
-    langTheme: "Idioma y tema",
+    langTheme: "Idioma",
     skip: "Saltar al contenido",
   },
   hero: {
@@ -363,7 +363,7 @@ const en: typeof es = {
     toDark: "Switch to dark mode",
     toEs: "Switch to Spanish",
     toEn: "Switch to English",
-    langTheme: "Language & theme",
+    langTheme: "Language",
     skip: "Skip to content",
   },
   hero: {

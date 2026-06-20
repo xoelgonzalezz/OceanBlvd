@@ -5,7 +5,6 @@ import { Logo } from "@/components/layout/logo";
 import { NavLink } from "@/components/layout/nav-link";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { SearchCommand } from "@/components/layout/search-command";
-import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { LanguageToggle } from "@/components/layout/language-toggle";
 import { CartButton } from "@/components/layout/cart-button";
 import { getDict } from "@/i18n/server";
@@ -40,11 +39,10 @@ export async function Header() {
 
         <div className="ml-auto flex items-center gap-0.5 sm:gap-1">
           <SearchCommand />
-          {/* Idioma y tema: en móvil van dentro del menú (evita que la barra
-              se desborde en pantallas estrechas tipo iPhone). */}
+          {/* Idioma: en móvil va dentro del menú (evita que la barra se
+              desborde en pantallas estrechas tipo iPhone). */}
           <div className="hidden items-center gap-0.5 sm:flex sm:gap-1">
             <LanguageToggle />
-            <ThemeToggle />
           </div>
           <Link
             href={user ? "/cuenta" : "/acceso"}
