@@ -25,6 +25,7 @@ const ALLOWED_IMG_HOSTS = [
   /^coverartarchive\.org$/,
   /^i\.ibb\.co$/,
   /^i\.imgur\.com$/,
+  /(^|\.)umusic\.ca$/,
 ];
 
 /**

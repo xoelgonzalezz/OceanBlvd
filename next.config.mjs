@@ -52,6 +52,7 @@ const nextConfig = {
       { protocol: "https", hostname: "coverartarchive.org" }, // Cover Art Archive (MusicBrainz)
       { protocol: "https", hostname: "i.ibb.co" }, // ImgBB (subidas propias: vinilos, etc.)
       { protocol: "https", hostname: "i.imgur.com" }, // Imgur (subidas propias)
+      { protocol: "https", hostname: "*.umusic.ca" }, // Universal Music (tiendas oficiales)
     ],
   },
   async headers() {
