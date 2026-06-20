@@ -7,9 +7,36 @@ import { safeImg } from "@/lib/utils";
 import { getDict } from "@/i18n/server";
 import type { RecordCard } from "@/types";
 
+const COVER_PLACEHOLDER = "/placeholders/cover-01.svg";
+
 export function Hero({ record }: { record: RecordCard | null }) {
   const t = getDict();
   const cover = record?.images[0];
+  // Imagen del vinilo (opcional, definida en el admin). Si no hay, el hero
+  // muestra SOLO la portada.
+  const vinyl = record?.vinylImage ? safeImg(record.vinylImage, "") : "";
+  const spin = record?.vinylSpin ?? true;
+  const stillImage = vinyl && !spin ? vinyl : ""; // foto de producto, quieta
+
+  // Título + artista debajo (modos «solo portada» e «imagen normal»).
+  const titleBelow = record ? (
+    <div className="mt-5 text-center">
+      <h2 className="text-balance font-serif text-xl font-semibold leading-snug">
+        {record.title}
+      </h2>
+      <span className="text-sm text-muted-foreground">{record.artist.name}</span>
+    </div>
+  ) : null;
+
+  // Pie sobre la portada (modo «disco girando»).
+  const captionOverlay = record ? (
+    <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+      <span className="block font-serif text-lg font-medium text-white">
+        {record.title}
+      </span>
+      <span className="block text-sm text-white/80">{record.artist.name}</span>
+    </span>
+  ) : null;
 
   return (
     <section className="relative overflow-hidden border-b border-border/60">
@@ -64,35 +91,72 @@ export function Hero({ record }: { record: RecordCard | null }) {
           </ul>
         </div>
 
-        {/* Visual: solo la portada del disco destacado (las demás fotos van en
-            la galería de la ficha del producto). */}
-        <div className="mx-auto flex w-full max-w-[20rem] flex-col items-center animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-md">
-          {cover && record ? (
-            <>
-              <Link
-                href={`/producto/${record.slug}`}
-                className="group relative z-10 block aspect-square w-full overflow-hidden rounded-xl shadow-2xl ring-1 ring-border/60"
-              >
-                <Image
-                  src={safeImg(cover.url, "/placeholders/cover-01.svg")}
-                  alt={cover.alt}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 90vw, 45vw"
-                  className="object-cover transition-transform duration-700 ease-out-quint group-hover:scale-105"
-                />
-              </Link>
-              <div className="mt-5 text-center">
-                <h2 className="text-balance font-serif text-xl font-semibold leading-snug">
-                  {record.title}
-                </h2>
-                <span className="text-sm text-muted-foreground">
-                  {record.artist.name}
-                </span>
-              </div>
-            </>
-          ) : null}
-        </div>
+        {/* Visual del disco destacado. El admin elige (campo «Imagen del
+            vinilo» + «Cómo mostrarla»): solo portada / disco girando / imagen. */}
+        {stillImage && record ? (
+          /* Imagen normal: foto de producto entera y quieta, título debajo. */
+          <div className="mx-auto flex w-full max-w-md flex-col items-center animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-xl lg:max-w-2xl">
+            <Link
+              href={`/producto/${record.slug}`}
+              className="group relative z-10 block aspect-[4/3] w-full"
+            >
+              <Image
+                src={stillImage}
+                alt={cover?.alt ?? record.title}
+                fill
+                priority
+                sizes="(max-width: 1024px) 92vw, 50vw"
+                className="object-contain drop-shadow-2xl transition-transform duration-700 ease-out-quint group-hover:scale-[1.03]"
+              />
+            </Link>
+            {titleBelow}
+          </div>
+        ) : vinyl && record ? (
+          /* Disco girando: la foto del vinilo gira detrás de la portada. */
+          <div className="relative mx-auto aspect-square w-full max-w-[20rem] animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-md">
+            <div className="absolute right-0 top-1/2 aspect-square w-[74%] -translate-y-1/2 overflow-hidden rounded-full shadow-2xl ring-1 ring-black/20 motion-safe:animate-spin-slow sm:right-[-8%] sm:w-[82%]">
+              <Image
+                src={vinyl}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 60vw, 30vw"
+                className="object-cover"
+              />
+            </div>
+            <Link
+              href={`/producto/${record.slug}`}
+              className="group relative z-10 block aspect-square w-[82%] overflow-hidden rounded-lg shadow-2xl ring-1 ring-border/60"
+            >
+              <Image
+                src={safeImg(cover?.url, COVER_PLACEHOLDER)}
+                alt={cover?.alt ?? record.title}
+                fill
+                priority
+                sizes="(max-width: 1024px) 80vw, 40vw"
+                className="object-cover transition-transform duration-700 ease-out-quint group-hover:scale-105"
+              />
+              {captionOverlay}
+            </Link>
+          </div>
+        ) : cover && record ? (
+          /* Solo la portada (por defecto). */
+          <div className="mx-auto flex w-full max-w-[20rem] flex-col items-center animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-md">
+            <Link
+              href={`/producto/${record.slug}`}
+              className="group relative z-10 block aspect-square w-full overflow-hidden rounded-xl shadow-2xl ring-1 ring-border/60"
+            >
+              <Image
+                src={safeImg(cover.url, COVER_PLACEHOLDER)}
+                alt={cover.alt}
+                fill
+                priority
+                sizes="(max-width: 1024px) 90vw, 45vw"
+                className="object-cover transition-transform duration-700 ease-out-quint group-hover:scale-105"
+              />
+            </Link>
+            {titleBelow}
+          </div>
+        ) : null}
       </div>
     </section>
   );
