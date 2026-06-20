@@ -88,7 +88,7 @@ export function Hero({ record }: { record: RecordCard | null }) {
           /* Modo «imagen normal»: la foto de producto (PNG transparente) flota
              grande, sin marco, con la sombra siguiendo su silueta, y el título
              debajo a modo de ficha. */
-          <div className="mx-auto w-full max-w-md animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-xl lg:max-w-2xl">
+          <div className="mx-auto flex w-full max-w-md flex-col items-center animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-xl lg:max-w-2xl">
             <Link
               href={`/producto/${record.slug}`}
               className="group relative z-10 block aspect-[4/3] w-full"
