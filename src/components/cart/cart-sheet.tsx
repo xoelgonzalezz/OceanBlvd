@@ -116,9 +116,15 @@ export function CartSheet() {
                         <div className="flex items-center rounded-md border">
                           <button
                             type="button"
-                            aria-label={t.detail.decreaseQty}
+                            aria-label={
+                              item.quantity <= 1
+                                ? t.cart.remove
+                                : t.detail.decreaseQty
+                            }
                             onClick={() =>
-                              updateQuantity(item.id, item.quantity - 1)
+                              item.quantity <= 1
+                                ? removeItem(item.id)
+                                : updateQuantity(item.id, item.quantity - 1)
                             }
                             className="flex h-7 w-7 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
                           >
