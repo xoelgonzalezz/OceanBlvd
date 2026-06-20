@@ -84,26 +84,38 @@ export function Hero({ record }: { record: RecordCard | null }) {
         </div>
 
         {/* Visual: o bien una imagen destacada normal, o bien portada + vinilo girando */}
-        <div className="relative mx-auto aspect-square w-full max-w-[20rem] animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-md">
-          {stillImage && record ? (
-            /* Modo «imagen normal»: la foto de producto, entera y quieta, SIN
-               marco ni recorte, para que un PNG transparente flote sobre el
-               fondo. La sombra sigue la silueta (drop-shadow), no un cuadrado. */
+        {stillImage && record ? (
+          /* Modo «imagen normal»: la foto de producto (PNG transparente) flota
+             grande, sin marco, con la sombra siguiendo su silueta, y el título
+             debajo a modo de ficha. */
+          <div className="mx-auto w-full max-w-md animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-xl lg:max-w-2xl">
             <Link
               href={`/producto/${record.slug}`}
-              className="group relative z-10 block aspect-square w-full"
+              className="group relative z-10 block aspect-[4/3] w-full"
             >
               <Image
                 src={stillImage}
                 alt={cover?.alt ?? record.title}
                 fill
                 priority
-                sizes="(max-width: 1024px) 90vw, 45vw"
+                sizes="(max-width: 1024px) 92vw, 50vw"
                 className="object-contain drop-shadow-2xl transition-transform duration-700 ease-out-quint group-hover:scale-[1.03]"
               />
             </Link>
-          ) : (
-            <>
+            <div className="mt-5 text-center sm:text-left">
+              <span className="block text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                {t.hero.exclusive}
+              </span>
+              <h2 className="mt-1 text-balance font-serif text-xl font-semibold leading-snug">
+                {record.title}
+              </h2>
+              <span className="text-sm text-muted-foreground">
+                {record.artist.name}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="relative mx-auto aspect-square w-full max-w-[20rem] animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-md">
               {vinyl ? (
                 /* Foto del vinilo real (gestionada desde el admin), girando. */
                 <div className="absolute right-0 top-1/2 aspect-square w-[74%] -translate-y-1/2 overflow-hidden rounded-full shadow-2xl ring-1 ring-black/20 motion-safe:animate-spin-slow sm:right-[-8%] sm:w-[82%]">
@@ -149,9 +161,8 @@ export function Hero({ record }: { record: RecordCard | null }) {
                   {caption}
                 </Link>
               ) : null}
-            </>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );
