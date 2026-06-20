@@ -145,6 +145,7 @@ type ParsedRecord =
       };
       tracks: { position: number; title: string; duration: string | null }[];
       coverUrl: string;
+      image2Url: string;
     };
 
 function parseRecordForm(formData: FormData): ParsedRecord {
@@ -168,6 +169,8 @@ function parseRecordForm(formData: FormData): ParsedRecord {
   const descriptionEn = String(formData.get("descriptionEn") || "").trim();
   const featured = formData.get("featured") === "on";
   const coverUrl = safeImageUrl(String(formData.get("coverUrl") || ""));
+  // Segunda foto (opcional), p. ej. el vinilo, para la galería del producto.
+  const image2Url = safeImageUrl(String(formData.get("image2") || ""));
   const tracksText = String(formData.get("tracks") || "");
 
   if (!title) return { error: "El título es obligatorio." };
@@ -201,7 +204,30 @@ function parseRecordForm(formData: FormData): ParsedRecord {
     },
     tracks: parseTracks(tracksText),
     coverUrl,
+    image2Url,
   };
+}
+
+/** Construye las imágenes del disco: portada (pos. 0) y 2ª foto opcional (pos. 1). */
+function buildRecordImages(
+  parsed: { coverUrl: string; image2Url: string; data: { title: string } },
+  artistName: string
+) {
+  const images = [
+    {
+      url: parsed.coverUrl || "/placeholders/cover-01.svg",
+      alt: `Portada de ${parsed.data.title} de ${artistName}`,
+      position: 0,
+    },
+  ];
+  if (parsed.image2Url) {
+    images.push({
+      url: parsed.image2Url,
+      alt: `${parsed.data.title} de ${artistName} — vinilo`,
+      position: 1,
+    });
+  }
+  return images;
 }
 
 async function uniqueRecordSlug(base: string): Promise<string> {
@@ -234,15 +260,7 @@ export async function createRecordAction(
         ...parsed.data,
         slug,
         decade: decadeOf(parsed.data.year),
-        images: {
-          create: [
-            {
-              url: parsed.coverUrl || "/placeholders/cover-01.svg",
-              alt: `Portada de ${parsed.data.title} de ${artist.name}`,
-              position: 0,
-            },
-          ],
-        },
+        images: { create: buildRecordImages(parsed, artist.name) },
         tracks: { create: parsed.tracks },
       },
     });
@@ -280,15 +298,7 @@ export async function updateRecordAction(
         data: {
           ...parsed.data,
           decade: decadeOf(parsed.data.year),
-          images: {
-            create: [
-              {
-                url: parsed.coverUrl || "/placeholders/cover-01.svg",
-                alt: `Portada de ${parsed.data.title} de ${artist.name}`,
-                position: 0,
-              },
-            ],
-          },
+          images: { create: buildRecordImages(parsed, artist.name) },
           tracks: { create: parsed.tracks },
         },
       }),

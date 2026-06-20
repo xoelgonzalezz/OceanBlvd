@@ -37,6 +37,7 @@ export interface RecordInitial {
   descriptionEn: string;
   featured: boolean;
   coverUrl: string;
+  image2Url: string;
   vinylUrl: string;
   vinylSpin: boolean;
   tracksText: string;
@@ -78,6 +79,7 @@ export function RecordForm({
   const [title, setTitle] = React.useState(initial?.title ?? "");
   const [artistId, setArtistId] = React.useState(initial?.artistId ?? "");
   const [coverUrl, setCoverUrl] = React.useState(initial?.coverUrl ?? "");
+  const [image2Url, setImage2Url] = React.useState(initial?.image2Url ?? "");
   const [vinylUrl, setVinylUrl] = React.useState(initial?.vinylUrl ?? "");
   const [searching, setSearching] = React.useState(false);
 
@@ -319,6 +321,35 @@ export function RecordForm({
         <p className="text-xs text-muted-foreground">
           Pega una URL de imagen o búscala automáticamente por artista y título.
         </p>
+
+        {/* Segunda foto (opcional) — p. ej. el vinilo; se ve en la galería */}
+        <div className="pt-4">
+          <Label htmlFor="image2">Segunda foto (opcional)</Label>
+          <div className="relative mt-1.5 flex aspect-square items-center justify-center overflow-hidden rounded-md border bg-muted">
+            {image2Url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={image2Url}
+                alt="Vista previa de la segunda foto"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <ImageIcon className="h-8 w-8 text-muted-foreground" />
+            )}
+          </div>
+          <Input
+            id="image2"
+            name="image2"
+            value={image2Url}
+            onChange={(e) => setImage2Url(e.target.value)}
+            placeholder="https://…/vinilo.jpg"
+            className="mt-3"
+          />
+          <p className="mt-2 text-xs text-muted-foreground">
+            Una segunda imagen para la galería del producto (p. ej. una foto del
+            vinilo). Aparece como miniatura junto a la portada.
+          </p>
+        </div>
 
         {/* Imagen del vinilo real (opcional) — se muestra girando en el hero */}
         <div className="pt-4">

@@ -21,7 +21,7 @@ import {
   SHIPPING_FLAT_CENTS,
   SITE,
 } from "@/lib/constants";
-import { jsonLd, truncate } from "@/lib/utils";
+import { jsonLd, truncate, safeImg } from "@/lib/utils";
 import { Stars } from "@/components/reviews/stars";
 import { ReviewSection } from "@/components/reviews/review-section";
 import { getDict, getLocale, pick } from "@/i18n/server";
@@ -259,7 +259,12 @@ export default async function ProductPage({
       </nav>
 
       <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:gap-14">
-        <Gallery images={record.images.map((i) => ({ url: i.url, alt: i.alt }))} />
+        <Gallery
+          images={record.images.map((i) => ({
+            url: safeImg(i.url, "/placeholders/cover-01.svg"),
+            alt: i.alt,
+          }))}
+        />
 
         <div>
           <Link

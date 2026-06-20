@@ -46,6 +46,7 @@ export default async function EditRecordPage({
     descriptionEn: record.descriptionEn ?? "",
     featured: record.featured,
     coverUrl: record.images[0]?.url ?? "",
+    image2Url: record.images[1]?.url ?? "",
     vinylUrl: record.vinylImage ?? "",
     vinylSpin: record.vinylSpin,
     tracksText: record.tracks
