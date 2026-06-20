@@ -11,34 +11,17 @@ export function jsonLd(data: unknown): string {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
-// Hosts de imagen permitidos por next.config (remotePatterns). Si una portada
-// viene de otro dominio, next/image lanza un error y ROMPE la página entera
-// (error 500). Por eso validamos y, si no es válida, caemos a un placeholder.
-const ALLOWED_IMG_HOSTS = [
-  /(^|\.)mzstatic\.com$/,
-  /(^|\.)dzcdn\.net$/,
-  /^upload\.wikimedia\.org$/,
-  /(^|\.)scdn\.co$/,
-  /^m\.media-amazon\.com$/,
-  /^images-na\.ssl-images-amazon\.com$/,
-  /^i\.discogs\.com$/,
-  /^coverartarchive\.org$/,
-  /^i\.ibb\.co$/,
-  /^i\.imgur\.com$/,
-  /(^|\.)umusic\.ca$/,
-];
-
 /**
- * Devuelve una `src` segura para <Image>: acepta rutas locales ("/...") o URLs
- * de hosts permitidos; en cualquier otro caso devuelve el `fallback`. Evita el
- * 500 cuando una portada usa un dominio no listado en remotePatterns.
+ * Devuelve una `src` segura para <Image>: acepta rutas locales ("/...") o
+ * cualquier URL http(s) (el dueño puede subir imágenes de cualquier dominio).
+ * Bloquea esquemas peligrosos (javascript:, data:…) cayendo al `fallback`.
  */
 export function safeImg(src: string | null | undefined, fallback: string): string {
   if (!src) return fallback;
   if (src.startsWith("/")) return src;
   try {
-    const host = new URL(src).hostname;
-    return ALLOWED_IMG_HOSTS.some((re) => re.test(host)) ? src : fallback;
+    const { protocol } = new URL(src);
+    return protocol === "https:" || protocol === "http:" ? src : fallback;
   } catch {
     return fallback;
   }

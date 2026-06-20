@@ -40,20 +40,10 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Hosts de imágenes permitidos (evita SSRF por el optimizador con "**").
-    remotePatterns: [
-      { protocol: "https", hostname: "*.mzstatic.com" }, // iTunes / Apple Music
-      { protocol: "https", hostname: "*.dzcdn.net" }, // Deezer
-      { protocol: "https", hostname: "upload.wikimedia.org" }, // Wikipedia
-      { protocol: "https", hostname: "*.scdn.co" }, // Spotify (por si acaso)
-      { protocol: "https", hostname: "m.media-amazon.com" }, // Amazon (portadas pegadas a mano)
-      { protocol: "https", hostname: "images-na.ssl-images-amazon.com" }, // Amazon (variante)
-      { protocol: "https", hostname: "i.discogs.com" }, // Discogs
-      { protocol: "https", hostname: "coverartarchive.org" }, // Cover Art Archive (MusicBrainz)
-      { protocol: "https", hostname: "i.ibb.co" }, // ImgBB (subidas propias: vinilos, etc.)
-      { protocol: "https", hostname: "i.imgur.com" }, // Imgur (subidas propias)
-      { protocol: "https", hostname: "*.umusic.ca" }, // Universal Music (tiendas oficiales)
-    ],
+    // Se permite cualquier host HTTPS: el dueño pega URLs de imágenes desde el
+    // admin y quiere poder usar cualquier dominio. (Solo el admin define estas
+    // URLs, así que el riesgo del optimizador es asumible para esta tienda.)
+    remotePatterns: [{ protocol: "https", hostname: "**" }],
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

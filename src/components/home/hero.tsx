@@ -10,25 +10,6 @@ import type { RecordCard } from "@/types";
 export function Hero({ record }: { record: RecordCard | null }) {
   const t = getDict();
   const cover = record?.images[0];
-  // Foto del vinilo real (si el admin la ha puesto y el host está permitido).
-  // Si no, caemos en el disco genérico generado por CSS.
-  const vinyl = record?.vinylImage ? safeImg(record.vinylImage, "") : "";
-  // ¿Gira como disco (foto de frente) o se muestra como imagen normal destacada?
-  const spin = record?.vinylSpin ?? true;
-  const stillImage = vinyl && !spin ? vinyl : "";
-
-  // Pie con «edición exclusiva» + título + artista (reutilizado en los modos).
-  const caption = record ? (
-    <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-      <span className="block text-[11px] font-medium uppercase tracking-[0.18em] text-white/80">
-        {t.hero.exclusive}
-      </span>
-      <span className="block font-serif text-lg font-medium text-white">
-        {record.title}
-      </span>
-      <span className="block text-sm text-white/80">{record.artist.name}</span>
-    </span>
-  ) : null;
 
   return (
     <section className="relative overflow-hidden border-b border-border/60">
@@ -83,83 +64,35 @@ export function Hero({ record }: { record: RecordCard | null }) {
           </ul>
         </div>
 
-        {/* Visual: o bien una imagen destacada normal, o bien portada + vinilo girando */}
-        {stillImage && record ? (
-          /* Modo «imagen normal»: la foto de producto (PNG transparente) flota
-             grande, sin marco, con la sombra siguiendo su silueta, y el título
-             debajo a modo de ficha. */
-          <div className="mx-auto flex w-full max-w-md flex-col items-center animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-xl lg:max-w-2xl">
-            <Link
-              href={`/producto/${record.slug}`}
-              className="group relative z-10 block aspect-[4/3] w-full"
-            >
-              <Image
-                src={stillImage}
-                alt={cover?.alt ?? record.title}
-                fill
-                priority
-                sizes="(max-width: 1024px) 92vw, 50vw"
-                className="object-contain drop-shadow-2xl transition-transform duration-700 ease-out-quint group-hover:scale-[1.03]"
-              />
-            </Link>
-            <div className="mt-5 text-center">
-              <h2 className="text-balance font-serif text-xl font-semibold leading-snug">
-                {record.title}
-              </h2>
-              <span className="text-sm text-muted-foreground">
-                {record.artist.name}
-              </span>
-            </div>
-          </div>
-        ) : (
-          <div className="relative mx-auto aspect-square w-full max-w-[20rem] animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-md">
-              {vinyl ? (
-                /* Foto del vinilo real (gestionada desde el admin), girando. */
-                <div className="absolute right-0 top-1/2 aspect-square w-[74%] -translate-y-1/2 overflow-hidden rounded-full shadow-2xl ring-1 ring-black/20 motion-safe:animate-spin-slow sm:right-[-8%] sm:w-[82%]">
-                  <Image
-                    src={vinyl}
-                    alt=""
-                    fill
-                    sizes="(max-width: 1024px) 60vw, 30vw"
-                    className="object-cover"
-                  />
-                </div>
-              ) : (
-                /* Vinilo genérico (CSS): negro liso con etiqueta neutra. NO lleva la
-                   portada del álbum (un vinilo real no la lleva en la etiqueta), así
-                   no mostramos nada que no sea cierto. Es solo decorativo. */
-                <div
-                  className="absolute right-0 top-1/2 aspect-square w-[74%] -translate-y-1/2 rounded-full shadow-2xl ring-1 ring-black/20 motion-safe:animate-spin-slow sm:right-[-8%] sm:w-[82%]"
-                  style={{
-                    background:
-                      "repeating-radial-gradient(circle at center, #131313 0px, #131313 1.5px, #242424 3px, #242424 4.5px)",
-                  }}
-                >
-                  {/* Etiqueta central lisa (color neutro), no la carátula. */}
-                  <div className="absolute left-1/2 top-1/2 h-[34%] w-[34%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-neutral-800 ring-1 ring-black/40" />
-                  <div className="absolute left-1/2 top-1/2 h-[3.5%] w-[3.5%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-background ring-1 ring-black/30" />
-                </div>
-              )}
-
-              {/* Portada exclusiva (delante del disco) */}
-              {cover && record ? (
-                <Link
-                  href={`/producto/${record.slug}`}
-                  className="group relative z-10 block aspect-square w-[82%] overflow-hidden rounded-lg shadow-2xl ring-1 ring-border/60"
-                >
-                  <Image
-                    src={cover.url}
-                    alt={cover.alt}
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 80vw, 40vw"
-                    className="object-cover transition-transform duration-700 ease-out-quint group-hover:scale-105"
-                  />
-                  {caption}
-                </Link>
-              ) : null}
-          </div>
-        )}
+        {/* Visual: solo la portada del disco destacado (las demás fotos van en
+            la galería de la ficha del producto). */}
+        <div className="mx-auto flex w-full max-w-[20rem] flex-col items-center animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-md">
+          {cover && record ? (
+            <>
+              <Link
+                href={`/producto/${record.slug}`}
+                className="group relative z-10 block aspect-square w-full overflow-hidden rounded-xl shadow-2xl ring-1 ring-border/60"
+              >
+                <Image
+                  src={safeImg(cover.url, "/placeholders/cover-01.svg")}
+                  alt={cover.alt}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 90vw, 45vw"
+                  className="object-cover transition-transform duration-700 ease-out-quint group-hover:scale-105"
+                />
+              </Link>
+              <div className="mt-5 text-center">
+                <h2 className="text-balance font-serif text-xl font-semibold leading-snug">
+                  {record.title}
+                </h2>
+                <span className="text-sm text-muted-foreground">
+                  {record.artist.name}
+                </span>
+              </div>
+            </>
+          ) : null}
+        </div>
       </div>
     </section>
   );
