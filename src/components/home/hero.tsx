@@ -86,10 +86,12 @@ export function Hero({ record }: { record: RecordCard | null }) {
         {/* Visual: o bien una imagen destacada normal, o bien portada + vinilo girando */}
         <div className="relative mx-auto aspect-square w-full max-w-[20rem] animate-scale-in opacity-0 [animation-delay:200ms] sm:max-w-md">
           {stillImage && record ? (
-            /* Modo «imagen normal»: la foto de producto se muestra entera y quieta. */
+            /* Modo «imagen normal»: la foto de producto, entera y quieta, SIN
+               marco ni recorte, para que un PNG transparente flote sobre el
+               fondo. La sombra sigue la silueta (drop-shadow), no un cuadrado. */
             <Link
               href={`/producto/${record.slug}`}
-              className="group relative z-10 block aspect-square w-full overflow-hidden rounded-2xl shadow-2xl ring-1 ring-border/60"
+              className="group relative z-10 block aspect-square w-full"
             >
               <Image
                 src={stillImage}
@@ -97,9 +99,8 @@ export function Hero({ record }: { record: RecordCard | null }) {
                 fill
                 priority
                 sizes="(max-width: 1024px) 90vw, 45vw"
-                className="object-cover transition-transform duration-700 ease-out-quint group-hover:scale-[1.03]"
+                className="object-contain drop-shadow-2xl transition-transform duration-700 ease-out-quint group-hover:scale-[1.03]"
               />
-              {caption}
             </Link>
           ) : (
             <>
