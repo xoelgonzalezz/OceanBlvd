@@ -570,8 +570,8 @@ export async function deleteUserAction(formData: FormData) {
 /* ---------- Pedidos / envíos ---------- */
 
 /**
- * Marca un pedido como ENVIADO, guarda el localizador de Correos y avisa al
- * comprador por email con el enlace de seguimiento.
+ * Marca un pedido como ENVIADO, guarda el número de seguimiento de Packlink y
+ * avisa al comprador por email con el enlace al rastreador.
  */
 export async function markOrderShippedAction(formData: FormData) {
   if (!(await isAdminRequest())) return;

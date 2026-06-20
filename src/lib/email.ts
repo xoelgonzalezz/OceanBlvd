@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-import { SITE, correosTrackingUrl } from "@/lib/constants";
+import { SITE, PACKLINK_TRACKING_URL } from "@/lib/constants";
 import { getOrderById } from "@/lib/queries";
 import { generateReceiptPdf } from "@/lib/receipt";
 
@@ -269,13 +269,13 @@ export async function sendOrderConfirmation(orderId: string): Promise<void> {
   );
 }
 
-/** Email de "pedido enviado" con el localizador y el enlace de Correos. */
+/** Email de "pedido enviado" con el número de seguimiento y el rastreador de Packlink. */
 export function shippingHtml(order: OrderFull): string {
   const ref = order.id.slice(-8).toUpperCase();
   const first = order.fullName.split(" ")[0];
   const carrier = order.carrier ?? "Correos";
   const tracking = order.trackingNumber ?? "";
-  const trackUrl = correosTrackingUrl(tracking);
+  const trackUrl = PACKLINK_TRACKING_URL;
 
   return emailShell(
     "Tu pedido va de camino",
@@ -291,7 +291,7 @@ export function shippingHtml(order: OrderFull): string {
        <a href="${trackUrl}" style="display:inline-block;background:#0f0f0f;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:14px;text-decoration:none;padding:12px 22px;border-radius:4px;">Seguir mi envío</a>
      </div>
      <p style="margin:22px 0 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#9b958a;line-height:1.6;">
-       El seguimiento puede tardar unas horas en mostrar el primer movimiento. Si el botón no funciona, entra en <a href="https://www.correos.es/es/es/herramientas/localizador/envios" style="color:#0f0f0f;">correos.es</a> y pega el número de arriba.
+       El seguimiento puede tardar unas horas en mostrar el primer movimiento. Tu envío se gestiona a través de Packlink: si el botón no funciona, entra en <a href="https://www.packlink.es/seguimiento-envios/" style="color:#0f0f0f;">packlink.es/seguimiento-envios</a> y pega el número de arriba.
      </p>
      <div style="margin-top:28px;padding-top:24px;border-top:1px solid #e7e5e0;">
        <div style="font-family:Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9b958a;margin-bottom:8px;">Envío a</div>

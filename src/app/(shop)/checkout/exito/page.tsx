@@ -10,7 +10,7 @@ import { ClearCart } from "@/components/checkout/clear-cart";
 import { getOrderForConfirmation } from "@/lib/queries";
 import { getCurrentUser } from "@/lib/auth/session";
 import { formatPrice } from "@/lib/utils";
-import { correosTrackingUrl } from "@/lib/constants";
+import { PACKLINK_TRACKING_URL } from "@/lib/constants";
 import { getDict } from "@/i18n/server";
 
 export const metadata: Metadata = {
@@ -91,7 +91,7 @@ export default async function CheckoutSuccessPage({
             </p>
             <Button asChild className="mt-3">
               <a
-                href={correosTrackingUrl(order.trackingNumber)}
+                href={PACKLINK_TRACKING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >

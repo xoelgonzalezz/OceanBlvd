@@ -14,18 +14,18 @@ export const ORDER_STATUS_LABELS: Record<string, string> = {
   CANCELLED: "Cancelado",
 };
 
-/** Transportista por defecto de los envíos. */
+/** Transportista por defecto de los envíos (Correos contratado vía Packlink). */
 export const DEFAULT_CARRIER = "Correos";
 
 /**
- * Enlace público al localizador de Correos con el número de seguimiento.
- * Si el parámetro cambia, basta con tocar aquí; el número se muestra siempre
- * aparte para que el cliente pueda copiarlo y pegarlo a mano.
+ * Rastreador de Packlink. Los envíos se gestionan a través de Packlink, así
+ * que el seguimiento se hace en su localizador, que acepta tanto la referencia
+ * de Packlink ("ES…") como el número del transportista. El rastreador no admite
+ * enlace directo con el número en la URL: por eso el número se muestra siempre
+ * aparte para que el cliente lo copie y lo pegue en el buscador de la página.
  */
-export function correosTrackingUrl(trackingNumber: string): string {
-  const base = "https://www.correos.es/es/es/herramientas/localizador/envios";
-  return `${base}?tracking-number=${encodeURIComponent(trackingNumber.trim())}`;
-}
+export const PACKLINK_TRACKING_URL =
+  "https://www.packlink.es/seguimiento-envios/";
 
 /** Gradación del estado del disco (Goldmine Standard). */
 export const GRADE_LABELS: Record<string, string> = {

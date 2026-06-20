@@ -8,7 +8,7 @@ import { getAdminOrders } from "@/lib/queries";
 import { markOrderShippedAction } from "@/app/admin/actions";
 import { DeleteOrderButton } from "@/components/admin/delete-order-button";
 import { formatPrice } from "@/lib/utils";
-import { ORDER_STATUS_LABELS, correosTrackingUrl } from "@/lib/constants";
+import { ORDER_STATUS_LABELS, PACKLINK_TRACKING_URL } from "@/lib/constants";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +25,7 @@ const MESSAGES: Record<string, string> = {
   "order-shipped":
     "Pedido marcado como enviado. Hemos mandado al comprador un email con el enlace de seguimiento.",
   "tracking-required":
-    "Escribe el número de seguimiento (localizador) de Correos antes de marcarlo como enviado.",
+    "Escribe el número de seguimiento de Packlink antes de marcarlo como enviado.",
   "order-missing": "Ese pedido ya no existe.",
   "order-not-payable":
     "Solo puedes marcar como enviado un pedido que ya esté pagado.",
@@ -171,7 +171,7 @@ export default async function AdminOrdersPage({
                           {order.trackingNumber}
                         </span>
                         <a
-                          href={correosTrackingUrl(order.trackingNumber)}
+                          href={PACKLINK_TRACKING_URL}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1 text-primary underline"
@@ -190,13 +190,13 @@ export default async function AdminOrdersPage({
                           htmlFor={`tracking-${order.id}`}
                           className="mb-1 block text-xs text-muted-foreground"
                         >
-                          Nº de seguimiento de Correos (localizador)
+                          Nº de seguimiento de Packlink
                         </label>
                         <Input
                           id={`tracking-${order.id}`}
                           name="trackingNumber"
                           defaultValue={order.trackingNumber ?? ""}
-                          placeholder="Ej. PQ1234567890ES"
+                          placeholder="Ej. ES2025COM0000000000"
                           required
                         />
                       </div>

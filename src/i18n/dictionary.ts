@@ -230,7 +230,7 @@ const es = {
     statusCancelled: "Cancelado",
     trackingTitle: "Seguimiento del envío",
     trackingNumber: "Nº de seguimiento",
-    trackButton: "Seguir mi envío en Correos",
+    trackButton: "Seguir mi envío en Packlink",
     shippedVia: (carrier: string) => `Enviado por ${carrier}`,
     confirmingPayment:
       "Estamos confirmando tu pago. En cuanto se confirme te llegará el email con la confirmación del pedido.",
@@ -571,7 +571,7 @@ const en: typeof es = {
     statusCancelled: "Cancelled",
     trackingTitle: "Shipment tracking",
     trackingNumber: "Tracking number",
-    trackButton: "Track my shipment on Correos",
+    trackButton: "Track my shipment on Packlink",
     shippedVia: (carrier: string) => `Shipped via ${carrier}`,
     confirmingPayment:
       "We're confirming your payment. As soon as it's confirmed you'll get the order confirmation email.",
