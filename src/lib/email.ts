@@ -116,7 +116,7 @@ function emailShell(subtitle: string, body: string): string {
           <div style="font-family:Helvetica,Arial,sans-serif;color:#bdb8ad;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-top:6px;">${subtitle}</div>
         </td></tr>
         <tr><td style="font-size:0;line-height:0;">
-          <img src="${SITE.url}/email/collage.jpg" width="560" alt="Ocean Blvd Vinyl" style="display:block;width:100%;height:auto;border:0;" />
+          <img src="${SITE.url}/email/collage-banner.jpg" width="560" alt="Ocean Blvd Vinyl" style="display:block;width:100%;height:auto;border:0;" />
         </td></tr>
         <tr><td style="padding:32px;">${body}</td></tr>
         <tr><td style="background:#0f0f0f;padding:22px 32px;">
