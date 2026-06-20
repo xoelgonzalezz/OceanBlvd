@@ -6,6 +6,7 @@ import { ChevronRight, Truck, RotateCcw, ShieldCheck } from "lucide-react";
 import { Gallery } from "@/components/product/gallery";
 import { BuyBox } from "@/components/product/buy-box";
 import { Tracklist } from "@/components/product/tracklist";
+import { GradeInfo } from "@/components/product/grade-info";
 import { ConditionBadge } from "@/components/shared/condition-badge";
 import { Price } from "@/components/shared/price";
 import { RecordGrid } from "@/components/shared/record-grid";
@@ -211,7 +212,21 @@ export default async function ProductPage({
       ? [
           {
             label: t.detail.grade,
-            value: GRADE_LABELS[record.mediaGrade] ?? record.mediaGrade,
+            value: (
+              <span className="inline-flex items-center gap-1.5">
+                {GRADE_LABELS[record.mediaGrade] ?? record.mediaGrade}
+                {GRADE_DESCRIPTIONS[record.mediaGrade] ? (
+                  <GradeInfo
+                    label={t.detail.gradeInfo}
+                    text={pick(
+                      locale,
+                      GRADE_DESCRIPTIONS[record.mediaGrade],
+                      GRADE_DESCRIPTIONS_EN[record.mediaGrade]
+                    )}
+                  />
+                ) : null}
+              </span>
+            ),
           },
         ]
       : []),
