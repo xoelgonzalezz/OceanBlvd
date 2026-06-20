@@ -103,10 +103,7 @@ export function Hero({ record }: { record: RecordCard | null }) {
               />
             </Link>
             <div className="mt-5 text-center sm:text-left">
-              <span className="block text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                {t.hero.exclusive}
-              </span>
-              <h2 className="mt-1 text-balance font-serif text-xl font-semibold leading-snug">
+              <h2 className="text-balance font-serif text-xl font-semibold leading-snug">
                 {record.title}
               </h2>
               <span className="text-sm text-muted-foreground">
