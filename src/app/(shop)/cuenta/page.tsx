@@ -7,6 +7,7 @@ import { LogOut, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { EmptyState } from "@/components/shared/empty-state";
+import { ProfileForm } from "@/components/account/profile-form";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getUserOrders } from "@/lib/queries";
 import { formatDate, formatPrice } from "@/lib/utils";
@@ -45,6 +46,29 @@ export default async function CuentaPage() {
             <LogOut /> {t.account.logout}
           </Button>
         </form>
+      </div>
+
+      <Separator className="my-8" />
+
+      <div className="mb-2">
+        <h2 className="font-serif text-xl font-semibold">
+          {t.account.dataTitle}
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {t.account.dataDesc}
+        </p>
+      </div>
+      <div className="mb-8 mt-5">
+        <ProfileForm
+          initial={{
+            name: user.name ?? "",
+            phone: user.phone ?? "",
+            address: user.address ?? "",
+            city: user.city ?? "",
+            postalCode: user.postalCode ?? "",
+            country: user.country ?? "España",
+          }}
+        />
       </div>
 
       <Separator className="my-8" />

@@ -29,7 +29,11 @@ const initialForm = {
   notes: "",
 };
 
-export function CheckoutView() {
+export function CheckoutView({
+  initial,
+}: {
+  initial?: Partial<typeof initialForm>;
+}) {
   const router = useRouter();
   const t = useT();
   const items = useCart((s) => s.items);
@@ -40,7 +44,7 @@ export function CheckoutView() {
   const shipping = calcShipping(subtotal);
   const total = subtotal + shipping;
 
-  const [form, setForm] = React.useState(initialForm);
+  const [form, setForm] = React.useState({ ...initialForm, ...initial });
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [loading, setLoading] = React.useState(false);
 

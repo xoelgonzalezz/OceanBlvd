@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { useCart, useCartSubtotal } from "@/store/cart";
 import { formatPrice } from "@/lib/utils";
 import {
@@ -82,7 +81,7 @@ export function CartSheet() {
               </p>
             )}
 
-            <ScrollArea className="flex-1">
+            <div className="min-h-0 flex-1 overflow-y-auto">
               <ul className="divide-y px-6">
                 {items.map((item) => (
                   <li key={item.id} className="flex gap-4 py-4">
@@ -163,7 +162,7 @@ export function CartSheet() {
                   </li>
                 ))}
               </ul>
-            </ScrollArea>
+            </div>
 
             <SheetFooter className="flex-col gap-0 border-t px-6 py-5 sm:flex-col sm:space-x-0">
               <dl className="space-y-1.5 text-sm">

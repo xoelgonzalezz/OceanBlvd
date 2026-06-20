@@ -34,6 +34,16 @@ export const getCurrentUser = cache(async () => {
   if (!uid) return null;
   return db.user.findUnique({
     where: { id: uid },
-    select: { id: true, name: true, email: true, createdAt: true },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      createdAt: true,
+      phone: true,
+      address: true,
+      city: true,
+      postalCode: true,
+      country: true,
+    },
   });
 });

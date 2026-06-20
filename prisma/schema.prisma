@@ -144,6 +144,12 @@ model User {
   passwordHash      String? // opcional: las cuentas de Google no tienen contraseña
   image             String? // avatar (p. ej. de Google)
   provider          String? // "google" si se registró con Google
+  // Datos de envío guardados (para rellenar el checkout automáticamente).
+  phone             String?
+  address           String?
+  city              String?
+  postalCode        String?
+  country           String?
   verified          Boolean   @default(false) // email verificado con código
   verifyCode        String? // código de verificación (OTP de 6 dígitos)
   verifyCodeExpires DateTime?

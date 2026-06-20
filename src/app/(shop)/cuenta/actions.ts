@@ -1,12 +1,17 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import { headers, cookies } from "next/headers";
 import { randomInt, timingSafeEqual } from "node:crypto";
 
 import { db } from "@/lib/db";
 import { hashPassword, verifyPassword } from "@/lib/auth/password";
-import { createUserSession, clearUserSession } from "@/lib/auth/session";
+import {
+  createUserSession,
+  clearUserSession,
+  getCurrentUser,
+} from "@/lib/auth/session";
 import { PENDING_COOKIE, signToken, verifyToken } from "@/lib/auth/token";
 import { loginSchema, registerSchema } from "@/lib/validators";
 import { rateLimit } from "@/lib/rate-limit";
@@ -14,6 +19,39 @@ import { sendWelcomeEmail, sendVerificationCode } from "@/lib/email";
 
 export interface AuthState {
   error?: string;
+  success?: boolean;
+}
+
+/* ---------- Datos de envío del perfil ---------- */
+
+/** Guarda los datos de envío del usuario (para rellenar el checkout). */
+export async function updateProfileAction(
+  _prev: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  const user = await getCurrentUser();
+  if (!user) return { error: "Inicia sesión para guardar tus datos." };
+
+  const name = String(formData.get("name") || "").trim();
+  if (!name) return { error: "El nombre es obligatorio." };
+
+  const clean = (k: string) => String(formData.get(k) || "").trim() || null;
+
+  await db.user.update({
+    where: { id: user.id },
+    data: {
+      name,
+      phone: clean("phone"),
+      address: clean("address"),
+      city: clean("city"),
+      postalCode: clean("postalCode"),
+      country: clean("country"),
+    },
+  });
+
+  revalidatePath("/cuenta");
+  revalidatePath("/checkout");
+  return { success: true };
 }
 
 const CODE_TTL_MS = 15 * 60 * 1000; // 15 min

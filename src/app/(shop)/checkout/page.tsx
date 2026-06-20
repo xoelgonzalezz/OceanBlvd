@@ -52,7 +52,21 @@ export default async function CheckoutPage() {
         </div>
       ) : null}
 
-      <CheckoutView />
+      <CheckoutView
+        initial={
+          user
+            ? {
+                fullName: user.name ?? "",
+                email: user.email ?? "",
+                address: user.address ?? "",
+                city: user.city ?? "",
+                postalCode: user.postalCode ?? "",
+                country: user.country ?? "España",
+                phone: user.phone ?? "",
+              }
+            : undefined
+        }
+      />
     </div>
   );
 }
