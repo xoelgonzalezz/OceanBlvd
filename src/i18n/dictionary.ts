@@ -70,9 +70,6 @@ const es = {
     blogTitle: "Desde el blog",
     blogDesc: "Cultura, lanzamientos y rarezas del mundo del vinilo.",
     blogLink: "Ver todas las noticias",
-    ctaTitle: "Tu próxima joya en vinilo te está esperando.",
-    ctaDesc: "Más de 40 títulos cuidadosamente seleccionados, entre novedades y segunda mano garantizada.",
-    ctaButton: "Entrar en la tienda",
   },
   footer: {
     nlTitle: "No te pierdas ninguna novedad",
@@ -411,9 +408,6 @@ const en: typeof es = {
     blogTitle: "From the blog",
     blogDesc: "Culture, releases and rarities from the world of vinyl.",
     blogLink: "See all stories",
-    ctaTitle: "Your next vinyl gem is waiting for you.",
-    ctaDesc: "Over 40 carefully selected titles, between new releases and guaranteed second-hand.",
-    ctaButton: "Enter the shop",
   },
   footer: {
     nlTitle: "Don't miss a thing",

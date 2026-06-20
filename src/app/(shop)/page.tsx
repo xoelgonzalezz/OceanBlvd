@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 import { SITE } from "@/lib/constants";
 import { getDict } from "@/i18n/server";
@@ -10,7 +8,6 @@ import { RecordSection } from "@/components/home/record-section";
 import { GenreGrid } from "@/components/home/genre-grid";
 import { FeaturedArtists } from "@/components/home/featured-artists";
 import { BlogPreview } from "@/components/home/blog-preview";
-import { Button } from "@/components/ui/button";
 import {
   getBestSellers,
   getFeaturedArtists,
@@ -71,32 +68,6 @@ export default async function HomePage() {
       <FeaturedArtists artists={artists} />
 
       <BlogPreview posts={posts} />
-
-      {/* CTA final */}
-      <section className="container pb-24 pt-4">
-        <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-foreground px-6 py-12 text-center text-background sm:px-12 sm:py-16 md:px-16 md:py-20">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-primary/30 blur-3xl"
-          />
-          <h2 className="mx-auto max-w-2xl text-balance font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
-            {t.home.ctaTitle}
-          </h2>
-          <p className="mx-auto mt-4 max-w-md text-background/70">
-            {t.home.ctaDesc}
-          </p>
-          <Button
-            asChild
-            size="lg"
-            className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90"
-          >
-            <Link href="/tienda">
-              {t.home.ctaButton}
-              <ArrowRight />
-            </Link>
-          </Button>
-        </div>
-      </section>
     </>
   );
 }
