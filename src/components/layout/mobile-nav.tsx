@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { LanguageToggle } from "@/components/layout/language-toggle";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { cn } from "@/lib/utils";
 import { useT } from "@/components/i18n/locale-provider";
 
@@ -91,6 +93,18 @@ export function MobileNav() {
               {l.label}
             </Link>
           ))}
+
+          {/* Idioma y tema (en móvil viven aquí, no en la barra superior). */}
+          <Separator className="my-3" />
+          <div className="flex items-center justify-between px-3">
+            <span className="text-sm text-muted-foreground">
+              {t.header.langTheme}
+            </span>
+            <div className="flex items-center gap-1">
+              <LanguageToggle />
+              <ThemeToggle />
+            </div>
+          </div>
         </nav>
       </SheetContent>
     </Sheet>
