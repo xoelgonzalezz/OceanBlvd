@@ -29,12 +29,6 @@ const CONTENT = {
       { icon: Recycle, title: "Segunda mano con garantía", text: "Revisamos y clasificamos cada vinilo usado con el estándar Goldmine. Sin sorpresas." },
       { icon: Heart, title: "Hecho por melómanos", text: "Somos gente que escucha discos enteros. Te asesoramos como nos gustaría que lo hicieran con nosotros." },
     ],
-    stats: [
-      { n: "500+", l: "Títulos en catálogo" },
-      { n: "15", l: "Artistas destacados" },
-      { n: "8", l: "Géneros" },
-      { n: "10+", l: "Años escuchando" },
-    ],
     ctaTitle: "¿Listo para tu próxima escucha?",
     ctaButton: "Explorar el catálogo",
   },
@@ -51,12 +45,6 @@ const CONTENT = {
       { icon: Sparkles, title: "Curated selection", text: "Every record is here for a reason. We don't sell an endless catalogue, we sell judgement." },
       { icon: Recycle, title: "Guaranteed second-hand", text: "We check and grade every used record with the Goldmine standard. No surprises." },
       { icon: Heart, title: "Made by music lovers", text: "We're people who listen to whole records. We advise you the way we'd want to be advised." },
-    ],
-    stats: [
-      { n: "500+", l: "Titles in catalogue" },
-      { n: "15", l: "Featured artists" },
-      { n: "8", l: "Genres" },
-      { n: "10+", l: "Years listening" },
     ],
     ctaTitle: "Ready for your next listen?",
     ctaButton: "Browse the catalogue",
@@ -99,16 +87,7 @@ export default function SobreNosotrosPage() {
         </div>
       </div>
 
-      <div className="mt-16 grid grid-cols-2 gap-6 rounded-2xl border bg-secondary/30 p-8 text-center sm:grid-cols-4">
-        {c.stats.map((s) => (
-          <div key={s.l}>
-            <p className="font-serif text-3xl font-semibold text-primary">{s.n}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{s.l}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-12 flex flex-col items-center gap-4 text-center">
+      <div className="mt-16 flex flex-col items-center gap-4 text-center">
         <Disc3 className="h-8 w-8 text-primary" />
         <h2 className="font-serif text-2xl font-semibold tracking-tight">
           {c.ctaTitle}

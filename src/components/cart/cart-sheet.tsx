@@ -104,7 +104,7 @@ export function CartSheet() {
                       <Link
                         href={`/producto/${item.slug}`}
                         onClick={() => setOpen(false)}
-                        className="truncate text-sm font-medium hover:text-primary"
+                        className="block truncate text-sm font-medium hover:text-primary"
                       >
                         {item.title}
                       </Link>

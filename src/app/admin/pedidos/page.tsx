@@ -109,9 +109,12 @@ export default async function AdminOrdersPage({
                 </div>
 
                 {/* Artículos */}
-                <div className="mt-4 flex flex-wrap gap-3">
+                <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3">
                   {order.items.map((item) => (
-                    <div key={item.id} className="flex items-center gap-2">
+                    <div
+                      key={item.id}
+                      className="flex min-w-0 items-center gap-2 sm:max-w-[260px]"
+                    >
                       <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded bg-muted">
                         <Image
                           src={item.record.images[0]?.url ?? "/placeholders/cover-01.svg"}
