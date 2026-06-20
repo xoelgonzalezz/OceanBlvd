@@ -50,7 +50,6 @@ export function Hero({ record }: { record: RecordCard | null }) {
         {/* Texto */}
         <div className="max-w-xl">
           <span className="section-eyebrow animate-fade-up opacity-0 [animation-delay:0ms]">
-            <Sparkles className="h-3.5 w-3.5" />
             {t.hero.eyebrow}
           </span>
 
