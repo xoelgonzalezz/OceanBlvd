@@ -153,8 +153,8 @@ export function orderConfirmationHtml(order: OrderFull): string {
           <img src="${cover}" width="56" height="56" alt="" style="display:block;border-radius:4px;object-fit:cover;background:#f0eee9;" />
         </td>
         <td style="padding:14px 12px;border-bottom:1px solid #e7e5e0;font-family:Helvetica,Arial,sans-serif;">
-          <div style="font-weight:600;color:#0f0f0f;font-size:14px;">${item.record.title}</div>
-          <div style="color:#6b6760;font-size:12px;">${item.record.artist.name} · x${item.quantity}</div>
+          <div style="font-weight:600;color:#0f0f0f;font-size:14px;">${esc(item.record.title)}</div>
+          <div style="color:#6b6760;font-size:12px;">${esc(item.record.artist.name)} · x${item.quantity}</div>
         </td>
         <td style="padding:14px 0;border-bottom:1px solid #e7e5e0;text-align:right;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#0f0f0f;white-space:nowrap;">
           ${eur(item.unitPriceCents * item.quantity)}
@@ -171,7 +171,7 @@ export function orderConfirmationHtml(order: OrderFull): string {
 
   return emailShell(
     "Confirmación de pedido",
-    `<h1 style="margin:0 0 6px;font-family:Georgia,serif;font-size:24px;color:#0f0f0f;">Gracias por tu pedido, ${order.fullName.split(" ")[0]}.</h1>
+    `<h1 style="margin:0 0 6px;font-family:Georgia,serif;font-size:24px;color:#0f0f0f;">Gracias por tu pedido, ${esc(order.fullName.split(" ")[0])}.</h1>
      <p style="margin:0 0 24px;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#6b6760;line-height:1.6;">
        Hemos recibido tu pedido <strong style="color:#0f0f0f;">#${ref}</strong> del ${date}. Te avisaremos cuando salga hacia tu casa.
      </p>
@@ -184,7 +184,7 @@ export function orderConfirmationHtml(order: OrderFull): string {
      <div style="margin-top:28px;padding-top:24px;border-top:1px solid #e7e5e0;">
        <div style="font-family:Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9b958a;margin-bottom:8px;">Envío a</div>
        <div style="font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#0f0f0f;line-height:1.6;">
-         ${order.fullName}<br>${order.address}<br>${order.postalCode} ${order.city}<br>${order.country}
+         ${esc(order.fullName)}<br>${esc(order.address)}<br>${esc(order.postalCode)} ${esc(order.city)}<br>${esc(order.country)}
        </div>
      </div>
      <div style="margin-top:28px;">
@@ -198,7 +198,7 @@ export function welcomeHtml(name: string): string {
   const first = (name || "").split(" ")[0] || "hola";
   return emailShell(
     "Bienvenido",
-    `<h1 style="margin:0 0 10px;font-family:Georgia,serif;font-size:24px;color:#0f0f0f;">Bienvenido, ${first}.</h1>
+    `<h1 style="margin:0 0 10px;font-family:Georgia,serif;font-size:24px;color:#0f0f0f;">Bienvenido, ${esc(first)}.</h1>
      <p style="margin:0 0 16px;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#6b6760;line-height:1.7;">
        Gracias por crear tu cuenta en Ocean Blvd Vinyl. Aquí encontrarás novedades, ediciones especiales y joyas de segunda mano cuidadosamente seleccionadas.
      </p>
@@ -220,7 +220,7 @@ export function verificationHtml(name: string, code: string): string {
   return emailShell(
     "Verifica tu cuenta",
     `<div style="text-align:center;">
-       <h1 style="margin:0 0 8px;font-family:Georgia,serif;font-size:23px;color:#0f0f0f;">Hola, ${first}.</h1>
+       <h1 style="margin:0 0 8px;font-family:Georgia,serif;font-size:23px;color:#0f0f0f;">Hola, ${esc(first)}.</h1>
        <p style="margin:0 0 24px;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#6b6760;line-height:1.7;">
          Tu código de verificación para Ocean Blvd Vinyl es:
        </p>
@@ -279,13 +279,13 @@ export function shippingHtml(order: OrderFull): string {
 
   return emailShell(
     "Tu pedido va de camino",
-    `<h1 style="margin:0 0 6px;font-family:Georgia,serif;font-size:24px;color:#0f0f0f;">¡Tu pedido va de camino, ${first}!</h1>
+    `<h1 style="margin:0 0 6px;font-family:Georgia,serif;font-size:24px;color:#0f0f0f;">¡Tu pedido va de camino, ${esc(first)}!</h1>
      <p style="margin:0 0 24px;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#6b6760;line-height:1.6;">
-       Hemos enviado tu pedido <strong style="color:#0f0f0f;">#${ref}</strong> por <strong style="color:#0f0f0f;">${carrier}</strong>. Aquí tienes tu número de seguimiento:
+       Hemos enviado tu pedido <strong style="color:#0f0f0f;">#${ref}</strong> por <strong style="color:#0f0f0f;">${esc(carrier)}</strong>. Aquí tienes tu número de seguimiento:
      </p>
      <div style="border:1px solid #e7e5e0;border-radius:6px;padding:18px 20px;text-align:center;">
        <div style="font-family:Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9b958a;">Nº de seguimiento</div>
-       <div style="font-family:'Courier New',monospace;font-size:20px;font-weight:700;color:#0f0f0f;letter-spacing:1px;margin-top:6px;">${tracking}</div>
+       <div style="font-family:'Courier New',monospace;font-size:20px;font-weight:700;color:#0f0f0f;letter-spacing:1px;margin-top:6px;">${esc(tracking)}</div>
      </div>
      <div style="margin-top:22px;text-align:center;">
        <a href="${trackUrl}" style="display:inline-block;background:#0f0f0f;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:14px;text-decoration:none;padding:12px 22px;border-radius:4px;">Seguir mi envío</a>
@@ -296,7 +296,7 @@ export function shippingHtml(order: OrderFull): string {
      <div style="margin-top:28px;padding-top:24px;border-top:1px solid #e7e5e0;">
        <div style="font-family:Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#9b958a;margin-bottom:8px;">Envío a</div>
        <div style="font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#0f0f0f;line-height:1.6;">
-         ${order.fullName}<br>${order.address}<br>${order.postalCode} ${order.city}<br>${order.country}
+         ${esc(order.fullName)}<br>${esc(order.address)}<br>${esc(order.postalCode)} ${esc(order.city)}<br>${esc(order.country)}
        </div>
      </div>`
   );
