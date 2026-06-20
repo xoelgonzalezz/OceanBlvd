@@ -102,7 +102,7 @@ export function Hero({ record }: { record: RecordCard | null }) {
                 className="object-contain drop-shadow-2xl transition-transform duration-700 ease-out-quint group-hover:scale-[1.03]"
               />
             </Link>
-            <div className="mt-5 text-center sm:text-left">
+            <div className="mt-5 text-center">
               <h2 className="text-balance font-serif text-xl font-semibold leading-snug">
                 {record.title}
               </h2>
