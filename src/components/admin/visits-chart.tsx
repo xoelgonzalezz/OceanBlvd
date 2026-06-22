@@ -46,10 +46,12 @@ export function VisitsChart({
   data,
   cities,
   sources,
+  sourcesByDay,
 }: {
   data: Day[];
   cities: City[];
   sources: Source[];
+  sourcesByDay: Record<string, { source: string; count: number }[]>;
 }) {
   const total = data.reduce((s, d) => s + d.count, 0);
   const last7 = data.slice(-7).reduce((s, d) => s + d.count, 0);
@@ -63,6 +65,7 @@ export function VisitsChart({
     data.length ? data.length - 1 : null
   );
   const sel = selected != null ? data[selected] : null;
+  const selSources = sel ? sourcesByDay[sel.date] ?? [] : [];
 
   return (
     <section className="mt-8 rounded-lg border p-5">
@@ -109,17 +112,43 @@ export function VisitsChart({
         <div className="mt-6">
           {/* Desglose del día seleccionado */}
           {sel && (
-            <div className="mb-3 flex items-baseline justify-between rounded-md bg-secondary/40 px-3 py-2">
-              <span className="text-sm font-medium capitalize">
-                {fullLabel(sel.date)}
-              </span>
-              <span className="text-sm tabular-nums">
-                {sel.count} {sel.count === 1 ? "visita" : "visitas"}
-                <span className="text-muted-foreground">
-                  {" "}
-                  · {Math.round((sel.count / total) * 100)}% del total
+            <div className="mb-3 rounded-md bg-secondary/40 px-3 py-2.5">
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="text-sm font-medium capitalize">
+                  {fullLabel(sel.date)}
                 </span>
-              </span>
+                <span className="shrink-0 text-sm tabular-nums">
+                  {sel.count} {sel.count === 1 ? "visita" : "visitas"}
+                  <span className="text-muted-foreground">
+                    {" "}
+                    · {Math.round((sel.count / total) * 100)}% del total
+                  </span>
+                </span>
+              </div>
+              {selSources.length > 0 ? (
+                <div className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
+                  <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                    De dónde
+                  </span>
+                  {selSources.map((s) => (
+                    <span
+                      key={s.source}
+                      className="rounded-full bg-background px-2 py-0.5 text-xs"
+                    >
+                      {s.source}{" "}
+                      <span className="tabular-nums text-muted-foreground">
+                        {s.count}
+                      </span>
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                sel.count > 0 && (
+                  <p className="mt-1.5 text-xs text-muted-foreground">
+                    Sin datos de origen para este día.
+                  </p>
+                )
+              )}
             </div>
           )}
 

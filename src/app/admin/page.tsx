@@ -19,6 +19,7 @@ import {
   getVisitsByDay,
   getTopCities,
   getTopSources,
+  getSourcesByDay,
 } from "@/lib/queries";
 import { formatPrice } from "@/lib/utils";
 import { CONDITION_LABELS } from "@/lib/constants";
@@ -40,11 +41,12 @@ export default async function AdminDashboard({
 }: {
   searchParams: { msg?: string };
 }) {
-  const [records, visits, cities, sources] = await Promise.all([
+  const [records, visits, cities, sources, sourcesByDay] = await Promise.all([
     getAdminRecords(),
     getVisitsByDay(30),
     getTopCities(30),
     getTopSources(30),
+    getSourcesByDay(30),
   ]);
   const notice = searchParams.msg ? MESSAGES[searchParams.msg] : null;
 
@@ -104,7 +106,12 @@ export default async function AdminDashboard({
         </div>
       )}
 
-      <VisitsChart data={visits} cities={cities} sources={sources} />
+      <VisitsChart
+        data={visits}
+        cities={cities}
+        sources={sources}
+        sourcesByDay={sourcesByDay}
+      />
 
       <div className="mt-8 overflow-x-auto rounded-lg border">
         <table className="w-full min-w-[600px] text-sm">

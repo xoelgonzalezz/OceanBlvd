@@ -673,3 +673,40 @@ export async function getTopSources(
     return [];
   }
 }
+
+/**
+ * Orígenes de tráfico desglosados POR DÍA (los últimos `days` días). Devuelve un
+ * objeto { "YYYY-MM-DD": [{ source, count }] } con los `perDay` canales
+ * principales de cada día, para el desglose al clicar una barra del panel.
+ */
+export async function getSourcesByDay(
+  days = 30,
+  perDay = 5
+): Promise<Record<string, { source: string; count: number }[]>> {
+  const since = sinceUTC(days);
+
+  try {
+    const rows = await db.$queryRaw<
+      { day: Date; source: string; count: bigint }[]
+    >`
+      SELECT date_trunc('day', "createdAt") AS day,
+             COALESCE(source, 'Directo') AS source,
+             COUNT(*)::bigint AS count
+      FROM "PageView"
+      WHERE "createdAt" >= ${since}
+      GROUP BY day, COALESCE(source, 'Directo')
+      ORDER BY day ASC, count DESC
+    `;
+
+    const out: Record<string, { source: string; count: number }[]> = {};
+    for (const r of rows) {
+      const key = dayKey(new Date(r.day));
+      (out[key] ??= []).push({ source: r.source, count: Number(r.count) });
+    }
+    // Nos quedamos con los `perDay` orígenes principales de cada día.
+    for (const key of Object.keys(out)) out[key] = out[key].slice(0, perDay);
+    return out;
+  } catch {
+    return {};
+  }
+}
