@@ -9,9 +9,16 @@ import { checkoutSchema } from "@/lib/validators";
 import { calcShipping, shipsTo, SITE } from "@/lib/constants";
 import { getCurrentUser } from "@/lib/auth/session";
 import { stripe, stripeEnabled } from "@/lib/stripe";
+import { rateLimit, ipFromRequest } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
+    if (!rateLimit(`checkout:${ipFromRequest(request)}`, 10, 60_000)) {
+      return NextResponse.json(
+        { error: "Demasiados intentos. Espera un momento e inténtalo de nuevo." },
+        { status: 429 }
+      );
+    }
     const body = await request.json();
     const parsed = checkoutSchema.safeParse(body);
 

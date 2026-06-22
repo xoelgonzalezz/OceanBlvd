@@ -3,9 +3,16 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { contactSchema } from "@/lib/validators";
 import { sendOwnerContactNotification } from "@/lib/email";
+import { rateLimit, ipFromRequest } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
+    if (!rateLimit(`contact:${ipFromRequest(request)}`, 5, 60_000)) {
+      return NextResponse.json(
+        { error: "Demasiados envíos. Espera un minuto e inténtalo de nuevo." },
+        { status: 429 }
+      );
+    }
     const body = await request.json();
     const parsed = contactSchema.safeParse(body);
 

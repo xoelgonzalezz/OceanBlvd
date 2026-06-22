@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
+import { rateLimit, ipFromRequest } from "@/lib/rate-limit";
 
 // Node runtime: el cliente Prisma no corre en el edge.
 export const runtime = "nodejs";
@@ -51,6 +52,10 @@ function deriveSource(
 }
 
 export async function POST(req: Request) {
+  // Analítica: si se supera el límite, descartamos en silencio (204).
+  if (!rateLimit(`track:${ipFromRequest(req)}`, 60, 60_000)) {
+    return new NextResponse(null, { status: 204 });
+  }
   try {
     const body = (await req.json()) as {
       path?: unknown;

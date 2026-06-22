@@ -16,3 +16,12 @@ export function rateLimit(key: string, max: number, windowMs: number): boolean {
   if (buckets.size > 5000) buckets.clear(); // evita crecimiento sin límite
   return true;
 }
+
+/** Extrae la IP del cliente de las cabeceras de proxy (las pone Vercel). */
+export function ipFromRequest(req: Request): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    "local"
+  );
+}
