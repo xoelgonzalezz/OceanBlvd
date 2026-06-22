@@ -13,9 +13,20 @@ import {
   getCurrentUser,
 } from "@/lib/auth/session";
 import { PENDING_COOKIE, signToken, verifyToken } from "@/lib/auth/token";
-import { loginSchema, registerSchema } from "@/lib/validators";
+import { createResetToken, validateResetToken } from "@/lib/auth/reset";
+import {
+  loginSchema,
+  registerSchema,
+  resetRequestSchema,
+  resetPasswordSchema,
+} from "@/lib/validators";
 import { rateLimit } from "@/lib/rate-limit";
-import { sendWelcomeEmail, sendVerificationCode } from "@/lib/email";
+import {
+  sendWelcomeEmail,
+  sendVerificationCode,
+  sendPasswordResetEmail,
+} from "@/lib/email";
+import { SITE } from "@/lib/constants";
 
 export interface AuthState {
   error?: string;
@@ -257,4 +268,73 @@ export async function loginAction(
 export async function logoutAction() {
   clearUserSession();
   redirect("/");
+}
+
+/* ---------- Recuperación de contraseña ---------- */
+
+/**
+ * Solicita un enlace de restablecimiento. Por seguridad (anti-enumeración)
+ * siempre responde con éxito, exista o no la cuenta; el email solo se envía si
+ * la cuenta existe.
+ */
+export async function requestPasswordResetAction(
+  _prev: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  if (!rateLimit(`reset-req:${clientIp()}`, 5, 60_000)) {
+    return { error: "Demasiados intentos. Espera un minuto e inténtalo de nuevo." };
+  }
+  const parsed = resetRequestSchema.safeParse({
+    email: String(formData.get("email") || ""),
+  });
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Correo no válido." };
+  }
+
+  const email = parsed.data.email.toLowerCase().trim();
+  const user = await db.user.findUnique({ where: { email } });
+  if (user) {
+    const token = await createResetToken(user.id, user.passwordHash);
+    const link = `${SITE.url}/restablecer?token=${encodeURIComponent(token)}`;
+    await sendPasswordResetEmail(user.email, user.name, link);
+  }
+  // Respuesta idéntica exista o no la cuenta.
+  return { success: true };
+}
+
+/**
+ * Restablece la contraseña a partir de un token válido y deja la sesión iniciada.
+ */
+export async function resetPasswordAction(
+  _prev: AuthState,
+  formData: FormData
+): Promise<AuthState> {
+  if (!rateLimit(`reset-do:${clientIp()}`, 10, 60_000)) {
+    return { error: "Demasiados intentos. Espera un minuto." };
+  }
+  const token = String(formData.get("token") || "");
+  const parsed = resetPasswordSchema.safeParse({
+    password: String(formData.get("password") || ""),
+  });
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Contraseña no válida." };
+  }
+
+  const userId = await validateResetToken(token);
+  if (!userId) {
+    return {
+      error: "El enlace no es válido o ha caducado. Solicita uno nuevo.",
+    };
+  }
+
+  const passwordHash = await hashPassword(parsed.data.password);
+  // Cambiar la contraseña invalida el token (va ligado al hash anterior) y, como
+  // el usuario recibió el email, damos su cuenta por verificada.
+  await db.user.update({
+    where: { id: userId },
+    data: { passwordHash, verified: true },
+  });
+
+  await createUserSession(userId);
+  redirect("/cuenta");
 }

@@ -245,6 +245,35 @@ export async function sendVerificationCode(
   );
 }
 
+/** Email con el enlace para restablecer la contraseña. */
+export function passwordResetHtml(name: string, link: string): string {
+  const first = (name || "").split(" ")[0] || "hola";
+  return emailShell(
+    "Restablece tu contraseña",
+    `<h1 style="margin:0 0 10px;font-family:Georgia,serif;font-size:24px;color:#0f0f0f;">Hola, ${esc(first)}.</h1>
+     <p style="margin:0 0 24px;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#6b6760;line-height:1.7;">
+       Hemos recibido una solicitud para restablecer la contraseña de tu cuenta en Ocean Blvd Vinyl. Pulsa el botón para crear una nueva:
+     </p>
+     <a href="${link}" style="display:inline-block;background:#0f0f0f;color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:14px;text-decoration:none;padding:12px 22px;border-radius:4px;">Restablecer contraseña</a>
+     <p style="margin:24px 0 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#9b958a;line-height:1.6;">
+       El enlace caduca en 30 minutos y solo se puede usar una vez. Si no has solicitado esto, ignora este correo: tu contraseña no cambiará.
+     </p>`
+  );
+}
+
+/** Envía el email de restablecimiento (no hace nada sin email configurado). */
+export async function sendPasswordResetEmail(
+  to: string,
+  name: string,
+  link: string
+): Promise<void> {
+  await sendMail(
+    to,
+    "Restablece tu contraseña — Ocean Blvd Vinyl",
+    passwordResetHtml(name, link)
+  );
+}
+
 /** Envía el email de confirmación (no hace nada si RESEND_API_KEY no está configurada). */
 export async function sendOrderConfirmation(orderId: string): Promise<void> {
   const order = await getOrderById(orderId);

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useFormState, useFormStatus } from "react-dom";
 
 import { loginAction, type AuthState } from "@/app/(shop)/cuenta/actions";
@@ -40,6 +41,14 @@ export function LoginForm({
         <div>
           <Label htmlFor="password">{t.account.password}</Label>
           <Input id="password" name="password" type="password" required autoComplete="current-password" className="mt-1.5" />
+          <div className="mt-1.5 text-right">
+            <Link
+              href="/recuperar"
+              className="text-xs text-muted-foreground hover:text-foreground hover:underline"
+            >
+              {t.account.forgotPassword}
+            </Link>
+          </div>
         </div>
         {state?.error ? (
           <p role="alert" className="text-sm text-destructive">{state.error}</p>

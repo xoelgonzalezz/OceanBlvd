@@ -18,6 +18,17 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Introduce tu contraseña.").max(200),
 });
 
+export const resetRequestSchema = z.object({
+  email: z.string().email("Introduce un correo válido.").max(200),
+});
+
+export const resetPasswordSchema = z.object({
+  password: z
+    .string()
+    .min(6, "La contraseña debe tener al menos 6 caracteres.")
+    .max(200),
+});
+
 export const contactSchema = z.object({
   name: z
     .string({
