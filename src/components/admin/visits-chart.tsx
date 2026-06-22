@@ -1,4 +1,9 @@
+"use client";
+
+import * as React from "react";
 import { BarChart3, MapPin, Radio } from "lucide-react";
+
+import { cn } from "@/lib/utils";
 
 interface Day {
   date: string; // YYYY-MM-DD
@@ -21,9 +26,21 @@ function label(date: string): string {
   return `${d}/${m}`;
 }
 
+/** Fecha completa en español, p. ej. "miércoles, 18 de junio". */
+function fullLabel(date: string): string {
+  const [y, m, d] = date.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("es-ES", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
+}
+
 /**
  * Gráfico de visitas (una por sesión) para el panel. Barras en CSS puro, una
- * por día, con totales de referencia y un ranking de ciudades estimadas por IP.
+ * por día. Se puede hacer clic en cada barra para ver el desglose de ese día
+ * (fecha, número de visitas y % del total). Incluye ranking de ciudades y
+ * orígenes estimados.
  */
 export function VisitsChart({
   data,
@@ -40,6 +57,12 @@ export function VisitsChart({
   const max = Math.max(1, ...data.map((d) => d.count));
   const topCity = Math.max(1, ...cities.map((c) => c.count));
   const topSource = Math.max(1, ...sources.map((s) => s.count));
+
+  // Día seleccionado: por defecto el último (hoy).
+  const [selected, setSelected] = React.useState<number | null>(
+    data.length ? data.length - 1 : null
+  );
+  const sel = selected != null ? data[selected] : null;
 
   return (
     <section className="mt-8 rounded-lg border p-5">
@@ -84,13 +107,38 @@ export function VisitsChart({
         </p>
       ) : (
         <div className="mt-6">
+          {/* Desglose del día seleccionado */}
+          {sel && (
+            <div className="mb-3 flex items-baseline justify-between rounded-md bg-secondary/40 px-3 py-2">
+              <span className="text-sm font-medium capitalize">
+                {fullLabel(sel.date)}
+              </span>
+              <span className="text-sm tabular-nums">
+                {sel.count} {sel.count === 1 ? "visita" : "visitas"}
+                <span className="text-muted-foreground">
+                  {" "}
+                  · {Math.round((sel.count / total) * 100)}% del total
+                </span>
+              </span>
+            </div>
+          )}
+
           <div className="flex h-40 items-end gap-[3px]">
-            {data.map((d) => (
-              <div
+            {data.map((d, i) => (
+              <button
                 key={d.date}
-                className="group relative flex-1 rounded-t-sm bg-foreground/85 transition-colors hover:bg-foreground"
-                style={{ height: `${Math.max(2, (d.count / max) * 100)}%` }}
+                type="button"
+                onClick={() => setSelected(i)}
+                aria-label={`${label(d.date)}: ${d.count} ${d.count === 1 ? "visita" : "visitas"}`}
+                aria-pressed={i === selected}
                 title={`${label(d.date)}: ${d.count} ${d.count === 1 ? "visita" : "visitas"}`}
+                className={cn(
+                  "flex-1 cursor-pointer rounded-t-sm border-0 p-0 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+                  i === selected
+                    ? "bg-primary"
+                    : "bg-foreground/85 hover:bg-foreground"
+                )}
+                style={{ height: `${Math.max(2, (d.count / max) * 100)}%` }}
               />
             ))}
           </div>
