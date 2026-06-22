@@ -710,3 +710,101 @@ export async function getSourcesByDay(
     return {};
   }
 }
+
+/* ---------- Ventas (panel) ---------- */
+
+// Estados que cuentan como venta cerrada (pago confirmado).
+const SOLD_STATUSES = ["PAID", "SHIPPED"];
+
+export interface SalesStats {
+  revenueCents: number;
+  orders: number;
+  aovCents: number; // ticket medio
+  revenueMonthCents: number;
+  ordersMonth: number;
+}
+
+/**
+ * Métricas de ventas para el panel: ingresos totales, nº de pedidos pagados,
+ * ticket medio y lo facturado este mes (natural). Solo cuenta pedidos pagados o
+ * enviados (excluye pendientes y cancelados).
+ */
+export async function getSalesStats(): Promise<SalesStats> {
+  const startOfMonth = new Date();
+  startOfMonth.setUTCDate(1);
+  startOfMonth.setUTCHours(0, 0, 0, 0);
+
+  try {
+    const [all, month] = await Promise.all([
+      db.order.aggregate({
+        where: { status: { in: SOLD_STATUSES } },
+        _sum: { totalCents: true },
+        _count: true,
+      }),
+      db.order.aggregate({
+        where: {
+          status: { in: SOLD_STATUSES },
+          createdAt: { gte: startOfMonth },
+        },
+        _sum: { totalCents: true },
+        _count: true,
+      }),
+    ]);
+
+    const revenueCents = all._sum.totalCents ?? 0;
+    const orders = all._count;
+    return {
+      revenueCents,
+      orders,
+      aovCents: orders > 0 ? Math.round(revenueCents / orders) : 0,
+      revenueMonthCents: month._sum.totalCents ?? 0,
+      ordersMonth: month._count,
+    };
+  } catch {
+    return {
+      revenueCents: 0,
+      orders: 0,
+      aovCents: 0,
+      revenueMonthCents: 0,
+      ordersMonth: 0,
+    };
+  }
+}
+
+export interface TopRecord {
+  id: string;
+  slug: string;
+  title: string;
+  artist: string;
+  salesCount: number;
+  priceCents: number;
+}
+
+/** Discos más vendidos (por unidades vendidas acumuladas). */
+export async function getTopSellingRecords(limit = 8): Promise<TopRecord[]> {
+  try {
+    const records = await db.record.findMany({
+      where: { salesCount: { gt: 0 } },
+      orderBy: { salesCount: "desc" },
+      take: limit,
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        priceCents: true,
+        salesCount: true,
+        artist: { select: { name: true } },
+      },
+    });
+    return records.map((r) => ({
+      id: r.id,
+      slug: r.slug,
+      title: r.title,
+      artist: r.artist.name,
+      salesCount: r.salesCount,
+      priceCents: r.priceCents,
+    }));
+  } catch {
+    return [];
+  }
+}

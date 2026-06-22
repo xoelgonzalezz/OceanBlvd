@@ -14,12 +14,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { VisitsChart } from "@/components/admin/visits-chart";
+import { SalesPanel } from "@/components/admin/sales-panel";
 import {
   getAdminRecords,
   getVisitsByDay,
   getTopCities,
   getTopSources,
   getSourcesByDay,
+  getSalesStats,
+  getTopSellingRecords,
 } from "@/lib/queries";
 import { formatPrice } from "@/lib/utils";
 import { CONDITION_LABELS } from "@/lib/constants";
@@ -41,12 +44,22 @@ export default async function AdminDashboard({
 }: {
   searchParams: { msg?: string };
 }) {
-  const [records, visits, cities, sources, sourcesByDay] = await Promise.all([
+  const [
+    records,
+    visits,
+    cities,
+    sources,
+    sourcesByDay,
+    salesStats,
+    topSelling,
+  ] = await Promise.all([
     getAdminRecords(),
     getVisitsByDay(30),
     getTopCities(30),
     getTopSources(30),
     getSourcesByDay(30),
+    getSalesStats(),
+    getTopSellingRecords(8),
   ]);
   const notice = searchParams.msg ? MESSAGES[searchParams.msg] : null;
 
@@ -105,6 +118,8 @@ export default async function AdminDashboard({
           {notice}
         </div>
       )}
+
+      <SalesPanel stats={salesStats} top={topSelling} />
 
       <VisitsChart
         data={visits}
