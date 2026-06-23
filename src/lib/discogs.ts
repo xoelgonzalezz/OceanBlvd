@@ -53,6 +53,51 @@ interface StatsResponse {
   num_for_sale?: number;
 }
 
+interface ReleaseResponse {
+  tracklist?: {
+    position?: string;
+    type_?: string;
+    title?: string;
+    duration?: string;
+  }[];
+}
+
+/**
+ * Devuelve el tracklist real (con duraciones) de un disco desde Discogs, ya
+ * formateado para el formulario («Título | 3:45», una pista por línea). Devuelve
+ * null si no hay coincidencia, sin tracklist, o si Discogs no está configurado.
+ */
+export async function getReleaseTracklist(
+  artist: string,
+  title: string
+): Promise<string | null> {
+  const params = new URLSearchParams({
+    type: "release",
+    artist,
+    release_title: title,
+    per_page: "1",
+  });
+  const search = await discogsGet<SearchResponse>(
+    `/database/search?${params.toString()}`
+  );
+  const id = search?.results?.[0]?.id;
+  if (!id) return null;
+
+  const release = await discogsGet<ReleaseResponse>(`/releases/${Number(id)}`);
+  const list = release?.tracklist;
+  if (!Array.isArray(list) || list.length === 0) return null;
+
+  const lines = list
+    .filter((t) => (!t.type_ || t.type_ === "track") && t.title?.trim())
+    .map((t) => {
+      const dur = (t.duration ?? "").trim();
+      const name = t.title!.trim();
+      return dur ? `${name} | ${dur}` : name;
+    });
+
+  return lines.length ? lines.join("\n") : null;
+}
+
 /**
  * Busca una referencia en Discogs por artista + título y devuelve sus datos de
  * mercado (precio más bajo en venta y nº de copias a la venta). Devuelve null

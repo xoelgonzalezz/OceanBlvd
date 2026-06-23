@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { ImageIcon, Loader2, Search, Wand2 } from "lucide-react";
+import { ImageIcon, Loader2, Search, Wand2, ListMusic } from "lucide-react";
 import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
@@ -90,6 +90,8 @@ export function RecordForm({
     initial?.descriptionEn ?? ""
   );
   const [generating, setGenerating] = React.useState(false);
+  const [tracks, setTracks] = React.useState(initial?.tracksText ?? "");
+  const [loadingTracks, setLoadingTracks] = React.useState(false);
   const formRef = React.useRef<HTMLFormElement>(null);
 
   async function handleSearchCover() {
@@ -148,6 +150,37 @@ export function RecordForm({
       toast.error("Error de conexión. Inténtalo de nuevo.");
     } finally {
       setGenerating(false);
+    }
+  }
+
+  async function handleTracklist() {
+    const fd = new FormData(formRef.current ?? undefined);
+    const artistName = artists.find((a) => a.id === fd.get("artistId"))?.name;
+    const titleVal = String(fd.get("title") || "");
+    if (!artistName || !titleVal.trim()) {
+      toast.error("Selecciona un artista y escribe el título primero.");
+      return;
+    }
+    setLoadingTracks(true);
+    try {
+      const res = await fetch("/api/admin/discogs-tracklist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ artist: artistName, title: titleVal }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error ?? "No se pudo obtener el tracklist.");
+        return;
+      }
+      if (data.tracks) {
+        setTracks(data.tracks);
+        toast.success("Tracklist cargado desde Discogs. Revísalo.");
+      }
+    } catch {
+      toast.error("Error de conexión. Inténtalo de nuevo.");
+    } finally {
+      setLoadingTracks(false);
     }
   }
 
@@ -334,15 +367,41 @@ export function RecordForm({
         </div>
 
         <div>
-          <Label htmlFor="tracks">Tracklist (una pista por línea: «Título | 3:45»)</Label>
+          <div className="flex items-center justify-between gap-2">
+            <Label htmlFor="tracks">
+              Tracklist (una pista por línea: «Título | 3:45»)
+            </Label>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleTracklist}
+              disabled={loadingTracks}
+            >
+              {loadingTracks ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" /> Buscando…
+                </>
+              ) : (
+                <>
+                  <ListMusic className="h-4 w-4" /> Rellenar desde Discogs
+                </>
+              )}
+            </Button>
+          </div>
           <Textarea
             id="tracks"
             name="tracks"
-            defaultValue={initial?.tracksText}
+            value={tracks}
+            onChange={(e) => setTracks(e.target.value)}
             rows={6}
             placeholder={"Speak to Me | 1:30\nBreathe (In the Air) | 2:43"}
             className="mt-1.5 font-mono text-xs"
           />
+          <p className="mt-1 text-xs text-muted-foreground">
+            Tracklist real con duraciones desde Discogs. Revísalo antes de
+            guardar.
+          </p>
         </div>
 
         <label className="flex items-center gap-2.5 text-sm">
