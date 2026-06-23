@@ -3,9 +3,9 @@
 // app sigue funcionando con normalidad.
 
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-// Modelo por defecto: Haiku 4.5 (rápido y barato). Se puede subir a Sonnet con
-// la variable AI_MODEL para prosa más rica.
-const AI_MODEL = process.env.AI_MODEL || "claude-haiku-4-5-20251001";
+// Modelo por defecto: Sonnet 4.6 (buena prosa, equilibrado). Se puede cambiar
+// con la variable AI_MODEL (p. ej. "claude-haiku-4-5-20251001" para abaratar).
+const AI_MODEL = process.env.AI_MODEL || "claude-sonnet-4-6";
 
 export const aiEnabled = Boolean(ANTHROPIC_API_KEY);
 
