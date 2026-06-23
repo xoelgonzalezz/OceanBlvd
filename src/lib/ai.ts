@@ -90,3 +90,53 @@ Devuelve SOLO un objeto JSON válido, sin texto adicional ni markdown, con esta 
     return null;
   }
 }
+
+export interface CatalogIdea {
+  artist: string;
+  title: string;
+  year?: number;
+  genre?: string;
+  reason: string;
+}
+
+/**
+ * Sugiere discos a stockear relacionados con una "semilla" (género, artista,
+ * vibe...). Devuelve una lista de ideas, o null si falla.
+ */
+export async function suggestCatalog(
+  seed: string,
+  count = 12
+): Promise<CatalogIdea[] | null> {
+  const prompt = `Eres un comprador experto para Ocean Blvd Vinyl, una tienda de vinilos en España.
+
+Propón ${count} discos en VINILO que merezca la pena tener en stock, relacionados con: "${seed}".
+Mezcla clásicos atemporales y novedades populares que se vendan bien. Evita rarezas casi imposibles de conseguir.
+
+Devuelve SOLO un array JSON válido, sin texto adicional ni markdown, con objetos de esta forma exacta:
+[{"artist":"...","title":"...","year":1990,"genre":"...","reason":"motivo breve de por qué se vende bien"}]`;
+
+  const text = await callClaude(prompt, 2000);
+  if (!text) return null;
+
+  const match = text.match(/\[[\s\S]*\]/);
+  if (!match) return null;
+  try {
+    const arr = JSON.parse(match[0]) as unknown;
+    if (!Array.isArray(arr)) return null;
+    return arr
+      .map((x) => {
+        const o = (x ?? {}) as Record<string, unknown>;
+        return {
+          artist: String(o.artist ?? "").slice(0, 200),
+          title: String(o.title ?? "").slice(0, 200),
+          year: Number(o.year) || undefined,
+          genre: o.genre ? String(o.genre).slice(0, 100) : undefined,
+          reason: String(o.reason ?? "").slice(0, 400),
+        };
+      })
+      .filter((x) => x.artist && x.title)
+      .slice(0, count);
+  } catch {
+    return null;
+  }
+}
