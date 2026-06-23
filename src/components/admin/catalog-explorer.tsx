@@ -63,6 +63,16 @@ function exportCsv(rows: Row[]) {
   URL.revokeObjectURL(url);
 }
 
+// Atajos para empezar sin escribir (cada clic lanza una búsqueda).
+const PRESETS = [
+  "Pop / Indie",
+  "Rock clásico",
+  "Novedades en vinilo",
+  "Hip-hop / R&B",
+  "Jazz & Soul",
+  "Tipo Lana Del Rey",
+];
+
 export function CatalogExplorer() {
   const [seed, setSeed] = React.useState("");
   const [rows, setRows] = React.useState<Row[]>([]);
@@ -70,16 +80,16 @@ export function CatalogExplorer() {
   const [discogs, setDiscogs] = React.useState(true);
   const [searched, setSearched] = React.useState(false);
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!seed.trim()) return;
+  async function runSearch(query: string) {
+    const q = query.trim();
+    if (!q || loading) return;
     setLoading(true);
     setSearched(true);
     try {
       const res = await fetch("/api/admin/catalog-explorer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ seed }),
+        body: JSON.stringify({ seed: q }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -95,6 +105,16 @@ export function CatalogExplorer() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    runSearch(seed);
+  }
+
+  function handlePreset(preset: string) {
+    setSeed(preset);
+    runSearch(preset);
   }
 
   return (
@@ -118,6 +138,21 @@ export function CatalogExplorer() {
           )}
         </Button>
       </form>
+
+      <div className="mt-2 flex flex-wrap items-center gap-2">
+        <span className="text-xs text-muted-foreground">Prueba:</span>
+        {PRESETS.map((p) => (
+          <button
+            key={p}
+            type="button"
+            onClick={() => handlePreset(p)}
+            disabled={loading}
+            className="rounded-full border px-3 py-1 text-xs transition-colors hover:bg-accent disabled:opacity-50"
+          >
+            {p}
+          </button>
+        ))}
+      </div>
 
       {rows.length > 0 && (
         <div className="mt-4">
