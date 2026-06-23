@@ -808,3 +808,32 @@ export async function getTopSellingRecords(limit = 8): Promise<TopRecord[]> {
     return [];
   }
 }
+
+export interface RecentVisit {
+  id: string;
+  createdAt: Date;
+  path: string;
+  city: string | null;
+  country: string | null;
+  source: string | null;
+}
+
+/** Últimas visitas individuales (con fecha y hora) para el panel. */
+export async function getRecentVisits(limit = 40): Promise<RecentVisit[]> {
+  try {
+    return await db.pageView.findMany({
+      orderBy: { createdAt: "desc" },
+      take: limit,
+      select: {
+        id: true,
+        createdAt: true,
+        path: true,
+        city: true,
+        country: true,
+        source: true,
+      },
+    });
+  } catch {
+    return [];
+  }
+}

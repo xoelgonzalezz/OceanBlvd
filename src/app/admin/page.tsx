@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { VisitsChart } from "@/components/admin/visits-chart";
 import { SalesPanel } from "@/components/admin/sales-panel";
+import { RecentVisits } from "@/components/admin/recent-visits";
 import {
   getAdminRecords,
   getVisitsByDay,
@@ -23,6 +24,7 @@ import {
   getSourcesByDay,
   getSalesStats,
   getTopSellingRecords,
+  getRecentVisits,
 } from "@/lib/queries";
 import { formatPrice } from "@/lib/utils";
 import { CONDITION_LABELS } from "@/lib/constants";
@@ -52,6 +54,7 @@ export default async function AdminDashboard({
     sourcesByDay,
     salesStats,
     topSelling,
+    recentVisits,
   ] = await Promise.all([
     getAdminRecords(),
     getVisitsByDay(30),
@@ -60,6 +63,7 @@ export default async function AdminDashboard({
     getSourcesByDay(30),
     getSalesStats(),
     getTopSellingRecords(8),
+    getRecentVisits(40),
   ]);
   const notice = searchParams.msg ? MESSAGES[searchParams.msg] : null;
 
@@ -127,6 +131,8 @@ export default async function AdminDashboard({
         sources={sources}
         sourcesByDay={sourcesByDay}
       />
+
+      <RecentVisits visits={recentVisits} />
 
       <div className="mt-8 overflow-x-auto rounded-lg border">
         <table className="w-full min-w-[600px] text-sm">
