@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { ImageIcon, Loader2, Search } from "lucide-react";
+import { ImageIcon, Loader2, Search, Wand2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
@@ -83,6 +83,15 @@ export function RecordForm({
   const [vinylUrl, setVinylUrl] = React.useState(initial?.vinylUrl ?? "");
   const [searching, setSearching] = React.useState(false);
 
+  const [description, setDescription] = React.useState(
+    initial?.description ?? ""
+  );
+  const [descriptionEn, setDescriptionEn] = React.useState(
+    initial?.descriptionEn ?? ""
+  );
+  const [generating, setGenerating] = React.useState(false);
+  const formRef = React.useRef<HTMLFormElement>(null);
+
   async function handleSearchCover() {
     const artistName = artists.find((a) => a.id === artistId)?.name;
     if (!artistName || !title.trim()) {
@@ -103,8 +112,51 @@ export function RecordForm({
     }
   }
 
+  async function handleGenerate() {
+    const fd = new FormData(formRef.current ?? undefined);
+    const artistName = artists.find((a) => a.id === fd.get("artistId"))?.name;
+    const genreName = genres.find((g) => g.id === fd.get("genreId"))?.name;
+    const titleVal = String(fd.get("title") || "");
+    if (!artistName || !titleVal.trim()) {
+      toast.error("Selecciona un artista y escribe el título primero.");
+      return;
+    }
+    setGenerating(true);
+    try {
+      const res = await fetch("/api/admin/ai-description", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          artist: artistName,
+          title: titleVal,
+          year: Number(fd.get("year")) || undefined,
+          genre: genreName,
+          condition: String(fd.get("condition") || ""),
+          grade: String(fd.get("mediaGrade") || ""),
+          color: String(fd.get("color") || ""),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error ?? "No se pudo generar la descripción.");
+        return;
+      }
+      if (data.es) setDescription(data.es);
+      if (data.en) setDescriptionEn(data.en);
+      toast.success("Descripción generada. Revísala antes de guardar.");
+    } catch {
+      toast.error("Error de conexión. Inténtalo de nuevo.");
+    } finally {
+      setGenerating(false);
+    }
+  }
+
   return (
-    <form action={formAction} className="grid gap-8 lg:grid-cols-[1fr_300px]">
+    <form
+      ref={formRef}
+      action={formAction}
+      className="grid gap-8 lg:grid-cols-[1fr_300px]"
+    >
       <div className="order-2 space-y-5 lg:order-1">
         {initial ? <input type="hidden" name="id" value={initial.id} /> : null}
 
@@ -234,13 +286,51 @@ export function RecordForm({
         </div>
 
         <div>
-          <Label htmlFor="description">Descripción (español)</Label>
-          <Textarea id="description" name="description" defaultValue={initial?.description} required rows={4} className="mt-1.5" />
+          <div className="flex items-center justify-between gap-2">
+            <Label htmlFor="description">Descripción (español)</Label>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleGenerate}
+              disabled={generating}
+            >
+              {generating ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" /> Generando…
+                </>
+              ) : (
+                <>
+                  <Wand2 className="h-4 w-4" /> Generar con IA
+                </>
+              )}
+            </Button>
+          </div>
+          <Textarea
+            id="description"
+            name="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+            rows={4}
+            className="mt-1.5"
+          />
+          <p className="mt-1 text-xs text-muted-foreground">
+            Rellena artista, título, año y género; pulsa «Generar con IA» y
+            revisa el texto antes de guardar.
+          </p>
         </div>
 
         <div>
           <Label htmlFor="descriptionEn">Descripción (inglés, opcional)</Label>
-          <Textarea id="descriptionEn" name="descriptionEn" defaultValue={initial?.descriptionEn} rows={4} className="mt-1.5" />
+          <Textarea
+            id="descriptionEn"
+            name="descriptionEn"
+            value={descriptionEn}
+            onChange={(e) => setDescriptionEn(e.target.value)}
+            rows={4}
+            className="mt-1.5"
+          />
         </div>
 
         <div>
