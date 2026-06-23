@@ -9,6 +9,7 @@ import {
   Newspaper,
   Contact,
   Package,
+  Boxes,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -82,6 +83,11 @@ export default async function AdminDashboard({
           <Button asChild variant="outline">
             <Link href="/admin/pedidos">
               <Package /> Pedidos
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/admin/stock">
+              <Boxes /> Stock
             </Link>
           </Button>
           <Button asChild variant="outline">

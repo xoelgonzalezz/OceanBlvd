@@ -10,6 +10,7 @@ import { DEFAULT_CARRIER } from "@/lib/constants";
 import { sendShippingNotification } from "@/lib/email";
 import { slugify, decadeOf } from "@/lib/utils";
 import { findCover } from "@/lib/cover-search";
+import { parseCsv } from "@/lib/csv";
 import {
   ADMIN_COOKIE,
   checkAdminPassword,
@@ -652,4 +653,99 @@ export async function searchCoverAction(
   if (!rateLimit(`cover-search:${clientIp()}`, 20, 60_000)) return null;
   if (!artist?.trim() || !title?.trim()) return null;
   return findCover(artist, String(title).slice(0, 200));
+}
+
+/* ---------- Gestión de stock ---------- */
+
+/** Actualiza el stock y el precio de un disco desde la tabla de stock. */
+export async function updateStockAction(formData: FormData) {
+  if (!(await isAdminRequest())) redirect("/admin/login");
+  const id = String(formData.get("id") || "");
+  if (!id) redirect("/admin/stock?msg=stock-error");
+
+  const stock = Math.round(Number(String(formData.get("stock") || "").trim()));
+  const priceEur = Number(
+    String(formData.get("price") || "").trim().replace(",", ".")
+  );
+  const priceCents = Math.round(priceEur * 100);
+
+  if (
+    !Number.isFinite(stock) ||
+    stock < 0 ||
+    !Number.isFinite(priceCents) ||
+    priceCents < 0
+  ) {
+    redirect("/admin/stock?msg=stock-error");
+  }
+
+  const existing = await db.record.findFirst({
+    where: { id, archived: false },
+    select: { slug: true },
+  });
+  if (!existing) redirect("/admin/stock?msg=stock-error");
+
+  await db.record.update({
+    where: { id },
+    data: { stock: Math.min(99999, stock), priceCents },
+  });
+
+  revalidateShop(existing.slug);
+  redirect("/admin/stock?msg=stock-saved");
+}
+
+/**
+ * Importa un CSV para actualizar stock/precio en masa. Empareja por columna
+ * "id"; usa "stock" y "precio_eur" si están presentes. Las filas con id
+ * desconocido se ignoran sin romper la importación.
+ */
+export async function importStockCsvAction(formData: FormData) {
+  if (!(await isAdminRequest())) redirect("/admin/login");
+
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size === 0) {
+    redirect("/admin/stock?msg=import-empty");
+  }
+  if (file.size > 1_000_000) redirect("/admin/stock?msg=import-toobig");
+
+  const rows = parseCsv(await file.text());
+  if (rows.length < 2) redirect("/admin/stock?msg=import-empty");
+
+  const header = rows[0].map((h) => h.trim().toLowerCase());
+  const idIdx = header.indexOf("id");
+  const stockIdx = header.indexOf("stock");
+  const priceIdx = header.findIndex((h) =>
+    ["precio_eur", "precio", "price"].includes(h)
+  );
+  if (idIdx === -1) redirect("/admin/stock?msg=import-noid");
+
+  let updated = 0;
+  for (let i = 1; i < rows.length; i++) {
+    const cols = rows[i];
+    const id = (cols[idIdx] ?? "").trim();
+    if (!id) continue;
+
+    const data: { stock?: number; priceCents?: number } = {};
+    if (stockIdx !== -1) {
+      const s = Math.round(Number((cols[stockIdx] ?? "").trim()));
+      if (Number.isFinite(s) && s >= 0) data.stock = Math.min(99999, s);
+    }
+    if (priceIdx !== -1) {
+      const p = Number((cols[priceIdx] ?? "").trim().replace(",", "."));
+      if (Number.isFinite(p) && p >= 0) data.priceCents = Math.round(p * 100);
+    }
+    if (Object.keys(data).length === 0) continue;
+
+    try {
+      const res = await db.record.updateMany({
+        where: { id, archived: false },
+        data,
+      });
+      updated += res.count;
+    } catch {
+      /* fila inválida: se ignora */
+    }
+  }
+
+  revalidateShop();
+  redirect(`/admin/stock?msg=import-done&n=${updated}`);
 }
