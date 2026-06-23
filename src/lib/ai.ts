@@ -140,3 +140,59 @@ Devuelve SOLO un array JSON válido, sin texto adicional ni markdown, con objeto
     return null;
   }
 }
+
+export interface SocialPost {
+  hook: string;
+  caption: string;
+  hashtags: string[];
+}
+
+/** Genera ideas de publicación para redes a partir de un disco del catálogo. */
+export async function generateSocialPosts(input: {
+  artist: string;
+  title: string;
+  year?: number;
+  genre?: string;
+  condition?: string;
+  platform: string; // "TikTok" | "Instagram" | "TikTok e Instagram"
+}): Promise<SocialPost[] | null> {
+  const cond = input.condition === "NEW" ? "nuevo/precintado" : "segunda mano";
+  const prompt = `Eres el community manager de Ocean Blvd Vinyl, una tienda de vinilos en España. Tono cercano, joven y natural (español de España).
+
+Crea 3 ideas de publicación para ${input.platform} sobre este disco en VINILO:
+- Artista: ${input.artist}
+- Álbum: ${input.title}
+${input.year ? `- Año: ${input.year}\n` : ""}${input.genre ? `- Género: ${input.genre}\n` : ""}- Estado: ${cond}
+
+Cada idea debe tener:
+- "hook": gancho corto para los primeros segundos del vídeo o la primera línea (que pare el scroll).
+- "caption": texto de la publicación (1-3 frases, con algún emoji y una llamada a la acción sutil para comprar/visitar la tienda). No inventes datos de ediciones.
+- "hashtags": entre 6 y 8 hashtags relevantes (vinilo, el artista, el género, comunidad de coleccionistas...), cada uno empezando por "#".
+
+Devuelve SOLO un array JSON válido, sin texto adicional ni markdown:
+[{"hook":"...","caption":"...","hashtags":["#vinilo","#..."]}]`;
+
+  const text = await callClaude(prompt, 1500);
+  if (!text) return null;
+  const match = text.match(/\[[\s\S]*\]/);
+  if (!match) return null;
+  try {
+    const arr = JSON.parse(match[0]) as unknown;
+    if (!Array.isArray(arr)) return null;
+    return arr
+      .map((x) => {
+        const o = (x ?? {}) as Record<string, unknown>;
+        return {
+          hook: String(o.hook ?? "").slice(0, 300),
+          caption: String(o.caption ?? "").slice(0, 1000),
+          hashtags: Array.isArray(o.hashtags)
+            ? o.hashtags.map((h) => String(h)).filter(Boolean).slice(0, 12)
+            : [],
+        };
+      })
+      .filter((x) => x.caption)
+      .slice(0, 4);
+  } catch {
+    return null;
+  }
+}

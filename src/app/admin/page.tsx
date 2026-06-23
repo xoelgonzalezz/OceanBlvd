@@ -11,6 +11,7 @@ import {
   Package,
   Boxes,
   Compass,
+  Megaphone,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -94,6 +95,11 @@ export default async function AdminDashboard({
           <Button asChild variant="outline">
             <Link href="/admin/explorar">
               <Compass /> Explorar
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/admin/social">
+              <Megaphone /> Redes
             </Link>
           </Button>
           <Button asChild variant="outline">
