@@ -30,9 +30,23 @@ const fullInclude = {
 
 /* ============== HOME ============== */
 
-/** Disco para el hero: preferimos el álbum "Ocean Blvd" de Lana Del Rey. */
+/**
+ * Disco para el hero de la home (el grande de arriba).
+ * Manda el que marques como "Destacar en grande" en el admin.
+ * Si hay varios, se usa el añadido más recientemente.
+ * Si no hay ninguno, por defecto: "Ocean Blvd" de Lana Del Rey (la marca).
+ */
 export const getHeroRecord = unstable_cache(
   async () => {
+    // 1) El "destacado en grande" elegido en el admin tiene prioridad.
+    const hero = await db.record.findFirst({
+      where: { archived: false, heroFeatured: true },
+      include: cardInclude,
+      orderBy: { createdAt: "desc" },
+    });
+    if (hero) return hero;
+
+    // 2) Por defecto, el álbum "Ocean Blvd" de Lana Del Rey.
     const lana = await db.record.findMany({
       where: { archived: false, artist: { slug: "lana-del-rey" } },
       include: cardInclude,
@@ -41,8 +55,10 @@ export const getHeroRecord = unstable_cache(
     const ocean = lana.find((r) => /ocean blvd/i.test(r.title));
     if (ocean) return ocean;
     if (lana.length) return lana[0];
+
+    // 3) Último recurso: el disco más vendido disponible.
     return db.record.findFirst({
-      where: { archived: false, featured: true },
+      where: { archived: false },
       include: cardInclude,
       orderBy: { salesCount: "desc" },
     });

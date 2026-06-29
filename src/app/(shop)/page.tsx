@@ -11,6 +11,7 @@ import { BlogPreview } from "@/components/home/blog-preview";
 import {
   getBestSellers,
   getFeaturedArtists,
+  getFeaturedRecords,
   getGenresWithCount,
   getHeroRecord,
   getLatestPosts,
@@ -26,15 +27,19 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [heroRecord, newReleases, bestSellers, genres, artists, posts] =
+  const [heroRecord, featured, newReleases, bestSellers, genres, artists, posts] =
     await Promise.all([
       getHeroRecord(),
+      getFeaturedRecords(8),
       getNewReleases(8),
       getBestSellers(8),
       getGenresWithCount(),
       getFeaturedArtists(6),
       getLatestPosts(3),
     ]);
+
+  // No repetimos en la rejilla el disco que ya sale en grande en el hero.
+  const featuredRecords = featured.filter((r) => r.id !== heroRecord?.id);
 
   const t = getDict();
 
@@ -43,6 +48,14 @@ export default async function HomePage() {
       <Hero record={heroRecord} />
 
       <Marquee items={[...t.marquee]} />
+
+      <RecordSection
+        eyebrow={t.home.featuredEyebrow}
+        title={t.home.featuredTitle}
+        description={t.home.featuredDesc}
+        records={featuredRecords}
+        priorityCount={4}
+      />
 
       <RecordSection
         eyebrow={t.home.newEyebrow}

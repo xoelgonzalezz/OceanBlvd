@@ -143,6 +143,7 @@ type ParsedRecord =
         description: string;
         descriptionEn: string | null;
         featured: boolean;
+        heroFeatured: boolean;
       };
       tracks: { position: number; title: string; duration: string | null }[];
       coverUrl: string;
@@ -169,6 +170,7 @@ function parseRecordForm(formData: FormData): ParsedRecord {
   const description = String(formData.get("description") || "").trim();
   const descriptionEn = String(formData.get("descriptionEn") || "").trim();
   const featured = formData.get("featured") === "on";
+  const heroFeatured = formData.get("heroFeatured") === "on";
   const coverUrl = safeImageUrl(String(formData.get("coverUrl") || ""));
   // Segunda foto (opcional), p. ej. el vinilo, para la galería del producto.
   const image2Url = safeImageUrl(String(formData.get("image2") || ""));
@@ -202,6 +204,7 @@ function parseRecordForm(formData: FormData): ParsedRecord {
       description,
       descriptionEn: descriptionEn || null,
       featured,
+      heroFeatured,
     },
     tracks: parseTracks(tracksText),
     coverUrl,

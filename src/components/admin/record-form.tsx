@@ -36,6 +36,7 @@ export interface RecordInitial {
   description: string;
   descriptionEn: string;
   featured: boolean;
+  heroFeatured: boolean;
   coverUrl: string;
   image2Url: string;
   vinylUrl: string;
@@ -404,15 +405,27 @@ export function RecordForm({
           </p>
         </div>
 
-        <label className="flex items-center gap-2.5 text-sm">
-          <input
-            type="checkbox"
-            name="featured"
-            defaultChecked={initial?.featured}
-            className="h-4 w-4 accent-foreground"
-          />
-          Destacar en la página de inicio
-        </label>
+        <div className="space-y-3 rounded-md border border-border/60 p-4">
+          <label className="flex items-center gap-2.5 text-sm">
+            <input
+              type="checkbox"
+              name="featured"
+              defaultChecked={initial?.featured}
+              className="h-4 w-4 accent-foreground"
+            />
+            Destacado — aparece en la sección «Destacados» de la home
+          </label>
+
+          <label className="flex items-center gap-2.5 text-sm">
+            <input
+              type="checkbox"
+              name="heroFeatured"
+              defaultChecked={initial?.heroFeatured}
+              className="h-4 w-4 accent-foreground"
+            />
+            Destacar en grande — disco principal del banner de la home
+          </label>
+        </div>
 
         {state?.error ? (
           <p

@@ -67,7 +67,8 @@ model Record {
   descriptionEn String?
   stock         Int      @default(1)
   salesCount    Int      @default(0) // para "Más vendidos" / popularidad
-  featured      Boolean  @default(false) // destacados del home/hero
+  featured      Boolean  @default(false) // destacado: sale en la sección "Destacados" de la home
+  heroFeatured  Boolean  @default(false) // "destacar en grande": disco principal del hero de la home
   // Archivado: "borrado" de la tienda. Si el disco ya tiene pedidos no se
   // elimina (rompería el historial); se archiva y deja de mostrarse.
   archived      Boolean  @default(false)
