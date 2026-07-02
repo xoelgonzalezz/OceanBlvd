@@ -97,7 +97,9 @@ export const getBestSellers = (limit = 8) =>
   unstable_cache(
     (l: number) =>
       db.record.findMany({
-        where: { archived: false },
+        // Solo discos con ventas reales: sin ventas, la sección "Más vendidos"
+        // queda vacía y no se muestra (evita duplicar todo el catálogo).
+        where: { archived: false, salesCount: { gt: 0 } },
         include: cardInclude,
         orderBy: { salesCount: "desc" },
         take: l,

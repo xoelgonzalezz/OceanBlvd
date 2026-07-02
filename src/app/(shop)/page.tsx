@@ -38,8 +38,22 @@ export default async function HomePage() {
       getLatestPosts(3),
     ]);
 
-  // No repetimos en la rejilla el disco que ya sale en grande en el hero.
-  const featuredRecords = featured.filter((r) => r.id !== heroRecord?.id);
+  // Evitamos que un mismo disco aparezca en varias secciones (con catálogo
+  // pequeño, "destacados", "novedades" y "más vendidos" mostrarían los mismos
+  // discos). Cada sección solo enseña los que aún no han salido más arriba; las
+  // que se quedan sin discos no se renderizan (RecordSection devuelve null).
+  const shown = new Set<string>();
+  if (heroRecord) shown.add(heroRecord.id);
+
+  const take = (records: typeof featured) => {
+    const out = records.filter((r) => !shown.has(r.id));
+    out.forEach((r) => shown.add(r.id));
+    return out;
+  };
+
+  const featuredRecords = take(featured);
+  const newReleaseRecords = take(newReleases);
+  const bestSellerRecords = take(bestSellers);
 
   const t = getDict();
 
@@ -63,7 +77,7 @@ export default async function HomePage() {
         description={t.home.newDesc}
         href="/tienda?sort=newest"
         linkLabel={t.home.newLink}
-        records={newReleases}
+        records={newReleaseRecords}
         priorityCount={4}
       />
 
@@ -75,7 +89,7 @@ export default async function HomePage() {
         description={t.home.bestDesc}
         href="/tienda?sort=popular"
         linkLabel={t.home.bestLink}
-        records={bestSellers}
+        records={bestSellerRecords}
       />
 
       <FeaturedArtists artists={artists} />
