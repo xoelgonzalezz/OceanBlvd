@@ -1,9 +1,8 @@
 "use client";
 
-import { formatPrice } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
 import { FREE_SHIPPING_THRESHOLD_CENTS } from "@/lib/constants";
 import { useT } from "@/components/i18n/locale-provider";
-import { cn } from "@/lib/utils";
 
 /**
  * Barra de progreso hacia el envío gratis. Muestra cuánto falta para alcanzar
