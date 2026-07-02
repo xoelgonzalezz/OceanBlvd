@@ -5,12 +5,26 @@ import { Minus, Plus } from "lucide-react";
 
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
 import { useT } from "@/components/i18n/locale-provider";
+import { trackViewItem } from "@/lib/analytics";
 import type { CartItem } from "@/types";
 
 export function BuyBox({ item }: { item: Omit<CartItem, "quantity"> }) {
   const [qty, setQty] = React.useState(1);
   const t = useT();
   const soldOut = item.stock <= 0;
+
+  // view_item: se dispara una vez al abrir la ficha de producto.
+  React.useEffect(() => {
+    trackViewItem({
+      id: item.id,
+      title: item.title,
+      artist: item.artist,
+      priceCents: item.priceCents,
+      condition: item.condition,
+    });
+    // Sólo cuando cambia el producto mostrado.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item.id]);
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">

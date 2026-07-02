@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ClearCart } from "@/components/checkout/clear-cart";
+import { PurchaseTracker } from "@/components/checkout/purchase-tracker";
 import { getOrderForConfirmation } from "@/lib/queries";
 import { getCurrentUser } from "@/lib/auth/session";
 import { formatPrice } from "@/lib/utils";
@@ -59,6 +60,18 @@ export default async function CheckoutSuccessPage({
   return (
     <div className="container max-w-2xl py-14 md:py-20">
       <ClearCart />
+      <PurchaseTracker
+        orderId={order.id}
+        totalCents={order.totalCents}
+        shippingCents={order.shippingCents}
+        items={order.items.map((it) => ({
+          id: it.recordId,
+          title: it.record.title,
+          artist: it.record.artist.name,
+          priceCents: it.unitPriceCents,
+          quantity: it.quantity,
+        }))}
+      />
       <div className="text-center">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
           <CheckCircle2 className="h-8 w-8 text-primary" />

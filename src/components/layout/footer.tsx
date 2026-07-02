@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Disc3 } from "lucide-react";
 
 import { NewsletterForm } from "@/components/shared/newsletter-form";
+import { PaymentMethods } from "@/components/layout/payment-methods";
 import { SOCIAL_LINKS, SITE } from "@/lib/constants";
 import { getDict } from "@/i18n/server";
 
@@ -92,7 +93,9 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="border-t border-border/60 pt-8">
+        <PaymentMethods className="border-t border-border/60 pt-8" />
+
+        <div className="mt-8 border-t border-border/60 pt-8">
           <ul className="mb-6 flex flex-wrap justify-center gap-x-5 gap-y-2 sm:justify-start">
             {legalLinks.map((link) => (
               <li key={link.href}>

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { useCart } from "@/store/cart";
 import { useT } from "@/components/i18n/locale-provider";
+import { trackAddToCart } from "@/lib/analytics";
 import type { CartItem } from "@/types";
 
 interface AddToCartButtonProps extends Omit<ButtonProps, "children"> {
@@ -33,6 +34,14 @@ export function AddToCartButton({
   function handleClick() {
     if (soldOut) return;
     addItem(item, quantity);
+    trackAddToCart({
+      id: item.id,
+      title: item.title,
+      artist: item.artist,
+      priceCents: item.priceCents,
+      quantity,
+      condition: item.condition,
+    });
     toast.success(t.detail.addedToast, {
       description: `${item.title} — ${item.artist}`,
     });

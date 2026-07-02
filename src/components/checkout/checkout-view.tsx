@@ -16,6 +16,7 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { useCart, useCartHydrated, useCartSubtotal } from "@/store/cart";
 import { formatPrice } from "@/lib/utils";
 import { calcShipping } from "@/lib/constants";
+import { trackBeginCheckout } from "@/lib/analytics";
 import { useT } from "@/components/i18n/locale-provider";
 
 const initialForm = {
@@ -47,6 +48,24 @@ export function CheckoutView({
   const [form, setForm] = React.useState({ ...initialForm, ...initial });
   const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [loading, setLoading] = React.useState(false);
+
+  // begin_checkout: una sola vez, cuando el carrito ya está hidratado y hay
+  // líneas. El ref evita repetirlo en cada render.
+  const beganRef = React.useRef(false);
+  React.useEffect(() => {
+    if (beganRef.current || !hydrated || items.length === 0) return;
+    beganRef.current = true;
+    trackBeginCheckout(
+      items.map((i) => ({
+        id: i.id,
+        title: i.title,
+        artist: i.artist,
+        priceCents: i.priceCents,
+        quantity: i.quantity,
+        condition: i.condition,
+      }))
+    );
+  }, [hydrated, items]);
 
   if (!hydrated) return <div className="h-64" aria-hidden />;
 

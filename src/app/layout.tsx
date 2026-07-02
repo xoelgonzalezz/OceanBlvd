@@ -61,6 +61,17 @@ export function generateMetadata(): Metadata {
     icon: [{ url: "/icon.png", type: "image/png" }],
     apple: [{ url: "/apple-icon.png" }],
   },
+  // Verificación de propiedad. Los tokens se configuran por variable de entorno
+  // (ver docs/PROGRESO.md). Si no están, no se emiten las etiquetas.
+  verification: {
+    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || undefined,
+    other: process.env.NEXT_PUBLIC_META_DOMAIN_VERIFICATION
+      ? {
+          "facebook-domain-verification":
+            process.env.NEXT_PUBLIC_META_DOMAIN_VERIFICATION,
+        }
+      : {},
+  },
   };
 }
 

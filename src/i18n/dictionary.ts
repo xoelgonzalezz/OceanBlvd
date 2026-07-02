@@ -16,6 +16,20 @@ const es = {
     dismiss: "No, gracias",
     close: "Cerrar",
   },
+  announcement: {
+    shipping: "Envío 4,99 € · Gratis desde 60 € · Entrega en ~5 días (Península)",
+  },
+  consent: {
+    title: "Cookies y privacidad",
+    text: "Usamos cookies para medir el tráfico y mejorar la tienda. Solo las activamos si aceptas.",
+    policy: "Más información",
+    accept: "Aceptar",
+    reject: "Rechazar",
+  },
+  whatsapp: {
+    aria: "Escríbenos por WhatsApp",
+    prefill: "¡Hola! Tengo una duda sobre un vinilo de Ocean Blvd.",
+  },
   nav: { shop: "Tienda", artists: "Artistas", blog: "Blog", about: "Nosotros", home: "Inicio" },
   header: {
     search: "Buscar discos, artistas…",
@@ -81,6 +95,7 @@ const es = {
     nlAria: "Correo electrónico",
     nlSuccess: "¡Gracias por suscribirte!",
     nlSuccessDesc: "Te avisaremos de novedades y ediciones especiales.",
+    payments: "Pago 100 % seguro",
     rights: "Hecho con cariño por la música.",
     colLegal: "Legal",
     legalNotice: "Aviso legal",
@@ -358,6 +373,20 @@ const en: typeof es = {
     dismiss: "No, thanks",
     close: "Close",
   },
+  announcement: {
+    shipping: "Shipping €4.99 · Free over €60 · Delivery in ~5 days (mainland Spain)",
+  },
+  consent: {
+    title: "Cookies and privacy",
+    text: "We use cookies to measure traffic and improve the shop. We only enable them if you accept.",
+    policy: "Learn more",
+    accept: "Accept",
+    reject: "Reject",
+  },
+  whatsapp: {
+    aria: "Message us on WhatsApp",
+    prefill: "Hi! I have a question about an Ocean Blvd record.",
+  },
   nav: { shop: "Shop", artists: "Artists", blog: "Blog", about: "About", home: "Home" },
   header: {
     search: "Search records, artists…",
@@ -423,6 +452,7 @@ const en: typeof es = {
     nlAria: "Email address",
     nlSuccess: "Thanks for subscribing!",
     nlSuccessDesc: "We'll let you know about new arrivals and special editions.",
+    payments: "100% secure payment",
     rights: "Made with love for music.",
     colLegal: "Legal",
     legalNotice: "Legal notice",

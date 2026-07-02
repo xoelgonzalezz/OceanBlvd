@@ -1,9 +1,12 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { CartSheet } from "@/components/cart/cart-sheet";
 import { LocaleProvider } from "@/components/i18n/locale-provider";
 import { PageViewTracker } from "@/components/analytics/page-view-tracker";
+import { Analytics } from "@/components/analytics/analytics";
 import { WelcomePopup } from "@/components/shared/welcome-popup";
+import { WhatsAppButton } from "@/components/shared/whatsapp-button";
 import { getDict, getLocale } from "@/i18n/server";
 
 export default function ShopLayout({
@@ -23,6 +26,7 @@ export default function ShopLayout({
         >
           {t.header.skip}
         </a>
+        <AnnouncementBar />
         <Header />
         <main id="contenido" className="flex-1">
           {children}
@@ -30,7 +34,9 @@ export default function ShopLayout({
         <Footer />
         <CartSheet />
         <PageViewTracker />
+        <Analytics />
         <WelcomePopup />
+        <WhatsAppButton />
       </div>
     </LocaleProvider>
   );

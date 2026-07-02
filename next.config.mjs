@@ -3,13 +3,21 @@
 // Política de seguridad de contenido (CSP) razonable para esta app.
 // 'unsafe-inline' en script/style es necesario por el script de next-themes y
 // los estilos inline (transforms, gradientes). El resto queda bloqueado.
+// Dominios de medición (GA4 y Meta Pixel). Sus scripts sólo se cargan tras el
+// consentimiento del usuario (ver src/components/analytics/analytics.tsx), pero
+// la CSP debe permitirlos para que puedan ejecutarse cuando toca.
+const analyticsScript =
+  "https://www.googletagmanager.com https://connect.facebook.net";
+const analyticsConnect =
+  "https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net https://*.facebook.com";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline' ${analyticsScript}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https:",
   "font-src 'self' data:",
-  "connect-src 'self'",
+  `connect-src 'self' ${analyticsConnect}`,
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
