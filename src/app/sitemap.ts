@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/constants";
 import {
   getAllArtistSlugs,
+  getAllGenreSlugs,
   getAllPostSlugs,
   getAllRecordSlugs,
 } from "@/lib/queries";
@@ -14,6 +15,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "",
     "/tienda",
+    "/vinilos/nuevos",
+    "/vinilos/segunda-mano",
     "/artistas",
     "/blog",
     "/sobre-nosotros",
@@ -31,14 +34,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "weekly" as const,
   }));
 
-  const [records, artists, posts] = await Promise.all([
+  const [records, artists, posts, genres] = await Promise.all([
     getAllRecordSlugs(),
     getAllArtistSlugs(),
     getAllPostSlugs(),
+    getAllGenreSlugs(),
   ]);
 
   return [
     ...staticRoutes,
+    ...genres.map((g) => ({
+      url: `${base}/vinilos/${g.slug}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+    })),
     ...records.map((r) => ({
       url: `${base}/producto/${r.slug}`,
       lastModified: now,

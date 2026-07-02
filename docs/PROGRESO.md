@@ -52,6 +52,26 @@ sugería el diagnóstico. El agujero real era **medición (EPIC 1)** y las
 
 ---
 
+## Sprint 2 — Resto de SEO técnico (EPIC 2) + feeds (EPIC 5)
+
+### EPIC 2 — SEO técnico
+- [x] **Meta keywords globales eliminadas** (eran inertes; Google las ignora).
+- [x] **Landings limpias indexables** con H1 propio y texto único (~120 palabras):
+  - `/vinilos/nuevos` (condición NEW)
+  - `/vinilos/segunda-mano` (condición USED, enlaza a estados/grading)
+  - `/vinilos/[genero]` (una por género, texto propio o descripción del género)
+  - Todas con `canonical` propia y añadidas al `sitemap.xml`.
+- [x] **Canonical de parámetros**: ya existía (`/tienda` tiene canónica fija; los `?genre`/`?sort`/`?page` no compiten). Verificado ✔.
+- [x] **`sizes` de imágenes** en las nuevas landings (evita servir el original enorme a tarjetas).
+- [ ] `hreflang` / retirar toggle EN: **se mantiene** el i18n actual (funciona). Pendiente añadir `hreflang` si se decide indexar la versión EN (requiere URLs distintas por idioma; hoy es por cookie).
+
+### EPIC 5 — Feeds para canales gratuitos
+- [x] **Feed Google Merchant Center**: `/feeds/google-merchant.xml` (RSS 2.0 con `g:`). Incluye `condition` new/used, `availability`, `price`, `brand` (artista), `identifier_exists=no`, `google_product_category` de vinilos y `shipping` (ES). Caché 1 h.
+- [x] **Feed catálogo de Meta**: `/feeds/meta-catalog.csv` para etiquetar productos en Instagram.
+- [x] **RSS del blog**: `/feeds/blog.xml`.
+
+---
+
 ## Pasos manuales pendientes (para Xoel)
 
 Estos pasos NO son de código: hay que hacerlos en los paneles externos.
@@ -95,6 +115,18 @@ git add public/products && git commit -m "chore: self-host de imágenes"
 Las imágenes quedan en `/public/products/` y hay que commitearlas para que
 Vercel las sirva.
 
+### Google Merchant Center (fichas gratuitas de Shopping)
+1. Alta en Merchant Center y verificar el dominio (lo enlaza con Search Console).
+2. Productos → Fuentes de datos → añadir feed programado con la URL
+   `https://oceanblvdvinyl.com/feeds/google-merchant.xml` (frecuencia diaria).
+3. Configurar el envío en la cuenta (envío gratis desde 60 € no cabe en el feed;
+   se define como regla de cuenta). Activar las **fichas gratuitas** (no requiere ads).
+4. Vincular GA4 desde Merchant Center para ver conversiones.
+
+### Catálogo de Meta (Instagram Shopping)
+1. Commerce Manager → Catálogo → añadir fuente de datos → feed de datos.
+2. URL: `https://oceanblvdvinyl.com/feeds/meta-catalog.csv` (programado diario).
+
 ### Bizum (opcional, alta conversión en España)
 Stripe no ofrece Bizum de forma nativa en España. Para aceptarlo hace falta una
 pasarela tipo **MONEI** o **Redsys**. El logo de Bizum ya está en el footer; si
@@ -104,9 +136,9 @@ finalmente no se integra, quitarlo de `PaymentMethods`.
 
 ## Backlog restante por epics (resumen)
 
-- **EPIC 2**: `hreflang` o retirar toggle EN; quitar meta keywords globales; landings `/vinilos/...`; canonicals de parámetros; `sizes` de imágenes.
+- **EPIC 2**: pendiente solo `hreflang` (o retirar toggle EN) — decisión abierta.
 - **EPIC 3 (resto)**: barra de progreso a envío gratis en carrito; reviews sin login / post-compra; galería multi-imagen 2ª mano; `/grading`; back-in-stock; wishlist; newsletter con cupón; recuperación de carrito.
 - **EPIC 4**: preventas (estado `preorder` + `/preventas`); colecciones/tags administrables; campos `gtin`/`peso`/`discogs_release_id`.
-- **EPIC 5**: feed Google Merchant (`condition: used`), feed Meta, RSS blog.
+- **EPIC 5**: hecho (feeds Merchant/Meta + RSS blog). Pendiente solo el alta manual en los paneles.
 - **EPIC 6**: páginas de artista enriquecidas; plantilla de blog + 10 borradores; "Vende tus vinilos".
 - **EPIC 7**: auditoría Lighthouse; 404 con buscador; tests de sitemap/JSON-LD/feed.

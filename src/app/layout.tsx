@@ -28,19 +28,8 @@ export function generateMetadata(): Metadata {
     template: `%s · ${SITE.name}`,
   },
   description: SITE.description,
-  keywords: [
-    "vinilos",
-    "discos de vinilo",
-    "tienda de vinilos",
-    "tienda de vinilos online",
-    "comprar vinilos online",
-    "vinilos España",
-    "LP",
-    "discos de segunda mano",
-    "novedades vinilo",
-    "ediciones especiales vinilo",
-    SITE.name,
-  ],
+  // Nota: la meta "keywords" se ha retirado (Google la ignora desde hace años y
+  // repetirla en todas las páginas es señal de plantilla).
   authors: [{ name: SITE.name }],
   openGraph: {
     type: "website",

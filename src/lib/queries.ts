@@ -284,6 +284,33 @@ export function getAllRecordSlugs() {
   return db.record.findMany({ where: { archived: false }, select: { slug: true } });
 }
 
+/** Catálogo completo (no archivado) con relaciones, para los feeds de producto. */
+export function getCatalogForFeed() {
+  return db.record.findMany({
+    where: { archived: false },
+    include: cardInclude,
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+/** Todos los artículos del blog, del más reciente al más antiguo (RSS). */
+export function getPostsForFeed() {
+  return db.blogPost.findMany({ orderBy: { publishedAt: "desc" } });
+}
+
+/** Slugs de todos los géneros con al menos un disco (landings /vinilos/[genero]). */
+export function getAllGenreSlugs() {
+  return db.genre.findMany({
+    where: { records: { some: { archived: false } } },
+    select: { slug: true },
+  });
+}
+
+/** Un género por su slug (landing de género). */
+export function getGenreBySlug(slug: string) {
+  return db.genre.findFirst({ where: { slug } });
+}
+
 export async function getRelatedRecords(
   record: { id: string; artistId: string; genreId: string },
   limit = 4
