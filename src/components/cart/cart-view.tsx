@@ -9,10 +9,8 @@ import { Separator } from "@/components/ui/separator";
 import { EmptyState } from "@/components/shared/empty-state";
 import { useCart, useCartHydrated, useCartSubtotal } from "@/store/cart";
 import { formatPrice } from "@/lib/utils";
-import {
-  calcShipping,
-  FREE_SHIPPING_THRESHOLD_CENTS,
-} from "@/lib/constants";
+import { calcShipping } from "@/lib/constants";
+import { FreeShippingProgress } from "@/components/cart/free-shipping-progress";
 import { useT } from "@/components/i18n/locale-provider";
 
 export function CartView() {
@@ -25,7 +23,6 @@ export function CartView() {
   const hydrated = useCartHydrated();
 
   const shipping = calcShipping(subtotal);
-  const remaining = FREE_SHIPPING_THRESHOLD_CENTS - subtotal;
 
   // Evita parpadeo durante la hidratación del carrito (localStorage).
   if (!hydrated) {
@@ -131,15 +128,10 @@ export function CartView() {
         <div className="rounded-lg border bg-card p-6">
           <h2 className="font-serif text-lg font-semibold">{t.cart.summary}</h2>
 
-          {remaining > 0 ? (
-            <p className="mt-3 rounded-md bg-secondary/60 px-3 py-2 text-xs text-secondary-foreground">
-              {t.cart.freeProgress(formatPrice(remaining))}
-            </p>
-          ) : (
-            <p className="mt-3 rounded-md bg-primary/10 px-3 py-2 text-xs font-medium text-primary">
-              {t.cart.freeReached}
-            </p>
-          )}
+          <FreeShippingProgress
+            subtotal={subtotal}
+            className="mt-3 rounded-md bg-secondary/40 px-3 py-2.5"
+          />
 
           <dl className="mt-4 space-y-2 text-sm">
             <div className="flex justify-between">

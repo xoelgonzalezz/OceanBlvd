@@ -15,10 +15,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCart, useCartSubtotal } from "@/store/cart";
 import { formatPrice } from "@/lib/utils";
-import {
-  calcShipping,
-  FREE_SHIPPING_THRESHOLD_CENTS,
-} from "@/lib/constants";
+import { calcShipping } from "@/lib/constants";
+import { FreeShippingProgress } from "@/components/cart/free-shipping-progress";
 import { useT } from "@/components/i18n/locale-provider";
 
 export function CartSheet() {
@@ -31,7 +29,6 @@ export function CartSheet() {
   const subtotal = useCartSubtotal();
 
   const shipping = calcShipping(subtotal);
-  const remaining = FREE_SHIPPING_THRESHOLD_CENTS - subtotal;
 
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
@@ -70,16 +67,11 @@ export function CartSheet() {
           </div>
         ) : (
           <>
-            {/* Aviso de envío gratis */}
-            {remaining > 0 ? (
-              <p className="bg-secondary/60 px-6 py-2.5 text-center text-xs text-secondary-foreground">
-                {t.cart.freeProgress(formatPrice(remaining))}
-              </p>
-            ) : (
-              <p className="bg-primary/10 px-6 py-2.5 text-center text-xs font-medium text-primary">
-                {t.cart.freeReached}
-              </p>
-            )}
+            {/* Progreso hacia el envío gratis */}
+            <FreeShippingProgress
+              subtotal={subtotal}
+              className="bg-secondary/40 px-6 py-3"
+            />
 
             <div className="min-h-0 flex-1 overflow-y-auto">
               <ul className="divide-y px-6">

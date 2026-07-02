@@ -72,6 +72,13 @@ sugería el diagnóstico. El agujero real era **medición (EPIC 1)** y las
 
 ---
 
+## Sprint 3 (en curso) — Conversión (EPIC 3)
+
+- [x] **Barra de progreso a envío gratis** en el carrito (drawer y página `/carrito`): componente `FreeShippingProgress` con barra visual que se llena con el subtotal.
+- [x] **Coste de envío concreto en la ficha**: la nota bajo el precio ya no dice "calculado en el checkout"; ahora muestra "Envío 4,99 € · gratis desde 60 €" antes de entrar al checkout (arregla la opacidad señalada en el diagnóstico 1.4).
+
+---
+
 ## Pasos manuales pendientes (para Xoel)
 
 Estos pasos NO son de código: hay que hacerlos en los paneles externos.
