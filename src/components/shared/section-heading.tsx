@@ -32,11 +32,11 @@ export function SectionHeading({
     >
       <div className={cn("max-w-2xl", align === "center" && "mx-auto")}>
         {eyebrow ? <span className="section-eyebrow">{eyebrow}</span> : null}
-        <h2 className="mt-2 font-serif text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+        <h2 className="mt-3 font-display text-4xl font-semibold leading-none text-balance sm:text-5xl">
           {title}
         </h2>
         {description ? (
-          <p className="mt-3 text-muted-foreground">{description}</p>
+          <p className="mt-4 text-muted-foreground">{description}</p>
         ) : null}
       </div>
 

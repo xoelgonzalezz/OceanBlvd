@@ -47,11 +47,11 @@ export function Footer() {
   ];
 
   return (
-    <footer className="mt-24 border-t border-border/60 bg-secondary/30">
-      <div className="container py-16">
+    <footer className="grain relative mt-24 overflow-hidden border-t border-border/60 bg-secondary/30">
+      <div className="container relative z-10 py-16">
         <div className="flex flex-col gap-8 border-b border-border/60 pb-12 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-md">
-            <h2 className="font-serif text-2xl font-semibold tracking-tight">
+            <h2 className="font-display text-2xl font-semibold">
               {t.footer.nlTitle}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">{t.footer.nlDesc}</p>

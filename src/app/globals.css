@@ -144,6 +144,15 @@
     animation-play-state: paused;
   }
 
+  /* Oculta la barra de scroll (fila tipo "cubeta"), sin perder el scroll. */
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Equilibrado de líneas en titulares */
   .text-balance {
     text-wrap: balance;

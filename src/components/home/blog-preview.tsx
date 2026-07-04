@@ -40,7 +40,7 @@ export function BlogPreview({ posts }: { posts: BlogPost[] }) {
                 {post.tag ? (
                   <Badge variant="muted">{blogTag(post.tag, locale)}</Badge>
                 ) : null}
-                <h3 className="mt-2 font-serif text-xl font-medium leading-snug transition-colors group-hover:text-primary">
+                <h3 className="mt-2 font-display text-xl font-medium leading-snug transition-colors group-hover:text-primary">
                   {pick(locale, post.title, post.titleEn)}
                 </h3>
                 <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">

@@ -5,6 +5,9 @@ import { getDict } from "@/i18n/server";
 import { Hero } from "@/components/home/hero";
 import { Marquee } from "@/components/shared/marquee";
 import { RecordSection } from "@/components/home/record-section";
+import { FeaturedRecords } from "@/components/home/featured-records";
+import { NewArrivals } from "@/components/home/new-arrivals";
+import { EditorialMoment } from "@/components/home/editorial-moment";
 import { GenreGrid } from "@/components/home/genre-grid";
 import { FeaturedArtists } from "@/components/home/featured-artists";
 import { BlogPreview } from "@/components/home/blog-preview";
@@ -63,23 +66,11 @@ export default async function HomePage() {
 
       <Marquee items={[...t.marquee]} />
 
-      <RecordSection
-        eyebrow={t.home.featuredEyebrow}
-        title={t.home.featuredTitle}
-        description={t.home.featuredDesc}
-        records={featuredRecords}
-        priorityCount={4}
-      />
+      <FeaturedRecords records={featuredRecords} />
 
-      <RecordSection
-        eyebrow={t.home.newEyebrow}
-        title={t.home.newTitle}
-        description={t.home.newDesc}
-        href="/tienda?sort=newest"
-        linkLabel={t.home.newLink}
-        records={newReleaseRecords}
-        priorityCount={4}
-      />
+      <NewArrivals records={newReleaseRecords} />
+
+      <EditorialMoment />
 
       <GenreGrid genres={genres} />
 

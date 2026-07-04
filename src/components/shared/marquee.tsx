@@ -16,10 +16,10 @@ export function Marquee({ items }: { items: string[] }) {
           >
             {items.map((item, i) => (
               <li key={i} className="flex items-center">
-                <span className="px-4 font-serif text-xl font-medium uppercase tracking-tight sm:px-6 sm:text-2xl">
+                <span className="px-4 font-display text-xl font-medium uppercase sm:px-6 sm:text-2xl">
                   {item}
                 </span>
-                <Asterisk className="h-4 w-4 text-muted-foreground" />
+                <Asterisk className="h-4 w-4 text-primary" />
               </li>
             ))}
           </ul>

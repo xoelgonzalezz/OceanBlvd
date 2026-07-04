@@ -37,7 +37,8 @@ export function ProductCard({
             alt={cover?.alt ?? `${record.title} — ${record.artist.name}`}
             priority={priority}
             sizes={sizes}
-            className="ring-1 ring-border/60 transition-shadow duration-300 group-hover:shadow-xl group-hover:shadow-black/5"
+            hover={false}
+            className="rounded-[3px] shadow-sleeve ring-1 ring-foreground/10 transition-[transform,box-shadow] duration-200 ease-out-quint group-hover:-translate-y-1 group-hover:shadow-sleeve-lg"
           />
           <ConditionBadge
             condition={record.condition}
