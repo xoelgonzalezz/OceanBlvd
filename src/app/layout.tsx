@@ -10,6 +10,10 @@ const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
   display: "swap",
+  // Ejes variables usados por la display "empujada" (.font-display / -italic):
+  // óptico grande para titulares + SOFT/WONK para el carácter editorial.
+  axes: ["opsz", "SOFT", "WONK"],
+  style: ["normal", "italic"],
 });
 
 const inter = Inter({

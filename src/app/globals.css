@@ -3,73 +3,47 @@
 @tailwind utilities;
 
 @layer base {
-  /* ---- Tema OSCURO (por defecto) — blanco y negro, alto contraste ---- */
+  /* ------------------------------------------------------------------ */
+  /*  Ocean Blvd — identidad "melancolía costera / calidez analógica".   */
+  /*  Tema único: papel cálido. Un solo acento de firma: rojo cereza     */
+  /*  desvaído. Nada de negro puro; sombras tintadas, no grises planos.  */
+  /* ------------------------------------------------------------------ */
   :root,
-  .dark {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 96%;
-
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 96%;
-
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 96%;
-
-    /* Acento = blanco (botones blancos sobre texto negro) */
-    --primary: 0 0% 96%;
-    --primary-foreground: 0 0% 6%;
-
-    --secondary: 0 0% 13%;
-    --secondary-foreground: 0 0% 96%;
-
-    --muted: 0 0% 11%;
-    --muted-foreground: 0 0% 58%;
-
-    --accent: 0 0% 16%;
-    --accent-foreground: 0 0% 96%;
-
-    --destructive: 0 62% 48%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 16%;
-    --input: 0 0% 20%;
-    --ring: 0 0% 75%;
-
-    --radius: 0.3rem;
-  }
-
-  /* ---- Tema CLARO — blanco y negro invertido ---- */
   .light {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 5%;
+    /* Papel cálido y tinta casi-negra cálida (sin #000 ni blanco puro) */
+    --background: 36 33% 97%;
+    --foreground: 22 16% 13%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 5%;
+    --card: 38 42% 98%;
+    --card-foreground: 22 16% 13%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 5%;
+    --popover: 38 42% 98%;
+    --popover-foreground: 22 16% 13%;
 
-    /* Acento = negro (botones negros sobre texto blanco) */
-    --primary: 0 0% 8%;
-    --primary-foreground: 0 0% 98%;
+    /* Acento de firma = rojo cereza desvaído */
+    --primary: 6 62% 45%;
+    --primary-foreground: 40 40% 98%;
 
-    --secondary: 0 0% 95%;
-    --secondary-foreground: 0 0% 10%;
+    --secondary: 34 24% 92%;
+    --secondary-foreground: 22 16% 18%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 40%;
+    --muted: 35 26% 93%;
+    --muted-foreground: 26 10% 40%;
 
-    --accent: 0 0% 93%;
-    --accent-foreground: 0 0% 10%;
+    --accent: 34 30% 90%;
+    --accent-foreground: 22 16% 18%;
 
-    --destructive: 0 72% 45%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 66% 42%;
+    --destructive-foreground: 40 40% 98%;
 
-    --border: 0 0% 89%;
-    --input: 0 0% 85%;
-    --ring: 0 0% 12%;
+    --border: 32 20% 85%;
+    --input: 32 20% 80%;
+    --ring: 6 62% 45%;
 
-    --radius: 0.3rem;
+    /* Color base para sombras tintadas (marrón cálido, nunca gris puro) */
+    --shadow-color: 24 32% 18%;
+
+    --radius: 0.375rem;
   }
 }
 
@@ -94,9 +68,9 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* Selección con el color de acento */
+  /* Selección con el color de acento de firma */
   ::selection {
-    background: hsl(var(--primary) / 0.22);
+    background: hsl(var(--primary) / 0.18);
     color: hsl(var(--foreground));
   }
 
@@ -114,18 +88,33 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.35);
+    background: hsl(var(--muted-foreground) / 0.3);
     border-radius: 9999px;
     border: 2px solid transparent;
     background-clip: padding-box;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground) / 0.55);
+    background: hsl(var(--muted-foreground) / 0.5);
     background-clip: padding-box;
   }
 }
 
 @layer components {
+  /* ---- Tipografía display: Fraunces "empujada" (revista / funda 70s) --- */
+  /* Optical size alta + tracking negativo + un punto de "wonk" editorial.  */
+  .font-display {
+    font-family: var(--font-fraunces), Georgia, serif;
+    font-variation-settings: "opsz" 140, "SOFT" 0, "WONK" 0;
+    letter-spacing: -0.03em;
+    font-feature-settings: "ss01", "kern", "liga";
+  }
+  .font-display-italic {
+    font-family: var(--font-fraunces), Georgia, serif;
+    font-style: italic;
+    font-variation-settings: "opsz" 140, "SOFT" 40, "WONK" 1;
+    letter-spacing: -0.02em;
+  }
+
   /* Contenedor editorial con ancho máximo cómodo de lectura */
   .prose-editorial {
     @apply text-[1.05rem] leading-relaxed text-foreground/85;
@@ -143,9 +132,9 @@
     @apply text-primary underline underline-offset-4;
   }
 
-  /* Línea decorativa de sección */
+  /* Etiqueta de sección (eyebrow). Número de catálogo + texto en cereza. */
   .section-eyebrow {
-    @apply inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-primary;
+    @apply inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.22em] text-primary;
   }
 }
 
@@ -158,6 +147,32 @@
   /* Equilibrado de líneas en titulares */
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Sombra de funda: tintada y cálida, con doble capa (contacto + difusa). */
+  .shadow-sleeve {
+    box-shadow:
+      0 2px 6px hsl(var(--shadow-color) / 0.1),
+      0 18px 40px -12px hsl(var(--shadow-color) / 0.28);
+  }
+  .shadow-sleeve-lg {
+    box-shadow:
+      0 4px 10px hsl(var(--shadow-color) / 0.12),
+      0 30px 70px -18px hsl(var(--shadow-color) / 0.34);
+  }
+
+  /* Grano de película/papel. Overlay sutil, estático, no interactivo.
+     Se usa SOLO en 1–2 momentos (hero, footer), nunca en toda la página. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
+    background-size: 160px 160px;
   }
 
   /* Degradado de máscara para fades de borde */
