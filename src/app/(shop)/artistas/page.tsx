@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { Reveal } from "@/components/shared/reveal";
 import { getArtists } from "@/lib/queries";
 import { truncate } from "@/lib/utils";
-import { getDict, getLocale, pick } from "@/i18n/server";
+import { getDict, getLocale, pick, recordsLabel } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -52,7 +52,7 @@ export default async function ArtistasPage() {
               </h2>
               <p className="text-xs text-muted-foreground">
                 {artist.country ? `${artist.country} · ` : ""}
-                {artist._count.records} {t.product.records}
+                {recordsLabel(artist._count.records)}
               </p>
               <p className="mt-1.5 line-clamp-2 text-sm text-muted-foreground">
                 {truncate(pick(locale, artist.bio, artist.bioEn), 110)}

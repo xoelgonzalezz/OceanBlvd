@@ -7,7 +7,7 @@ import { ChevronLeft, MapPin, Calendar, Disc3 } from "lucide-react";
 import { RecordGrid } from "@/components/shared/record-grid";
 import { getArtistBySlug } from "@/lib/queries";
 import { truncate } from "@/lib/utils";
-import { getDict, getLocale, pick } from "@/i18n/server";
+import { getDict, getLocale, pick, recordsLabel } from "@/i18n/server";
 
 export const dynamic = "force-dynamic";
 
@@ -93,7 +93,7 @@ export default async function ArtistPage({
             ) : null}
             <span className="inline-flex items-center gap-1.5">
               <Disc3 className="h-4 w-4" />
-              {artist.records.length} {t.product.records}
+              {recordsLabel(artist.records.length)}
             </span>
           </div>
           <p className="prose-editorial mt-5 max-w-2xl">

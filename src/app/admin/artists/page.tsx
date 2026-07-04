@@ -75,7 +75,7 @@ export default async function AdminArtistsPage({
               <div className="min-w-0">
                 <p className="truncate font-medium">{a.name}</p>
                 <p className="text-xs text-muted-foreground">
-                  {a._count.records} discos
+                  {a._count.records} {a._count.records === 1 ? "disco" : "discos"}
                 </p>
               </div>
             </div>
