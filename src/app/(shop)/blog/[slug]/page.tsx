@@ -142,7 +142,7 @@ export default async function BlogPostPage({
                     alt={pick(locale, p.title, p.titleEn)}
                     fill
                     sizes="(max-width: 640px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-500 ease-out-quint group-hover:scale-105"
+                    className="object-cover transition-transform duration-300 ease-out-quint [@media(hover:hover)]:group-hover:scale-105"
                   />
                 </div>
                 <h3 className="mt-3 font-serif text-base font-medium leading-snug transition-colors group-hover:text-primary">

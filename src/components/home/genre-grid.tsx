@@ -29,13 +29,13 @@ export function GenreGrid({ genres }: { genres: GenreWithCount[] }) {
           <Reveal key={genre.id} delay={i * 0.03}>
             <Link
               href={`/tienda?genre=${genre.slug}`}
-              className="group flex aspect-[5/4] flex-col justify-between rounded-[4px] border border-border bg-card p-5 transition-[background-color,color,transform] duration-200 ease-out-quint hover:-translate-y-0.5 hover:bg-foreground hover:text-background"
+              className="group flex aspect-[5/4] flex-col justify-between rounded-[4px] border border-border bg-card p-5 transition-[background-color,color,transform] duration-200 ease-out-quint [@media(hover:hover)]:hover:-translate-y-0.5 hover:bg-foreground hover:text-background"
             >
               <div className="flex items-start justify-between">
                 <span className="font-mono text-xs tracking-wider text-primary transition-colors group-hover:text-background/70">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <ArrowUpRight className="h-4 w-4 -translate-y-1 translate-x-1 opacity-0 transition-all duration-200 ease-out-quint group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100" />
+                <ArrowUpRight className="h-4 w-4 -translate-y-1 translate-x-1 opacity-0 transition-[opacity,transform] duration-200 ease-out-quint group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100" />
               </div>
               <div>
                 <h3 className="font-display text-xl font-medium leading-tight">

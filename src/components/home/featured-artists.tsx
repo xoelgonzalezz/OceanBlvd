@@ -41,7 +41,7 @@ export function FeaturedArtists({ artists }: { artists: ArtistWithCount[] }) {
         {artists.map((artist, i) => (
           <Reveal key={artist.id} delay={i * 0.04}>
             <Link href={`/artistas/${artist.slug}`} className="group block">
-              <article className="relative rounded-[3px] border border-border bg-card p-4 shadow-sleeve transition-[transform,box-shadow] duration-200 ease-out-quint group-hover:-translate-y-1 group-hover:shadow-sleeve-lg">
+              <article className="relative rounded-[3px] border border-border bg-card p-4 shadow-sleeve transition-[transform,box-shadow] duration-200 ease-out-quint [@media(hover:hover)]:group-hover:-translate-y-1 group-hover:shadow-sleeve-lg">
                 {/* Pestaña del separador. */}
                 <span
                   aria-hidden

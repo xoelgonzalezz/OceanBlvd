@@ -61,7 +61,7 @@ export function Reveal({ children, className, delay = 0, y = 14 }: RevealProps) 
         transitionDelay: shown ? `${delay}s` : "0s",
       }}
       className={cn(
-        "transition-[opacity,transform] duration-700 ease-out-quint",
+        "transition-[opacity,transform] duration-500 ease-out-quint",
         shown ? "opacity-100" : "opacity-0",
         className
       )}

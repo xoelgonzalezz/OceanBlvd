@@ -44,7 +44,7 @@ export default async function ArtistasPage() {
                   alt={artist.name}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  className="object-cover transition-transform duration-500 ease-out-quint group-hover:scale-105"
+                  className="object-cover transition-transform duration-300 ease-out-quint [@media(hover:hover)]:group-hover:scale-105"
                 />
               </div>
               <h2 className="mt-3 font-serif text-lg font-medium transition-colors group-hover:text-primary">

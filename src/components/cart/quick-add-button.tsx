@@ -40,7 +40,7 @@ export function QuickAddButton({
       disabled={soldOut}
       aria-label={t.card.addToCartAria(item.title)}
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md backdrop-blur-sm transition-all duration-200 ease-out-quint hover:bg-primary hover:text-primary-foreground active:scale-90 disabled:cursor-not-allowed disabled:opacity-40",
+        "inline-flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md backdrop-blur-sm transition-[color,background-color,transform] duration-150 ease-out-quint hover:bg-primary hover:text-primary-foreground active:scale-90 disabled:cursor-not-allowed disabled:opacity-40",
         className
       )}
     >

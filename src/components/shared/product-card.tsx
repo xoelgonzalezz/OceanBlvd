@@ -38,7 +38,7 @@ export function ProductCard({
             priority={priority}
             sizes={sizes}
             hover={false}
-            className="rounded-[3px] shadow-sleeve ring-1 ring-foreground/10 transition-[transform,box-shadow] duration-200 ease-out-quint group-hover:-translate-y-1 group-hover:shadow-sleeve-lg"
+            className="rounded-[3px] shadow-sleeve ring-1 ring-foreground/10 transition-[transform,box-shadow] duration-200 ease-out-quint [@media(hover:hover)]:group-hover:-translate-y-1 group-hover:shadow-sleeve-lg"
           />
           <ConditionBadge
             condition={record.condition}
@@ -69,7 +69,7 @@ export function ProductCard({
           portada cuadrada y ancla el botón a su esquina inferior derecha. */}
       {record.stock <= 0 ? null : (
         <div className="pointer-events-none absolute inset-x-0 top-0 aspect-square">
-          <div className="pointer-events-auto absolute bottom-3 right-3 translate-y-1 opacity-0 transition-all duration-200 ease-out-quint group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100">
+          <div className="pointer-events-auto absolute bottom-3 right-3 translate-y-1 opacity-0 transition-[opacity,transform] duration-200 ease-out-quint group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100">
             <QuickAddButton item={toCartItem(record)} />
           </div>
         </div>

@@ -37,7 +37,7 @@ export function RecordCover({
         className={cn(
           "object-cover",
           hover &&
-            "transition-transform duration-500 ease-out-quint group-hover:scale-[1.04]"
+            "transition-transform duration-300 ease-out-quint [@media(hover:hover)]:group-hover:scale-[1.04]"
         )}
       />
     </div>

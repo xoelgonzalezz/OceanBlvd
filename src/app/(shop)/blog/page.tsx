@@ -70,7 +70,7 @@ export default async function BlogPage() {
                 fill
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover transition-transform duration-500 ease-out-quint group-hover:scale-105"
+                className="object-cover transition-transform duration-300 ease-out-quint [@media(hover:hover)]:group-hover:scale-105"
               />
             </div>
             <div className="flex flex-col justify-center p-8 md:p-10">
@@ -102,7 +102,7 @@ export default async function BlogPage() {
                   alt={pick(locale, post.title, post.titleEn)}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-500 ease-out-quint group-hover:scale-105"
+                  className="object-cover transition-transform duration-300 ease-out-quint [@media(hover:hover)]:group-hover:scale-105"
                 />
               </div>
               <div className="mt-4">
